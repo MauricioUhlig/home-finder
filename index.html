@@ -248,6 +248,7 @@
                 this.initMap();
                 this.addMarkers();
                 this.addListeners();
+                this.createPolygon();
             },
             methods: {
                 toggleOverlay() {
@@ -265,6 +266,22 @@
                 addMarkers() {
                     // Add markers for each point
                     this.points.forEach(point => { point.marker = this.addPointToMap(point); });
+                },
+                createPolygon() {
+                    var latlngs = [
+                        [
+                            [
+                                [-20.338567986885014, -40.37907362915576],
+                                [-20.340260642591716, -40.38165994919837],
+                                [-20.342393313662043, -40.378441298380494],
+                                [-20.34248385093363, -40.37641354836524],
+                                [-20.340461839232923, -40.375372851267464],
+                                [-20.33868123986061, -40.376091683283455]
+
+                            ]
+                        ]
+                    ];
+                    L.polygon(latlngs).addTo(this.map)
                 },
                 centerMap(point) {
                     // Center the map on the selected point
