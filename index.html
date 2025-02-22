@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js with OpenStreetMap and Points List</title>
+    <!-- Include Vue.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- Include Leaflet CSS and JS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JavaScript (Popper.js included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="add-modal.js"></script>
+
+    <style>
+        /* Overlay div */
+        .overlay {
+            margin: 0px 100px;
+            width: auto;
+            max-height: 20vh;
+            overflow: scroll;
+            transition: height 0.5s ease;
+            background-color: transparent;
+            z-index: 2;
+            border-radius: 20px 20px 0px 0px;
+            /* Smooth transition */
+            transition: height 0.5s ease;
+            /* scroll hide */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* Internet Explorer 10+ */
+        }
+
+        @media (max-width: 700px) {
+            .overlay {
+                margin: 0px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .overlay {
+                margin: 0px;
+            }
+        }
+
+        /* Expanded state for the overlay */
+        .overlay.expanded {
+            min-height: 15vh;
+            max-height: 60vh;
+            /* Fully expanded */
+        }
+
+        .padding {
+            padding: 20px;
+        }
+
+        .flex-colum-reverse {
+            flex-direction: column-reverse;
+        }
+
+        .button-expand {
+            border: 0px;
+        }
+
+        .button-expand .itens {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .lateral-bar {
+            max-width: 300px;
+            z-index: 2;
+            overflow: scroll;
+            /* scroll hide */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* Internet Explorer 10+ */
+            height: 100vi;
+        }
+
+        .lateral-bar .list-item {
+            min-width: 200px;
+            margin-top: 10px;
+        }
+
+        .z {
+            z-index: 1000;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <button id="add-new-button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#novo-local-modal"
+            title="Selecione um ponto no mapa primeiro" v-bind:disabled="isAddButtonDisabled">+Adicionar</button>
+
+
+        <div id="location-list-map" class="d-flex flex-colum-reverse h-100">
+            <div id="map" class="flex-grow-1"></div>
+
+            <div v-if="isSmallScreen" class="overlay z" :class="{ expanded: isExpanded }">
+                <div id="list-container" class="bg-light padding">
+                    <div class="bg-light">
+                        <div class="accordion-header">
+                            <button type="button" class="w-100 button-expand bg-light" @click="toggleOverlay">
+                                <div class="itens">
+                                    <h5 class="modal-title start-0" id="novo-local-label">Lista de Locais</h5>
+                                    <i class="fa-solid"
+                                        :class="{ 'fa-chevron-up': !isExpanded, 'fa-chevron-down': isExpanded}"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <ul id="dynamic-list" class="list-group">
+
+                        <div v-for="(point, index) in points" :key="index" class="point-item" @click="centerMap(point)">
+                            <li class="list-group-item d-flex justify-content-between align-items-center list-item">
+                                <div>
+                                    <strong>{{ point.name }}</strong>
+                                    <br>
+                                    <small>{{point.details}}</small>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div v-else class="lateral-bar padding bg-light z">
+                <h5 class="modal-title">Lista de Locais</h5>
+                <ul id="dynamic-list" class="list-group">
+
+                    <div v-for="(point, index) in points" :key="index" class="point-item" @click="centerMap(point)">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-item">
+                            <div>
+                                <strong>{{ point.name }}</strong>
+                                <br>
+                                <small>{{point.details}}</small>
+                            </div>
+                        </li>
+
+                    </div>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="novo-local-modal" tabindex="-1" aria-labelledby="novo-local-modal-label"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg rounded-3">
+
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="novo-local-label">Adicionar Ponto</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold">Título:</label>
+                            <input type="text" v-model="newPoint.name" class="form-control" required
+                                placeholder="Digite um título">
+                        </div>
+                        <div class="mb-3">
+                            <label for="details" class="form-label fw-semibold">Detalhes:</label>
+                            <input type="text" v-model="newPoint.details" class="form-control" required
+                                placeholder="Adicione detalhes">
+                        </div>
+                        <div class="mb-3">
+                            <label for="details" class="form-label fw-semibold">Detalhes:</label>
+                            <select class="form-select" aria-label="Default select example" v-model="newPoint.type">
+                                <option v-for="type in pointTypes" v-value:bind="type.id">{{type.name}}</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="latitude" class="form-label fw-semibold">Latitude:</label>
+                                <input type="number" v-model="newPoint.lat" step="any" class="form-control" required
+                                    disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="longitude" class="form-label fw-semibold">Longitude:</label>
+                                <input type="number" v-model="newPoint.lng" step="any" class="form-control" required
+                                    disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" @click="save">
+                            <i class="bi bi-check-circle"></i> Salvar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                map: null, // Holds the Leaflet map instance
+                newPoint: {
+                    name: '',
+                    details: '',
+                    lat: '',
+                    lng: '',
+                    type: ''
+                },
+                points: [
+                    { name: 'Casa', details: 'minha casa', lat: -20.345083831226688, lng: -40.37798609159118, color: 'green', marker: null },
+                    { name: 'Lote', details: 'minha casa', lat: -20.34140545584462, lng: -40.379709270782776, color: 'blue', marker: null },
+                ],
+                pointTypes: [{
+                    id: 1,
+                    name: "Casa"
+                },
+                {
+                    id: 2,
+                    name: "Lote"
+                }],
+                selectedMarker: null,
+                currentMarker: null,
+                isAddButtonDisabled: true,
+                screenWidth: window.innerWidth,
+                isExpanded: false,
+            },
+            mounted() {
+                this.initMap();
+                this.addMarkers();
+                this.addListeners();
+            },
+            methods: {
+                toggleOverlay() {
+                    this.isExpanded = !this.isExpanded; // Toggle the state
+                },
+                initMap() {
+                    // Initialize the map
+                    this.map = L.map('map').setView([-20.345, -40.377], 15);
+
+                    // Add OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(this.map);
+                },
+                addMarkers() {
+                    // Add markers for each point
+                    this.points.forEach(point => { point.marker = this.addPointToMap(point); });
+                },
+                centerMap(point) {
+                    // Center the map on the selected point
+                    this.flyTo(point.marker.getLatLng());
+                },
+                resetZoom() {
+                    if (this.selectedMarker) {
+                        this.flyTo(this.selectedMarker.previusLatLng, this.selectedMarker.previusZoom)
+                        this.selectedMarker = null
+                    }
+                },
+                save() {
+                    this.addLocation(this.newPoint.name, this.newPoint.details, this.newPoint.lat, this.newPoint.lng)
+                    this.clear();
+                },
+                removeMarker(marker) {
+                    if (marker) {
+                        this.map.removeLayer(marker); // Remove marker from map
+                    }
+                },
+                getAddress(lat, lng, marker) {
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const address = data.address ? getAddressHtml(data.address) : "Address not found";
+                            marker.setPopupContent(address).openPopup();
+                        })
+                        .catch(error => {
+                            console.error("Error fetching address:", error);
+                            marker.setPopupContent(`<strong>Selected Location</strong><br>Failed to load address`).openPopup();
+                        });
+                },
+                addListeners() {
+                    // this.map.on('moveend', this.updateVisibleMarkers);
+
+                    this.map.on('click', this.resetZoom);
+                    document.addEventListener('keydown', (event) => {
+                        if (event.key === 'Escape') {
+                            this.resetZoom();
+                            if (this.currentMarker) {
+                                this.removeMarker(this.currentMarker)
+                                this.clear();
+                            }
+                        }
+                    });
+
+                    this.map.on('contextmenu', (e) => {
+                        // Prevent the default context menu from appearing
+                        e.originalEvent.preventDefault();
+                        if (this.currentMarker)
+                            this.removeMarker(this.currentMarker)
+
+                        // Get the coordinates of the right-clicked location
+                        const { lat, lng } = e.latlng;
+
+                        this.newPoint.lat = lat;
+                        this.newPoint.lng = lng;
+
+                        this.currentMarker = L.marker([lat, lng], { icon: this.createCustomMarker('red') }).addTo(this.map);
+
+                        this.isAddButtonDisabled = false;
+
+                        // Show "Loading..." popup initially
+                        this.currentMarker
+                            .bindPopup(`<strong>Selected Location</strong><br>Loading address...`)
+                            .openPopup();
+
+                        // Fetch and update the address
+                        this.getAddress(lat, lng, this.currentMarker);
+                    });
+                },
+                addPointToMap(point) {
+                    const marker = L.marker([point.lat, point.lng], { icon: this.createCustomMarker(point.color) }); // Red pin
+                    marker.bindPopup(`<div class="popup-details"><strong>${point.name}</strong><br>${point.details}</div>`);
+                    marker.on('click', () => {
+                        // Get the marker's coordinates and center the map on them
+                        this.selectedMarker = {
+                            marker,
+                            previusZoom: this.getZoom(),
+                            previusLatLng: this.getCenter()
+                        };
+                        this.flyTo(marker.getLatLng()); // Change zoom level as needed
+                    });
+                    marker.addTo(this.map);
+                    return marker;
+                },
+                getAddress(lat, lng, marker) {
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const address = data.address ? this.getAddressHtml(data.address) : "Address not found";
+                            marker.setPopupContent(address).openPopup();
+                        })
+                        .catch(error => {
+                            console.error("Error fetching address:", error);
+                            marker.setPopupContent(`<strong>Selected Location</strong><br>Failed to load address`).openPopup();
+                        });
+                },
+                getAddressHtml(address) {
+                    return `<strong>${address.road}</strong><br>${address.suburb} - ${address.city}<br>${address.postcode}`;
+                },
+                createCustomMarker(color = 'blue') {
+                    return L.icon({
+                        iconUrl: `assets/images/point-${color ?? 'blue'}.webp`, // find new icons 
+                        iconSize: [35, 35], // Size of the icon
+                        iconAnchor: [10, 34], // Point of the icon which will correspond to marker's location
+                        popupAnchor: [0, -34] // Point from which the popup should open relative to the iconAnchor
+                    });
+                },
+                flyTo(latlng, zoom = null) {
+                    this.map.flyTo(latlng, zoom ?? 18)
+                },
+                getZoom() {
+                    return this.map.getZoom()
+                },
+                getCenter() {
+                    return this.map.getCenter()
+                },
+                addLocation(name, details, lat, lng) {
+                    const newPoint = { name, details, lat, lng, marker: null };
+                    this.points.push(newPoint);
+                    newPoint.marker = this.addPointToMap(newPoint);
+                },
+                clear() {
+                    this.newPoint = {
+                        name: '',
+                        details: '',
+                        lat: '',
+                        lng: '',
+                        type: ''
+                    }
+                    this.isAddButtonDisabled = true;
+                }
+            },
+            computed: {
+                isSmallScreen() {
+                    console.log(this.screenWidth)
+                    return this.screenWidth < 1200;
+                },
+            },
+            components: {
+                AddModal
+            }
+        });
+    </script>
+</body>
+
+</html>

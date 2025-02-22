@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#map,
+#app {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Overlay Button */
+#add-new-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px 20px;
+}
+
+/************ Form Styles ************/
+#add-point-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#add-point-form input,
+#add-point-form button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/************ LIST STYLE ************/
+.list-item {
+    min-width: 20vi;
+    margin-top: 10px;
+}
