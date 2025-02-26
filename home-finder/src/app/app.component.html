@@ -1,0 +1,9 @@
+<button id="add-new-button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#novo-local-modal"
+  title="Selecione um ponto no mapa primeiro" [disabled]="isAddButtonDisabled">+Adicionar</button>
+
+<app-location-list [points]="points" (centerMap)="centerMap($event)">
+  <app-map [points]="points" (addPoint)="handleAddPoint($event)"></app-map>
+</app-location-list>
+
+<app-add-modal *ngIf="!isAddButtonDisabled" [latitude]="lat" [longitude]="lng"
+  (saveEvent)="save($event)"></app-add-modal>

@@ -1,0 +1,49 @@
+<div class="modal fade" id="novo-local-modal" tabindex="-1" aria-labelledby="novo-local-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="novo-local-label">Adicionar Ponto</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">Título:</label>
+                    <input type="text" [(ngModel)]="newPoint.Name" class="form-control" required
+                        placeholder="Digite um título">
+                </div>
+                <div class="mb-3">
+                    <label for="details" class="form-label fw-semibold">Detalhes:</label>
+                    <input type="text" [(ngModel)]="newPoint.Details" class="form-control" required
+                        placeholder="Adicione detalhes">
+                </div>
+                <div class="mb-3">
+                    <label for="details" class="form-label fw-semibold">Tipo:</label>
+                    <select class="form-select" [(ngModel)]="newPoint.Type">
+                        <option *ngFor="let type of pointTypes" [value]="type.Id">{{ type.Name }}</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="latitude" class="form-label fw-semibold">Latitude:</label>
+                        <input type="number" [(ngModel)]="newPoint.Lat" step="any" class="form-control" required
+                            disabled>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="longitude" class="form-label fw-semibold">Longitude:</label>
+                        <input type="number" [(ngModel)]="newPoint.Lng" step="any" class="form-control" required
+                            disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-success" data-bs-dismiss="modal" (click)="save()">
+                    <i class="bi bi-check-circle"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

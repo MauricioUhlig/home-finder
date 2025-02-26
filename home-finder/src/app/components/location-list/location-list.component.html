@@ -1,0 +1,35 @@
+<div id="location-list-map" class="d-flex flex-column-reverse h-100">
+    <ng-content></ng-content> <!-- Slot for additional content -->
+
+    <!-- Overlay for small screens -->
+    <div *ngIf="isSmallScreen" class="overlay z" [class.expanded]="isExpanded">
+        <div id="list-container" class="bg-light padding">
+            <div class="bg-light">
+                <div class="accordion-header">
+                    <button type="button" class="w-100 button-expand bg-light" (click)="toggleOverlay()">
+                        <div class="itens">
+                            <h5 class="modal-title start-0" id="novo-local-label">Lista de Locais</h5>
+                            <i class="fa-solid"
+                                [ngClass]="{ 'fa-chevron-up': !isExpanded, 'fa-chevron-down': isExpanded }"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <ul id="dynamic-list" class="list-group">
+                <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)">
+                    <app-location-item [location]="point"></app-location-item>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Lateral bar for larger screens -->
+    <div *ngIf="!isSmallScreen" class="lateral-bar padding bg-light z">
+        <h5 class="modal-title">Lista de Locais</h5>
+        <ul id="dynamic-list" class="list-group">
+            <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)">
+                <app-location-item [location]="point"></app-location-item>
+            </div>
+        </ul>
+    </div>
+</div>
