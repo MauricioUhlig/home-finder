@@ -24,6 +24,7 @@
 
     <script src="components/add-modal.js"></script>
     <script src="components/location-list-map.js"></script>
+    <script src="components/map-component.js"></script>
 
 </head>
 
@@ -33,7 +34,7 @@
             title="Selecione um ponto no mapa primeiro" v-bind:disabled="isAddButtonDisabled">+Adicionar</button>
 
         <location-list-map :points="points" @center-map="centerMap">
-            <div id="map" class="flex-grow-1"></div>
+            <map-component ref="map" :points="points" @add-point="handleAddPoint"></map-component>
         </location-list-map>
 
         <add-modal v-if="!isAddButtonDisabled" :latitude="lat" :longitude="lng" @save="save"></add-modal>
@@ -42,186 +43,44 @@
     <script>
         const app = new Vue({
             el: '#app',
+            components: {
+                AddModal,
+                LocationListMap,
+                MapComponent
+            },
             data: {
-                map: null, // Holds the Leaflet map instance,
                 lat: '',
                 lng: '',
                 points: [
                     { name: 'Casa', details: 'casa atual', lat: -20.345083831226688, lng: -40.37798609159118, color: 'green', marker: null },
                     { name: 'Lote', details: 'Boa opção', lat: -20.34140545584462, lng: -40.379709270782776, color: 'blue', marker: null },
                 ],
-                selectedMarker: null,
-                currentMarker: null,
                 isAddButtonDisabled: true,
             },
-            mounted() {
-                this.initMap();
-                this.addMarkers();
-                this.addListeners();
-                //this.createPolygon();
-            },
             methods: {
-                initMap() {
-                    // Initialize the map
-                    this.map = L.map('map').setView([-20.345, -40.377], 15);
-
-                    // Add OpenStreetMap tiles
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(this.map);
-                },
-                addMarkers() {
-                    // Add markers for each point
-                    this.points.forEach(point => { point.marker = this.addPointToMap(point); });
-                },
-                createPolygon() {
-                    var latlngs = [
-                        [
-                            [
-                                [-20.338567986885014, -40.37907362915576],
-                                [-20.340260642591716, -40.38165994919837],
-                                [-20.342393313662043, -40.378441298380494],
-                                [-20.34248385093363, -40.37641354836524],
-                                [-20.340461839232923, -40.375372851267464],
-                                [-20.33868123986061, -40.376091683283455]
-
-                            ]
-                        ]
-                    ];
-                    L.polygon(latlngs).addTo(this.map)
-                },
                 centerMap(point) {
                     // Center the map on the selected point
-                    this.flyTo(point.marker.getLatLng());
+                    this.$refs.map.flyTo(point.marker.getLatLng());
                 },
-                resetZoom() {
-                    if (this.selectedMarker) {
-                        this.flyTo(this.selectedMarker.previusLatLng, this.selectedMarker.previusZoom)
-                        this.selectedMarker = null
-                    }
+                handleAddPoint(coords) {
+                    this.lat = coords.lat;
+                    this.lng = coords.lng;
+                    this.isAddButtonDisabled = false;
                 },
                 save(newPoint) {
-                    this.addLocation(newPoint.name, newPoint.details, newPoint.lat, newPoint.lng)
+                    this.addLocation(newPoint.name, newPoint.details, newPoint.lat, newPoint.lng);
                     this.clear();
-                },
-                removeMarker(marker) {
-                    if (marker) {
-                        this.map.removeLayer(marker); // Remove marker from map
-                    }
-                },
-                getAddress(lat, lng, marker) {
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const address = data.address ? getAddressHtml(data.address) : "Address not found";
-                            marker.setPopupContent(address).openPopup();
-                        })
-                        .catch(error => {
-                            console.error("Error fetching address:", error);
-                            marker.setPopupContent(`<strong>Selected Location</strong><br>Failed to load address`).openPopup();
-                        });
-                },
-                addListeners() {
-                    // this.map.on('moveend', this.updateVisibleMarkers);
-
-                    this.map.on('click', this.resetZoom);
-                    document.addEventListener('keydown', (event) => {
-                        if (event.key === 'Escape') {
-                            this.resetZoom();
-                            if (this.currentMarker) {
-                                this.removeMarker(this.currentMarker)
-                                this.clear();
-                            }
-                        }
-                    });
-
-                    this.map.on('contextmenu', (e) => {
-                        // Prevent the default context menu from appearing
-                        e.originalEvent.preventDefault();
-                        if (this.currentMarker)
-                            this.removeMarker(this.currentMarker)
-
-                        // Get the coordinates of the right-clicked location
-                        const { lat, lng } = e.latlng;
-
-                        this.lat = lat;
-                        this.lng = lng;
-
-                        this.currentMarker = L.marker([lat, lng], { icon: this.createCustomMarker('red') }).addTo(this.map);
-
-                        this.isAddButtonDisabled = false;
-
-                        // Show "Loading..." popup initially
-                        this.currentMarker
-                            .bindPopup(`<strong>Selected Location</strong><br>Loading address...`)
-                            .openPopup();
-
-                        // Fetch and update the address
-                        this.getAddress(lat, lng, this.currentMarker);
-                    });
-                },
-                addPointToMap(point) {
-                    const marker = L.marker([point.lat, point.lng], { icon: this.createCustomMarker(point.color) }); // Red pin
-                    marker.bindPopup(`<div class="popup-details"><strong>${point.name}</strong><br>${point.details}</div>`);
-                    marker.on('click', () => {
-                        // Get the marker's coordinates and center the map on them
-                        this.selectedMarker = {
-                            marker,
-                            previusZoom: this.getZoom(),
-                            previusLatLng: this.getCenter()
-                        };
-                        this.flyTo(marker.getLatLng()); // Change zoom level as needed
-                    });
-                    marker.addTo(this.map);
-                    return marker;
-                },
-                getAddress(lat, lng, marker) {
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const address = data.address ? this.getAddressHtml(data.address) : "Address not found";
-                            marker.setPopupContent(address).openPopup();
-                        })
-                        .catch(error => {
-                            console.error("Error fetching address:", error);
-                            marker.setPopupContent(`<strong>Selected Location</strong><br>Failed to load address`).openPopup();
-                        });
-                },
-                getAddressHtml(address) {
-                    return `<strong>${address.road}</strong><br>${address.suburb} - ${address.city}<br>${address.postcode}`;
-                },
-                createCustomMarker(color = 'blue') {
-                    return L.icon({
-                        iconUrl: `assets/images/point-${color ?? 'blue'}.webp`, // find new icons 
-                        iconSize: [35, 35], // Size of the icon
-                        iconAnchor: [10, 34], // Point of the icon which will correspond to marker's location
-                        popupAnchor: [0, -34] // Point from which the popup should open relative to the iconAnchor
-                    });
-                },
-                flyTo(latlng, zoom = null) {
-                    this.map.flyTo(latlng, zoom ?? 18)
-                },
-                getZoom() {
-                    return this.map.getZoom()
-                },
-                getCenter() {
-                    return this.map.getCenter()
                 },
                 addLocation(name, details, lat, lng) {
                     const newPoint = { name, details, lat, lng, marker: null };
                     this.points.push(newPoint);
-                    newPoint.marker = this.addPointToMap(newPoint);
                 },
                 clear() {
                     this.lat = '';
                     this.lng = '';
                     this.isAddButtonDisabled = true;
-                }
+                },
             },
-            components: {
-                AddModal,
-                LocationListMap
-            }
         });
     </script>
 </body>
