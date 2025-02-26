@@ -1,0 +1,11 @@
+{
+  "name": "Angular Codespace",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+  "postCreateCommand": "npm install -g @angular/cli && npm install",
+  "forwardPorts": [4200]
+}
