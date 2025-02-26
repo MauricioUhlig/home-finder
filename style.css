@@ -41,3 +41,80 @@ body {
     min-width: 20vi;
     margin-top: 10px;
 }
+
+/* Overlay div */
+.overlay {
+    margin: 0px 100px;
+    width: auto;
+    max-height: 20vh;
+    overflow: scroll;
+    transition: height 0.5s ease;
+    background-color: transparent;
+    z-index: 2;
+    border-radius: 20px 20px 0px 0px;
+    /* Smooth transition */
+    transition: height 0.5s ease;
+    /* scroll hide */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+@media (max-width: 700px) {
+    .overlay {
+        margin: 0px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .overlay {
+        margin: 0px;
+    }
+}
+
+/* Expanded state for the overlay */
+.overlay.expanded {
+    min-height: 15vh;
+    max-height: 60vh;
+    /* Fully expanded */
+}
+
+.padding {
+    padding: 20px;
+}
+
+.flex-colum-reverse {
+    flex-direction: column-reverse;
+}
+
+.button-expand {
+    border: 0px;
+}
+
+.button-expand .itens {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lateral-bar {
+    max-width: 300px;
+    z-index: 2;
+    overflow: scroll;
+    /* scroll hide */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    height: 100vi;
+}
+
+.lateral-bar .list-item {
+    min-width: 200px;
+    margin-top: 10px;
+}
+
+.z {
+    z-index: 1000;
+}

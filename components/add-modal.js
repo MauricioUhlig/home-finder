@@ -41,29 +41,29 @@ const AddModal = {
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label fw-semibold">Título:</label>
-                            <input type="text" v-model="name" class="form-control" required
+                            <input type="text" v-model="newPoint.name" class="form-control" required
                                 placeholder="Digite um título">
                         </div>
                         <div class="mb-3">
                             <label for="details" class="form-label fw-semibold">Detalhes:</label>
-                            <input type="text" v-model="details" class="form-control" required
+                            <input type="text" v-model="newPoint.details" class="form-control" required
                                 placeholder="Adicione detalhes">
                         </div>
                         <div class="mb-3">
                             <label for="details" class="form-label fw-semibold">Detalhes:</label>
-                            <select class="form-select" aria-label="Default select example" v-model="type">
+                            <select class="form-select" aria-label="Default select example" v-model="newPoint.type">
                                 <option v-for="type in pointTypes" v-value:bind="type.id">{{type.name}}</option>
                             </select>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="latitude" class="form-label fw-semibold">Latitude:</label>
-                                <input type="number" v-model="lat" step="any" class="form-control" required
+                                <input type="number" v-model="newPoint.lat" step="any" class="form-control" required
                                     disabled>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="longitude" class="form-label fw-semibold">Longitude:</label>
-                                <input type="number" v-model="lng" step="any" class="form-control" required
+                                <input type="number" v-model="newPoint.lng" step="any" class="form-control" required
                                     disabled>
                             </div>
                         </div>
