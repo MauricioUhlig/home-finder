@@ -34,6 +34,6 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }} # Server IP or hostname
           username: ${{ secrets.SSH_USERNAME }} # SSH username
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # SSH private key
+          password: ${{ secrets.SSH_PASSWORD }}
           source: "dist/home-finder/*" # Path to built Angular files
           target: "/home/containers_volume/nginx/www" # Target directory on the server
