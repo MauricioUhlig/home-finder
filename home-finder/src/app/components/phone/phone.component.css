@@ -1,0 +1,41 @@
+  /* .phone-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  } */
+
+  label {
+      font-weight: normal;
+  }
+
+  .phone-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+
+  .phone-input input {
+      flex: 1;
+      margin-right: 10px;
+  }
+
+  .remove-phone {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+
+  @media (max-width: 576px) {
+    .d-xs-none {
+        display: none;
+    }
+    .remove-phone {
+        margin-top: 8px;
+    }
+}

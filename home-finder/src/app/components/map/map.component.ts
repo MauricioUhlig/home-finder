@@ -22,8 +22,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['points'] && !changes['points'].firstChange) {
-      this.addMarkers(); // Update markers when points change
+    if (changes['points'] && changes['points'].firstChange) {
+      this.addMarkers();
     }
   }
 
@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
   addPointToMap(point: Location): L.Marker {
     const marker = L.marker([point.Lat, point.Lng], { icon: this.createCustomMarker(point.Color) });
-    marker.bindPopup(`<div class="popup-details"><strong>${point.Name}</strong><br>${point.Details}</div>`);
+    marker.bindPopup(`<div class="popup-details"><strong>${point.Title}</strong><br>${point.Description}</div>`);
     marker.on('click', () => {
       this.selectedMarker = {
         marker,
@@ -68,7 +68,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     return marker;
   }
 
-  createCustomMarker(color = 'blue'): L.Icon {
+  createCustomMarker(color: string | null = 'blue'): L.Icon {
     return L.icon({
       iconUrl: `images/point-${color ?? 'blue'}.webp`, // Update with your icon path
       iconSize: [35, 35],

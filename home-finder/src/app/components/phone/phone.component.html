@@ -1,0 +1,15 @@
+<div class="phone-container row">
+  <div class="col-sm-5 col-xs-12">
+    <label>Nome</label>
+    <input type="text" placeholder="Nome do contato" [(ngModel)]="phone.Name" [name]="'phone.name' + index" required />
+  </div>
+  <div class="col-sm-4 col-xs-8">
+    <label>Número</label>
+    <input type="tel" placeholder="(00) 0 0000-0000 " [(ngModel)]="phone.Phone" [name]="'phone.phone' + index"
+      required />
+  </div>
+  <div class="col-sm-3 col-xs-4">
+    <label class="d-xs-none"><br/></label>
+    <button type="button" (click)="removePhone(index)" class="remove-phone">Remover</button>
+  </div>
+</div>

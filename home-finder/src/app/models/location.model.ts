@@ -2,11 +2,12 @@ import { Marker } from "leaflet"
 import { SelectOption } from "./select-option.model"
 
 export interface Location {
-    Name: string,
-    Details: string,
+    Id: number | null,
     Lat: number,
     Lng: number,
-    Color: string, 
+    Title: string,
+    Description: string,
+    Color: string | null, 
     Marker: Marker | null,
     Type: SelectOption | null
 }

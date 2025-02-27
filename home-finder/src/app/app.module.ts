@@ -1,19 +1,13 @@
 // import { NgModule } from '@angular/core';
 // import { BrowserModule } from '@angular/platform-browser';
-// import { FormsModule } from '@angular/forms';
-// import { AppComponent } from './app.component';
-// import { AddModalComponent } from './components/add-modal/add-modal.component';
-// import { LocationListComponent } from './components/location-list/location-list.component';
-// import { MapComponent } from './components/map/map.component';
+// import { FormsModule, NgControl } from '@angular/forms';
+// import { FullFormComponent } from './components/full-form/full-form.component';
+// import { AppRoutingModule } from './app.routes';
 
 // @NgModule({
 //     declarations: [
 //     ],
-//     imports: [BrowserModule, FormsModule],
-//     providers: [],
-//     bootstrap: [AppComponent, AppComponent,
-//         AddModalComponent,
-//         LocationListComponent,
-//         MapComponent],
+//     imports: [BrowserModule, FormsModule, NgModule, FullFormComponent,AppRoutingModule],
+//     providers: [NgModule],
 // })
 // export class AppModule { }

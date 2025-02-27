@@ -21,8 +21,9 @@ export class AddModalComponent implements OnChanges {
   ];
 
   newPoint: Location = {
-    Name: '',
-    Details: '',
+    Id: 0,
+    Title: '',
+    Description: '',
     Lat: 0, // Initialize to 0, will be updated in ngOnChanges
     Lng: 0, // Initialize to 0, will be updated in ngOnChanges
     Color: 'blue',

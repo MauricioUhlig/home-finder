@@ -17,39 +17,7 @@
     font-weight: bold;
   }
   
-  input[type="text"],
-  input[type="tel"],
-  input[type="url"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .phone-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .phone-input input {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  .remove-phone,
-  .remove-image {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+
   .add-phone {
     background-color: #4caf50;
     color: white;
@@ -58,7 +26,15 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
+  .remove-image {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
   .image-preview {
     display: flex;
     flex-wrap: wrap;
@@ -103,4 +79,11 @@
   
   .submit-button:hover {
     background-color: #0056b3;
+  }
+
+  .input-group label{
+    font-weight: normal;
+  }
+  .input-group .number-input{
+    text-align: end;
   }

@@ -1,39 +1,33 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AddressComponent } from '../address/address.component';
+import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
+import { getEmptyPhone } from '../../models/phone.model';
+import { PhoneComponent } from '../phone/phone.component';
 
 @Component({
   selector: 'app-full-form',
   templateUrl: './full-form.component.html',
   styleUrls: ['./full-form.component.css'],
-  imports: [CommonModule,FormsModule]
+  imports: [CommonModule, FormsModule, AddressComponent, PhoneComponent]
 })
 export class FullFormComponent {
   @Output() submitEvent = new EventEmitter<any>();
 
-  formData = {
-    endereco: '',
-    tipo: 'lote',
-    telefones: [''],
-    link: '',
-    tamanho: '',
-    dimensao: {
-      frente: null,
-      fundo: null,
-    },
-    descricao: '',
-    comentarios: '',
-    imagens: [] as { file: File; url: string }[],
-  };
+  formData: FullLocation = getEmptyFullLocation()
 
   // Add a new phone input
   addPhone() {
-    this.formData.telefones.push('');
+    if (this.formData.Phones)
+      this.formData.Phones.push(getEmptyPhone());
+    else
+      this.formData.Phones = [getEmptyPhone()];
   }
 
   // Remove a phone input
   removePhone(index: number) {
-    this.formData.telefones.splice(index, 1);
+    this.formData.Phones!.splice(index, 1);
   }
 
   // Handle image upload
@@ -45,7 +39,10 @@ export class FullFormComponent {
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           if (e.target?.result) {
-            this.formData.imagens.push({ file, url: e.target.result as string });
+            if (this.formData.Images)
+              this.formData.Images!.push({ File: file, URL: e.target.result as string });
+            else
+              this.formData.Images = [{ File: file, URL: e.target.result as string }]
           }
         };
         reader.readAsDataURL(file);
@@ -55,7 +52,7 @@ export class FullFormComponent {
 
   // Remove an image
   removeImage(index: number) {
-    this.formData.imagens.splice(index, 1);
+    this.formData.Images!.splice(index, 1);
   }
 
   // Handle form submission

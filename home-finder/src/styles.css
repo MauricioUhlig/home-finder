@@ -120,119 +120,6 @@ body {
     z-index: 1000;
 }
 
-/* FullForm */
-.form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    z-index: 1100;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-select,
-textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.phone-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.phone-input input {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.remove-phone,
-.remove-image {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.add-phone {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.image-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.image-item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-}
-
-.image-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.image-item button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 2px 5px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.submit-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.submit-button:hover {
-    background-color: #0056b3;
-}
-
 body {
     margin: 0;
     display: flex;
@@ -382,6 +269,7 @@ label {
 input[type="text"],
 input[type="tel"],
 input[type="url"],
+input[type="number"],
 select,
 textarea {
     width: 100%;
