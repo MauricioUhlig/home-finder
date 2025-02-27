@@ -30,7 +30,7 @@ jobs:
 
       # Step 5: Deploy to Linux server
       - name: Deploy to Linux server
-        uses: appleboy/scp-action@v1
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }} # Server IP or hostname
           username: ${{ secrets.SSH_USERNAME }} # SSH username
