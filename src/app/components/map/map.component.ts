@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { Location } from '../../models/location.model';
 
@@ -7,7 +7,7 @@ import { Location } from '../../models/location.model';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'] // Optional, if you have styles
 })
-export class MapComponent implements AfterViewInit, OnChanges {
+export class MapComponent implements AfterViewInit {
   @Input() points: Location[] = []; // Input for points array
   @Output() addPoint = new EventEmitter<{ lat: number; lng: number }>(); // Output for new point coordinates
 
@@ -21,11 +21,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this.addListeners();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['points'] && changes['points'].firstChange) {
-      this.addMarkers();
-    }
-  }
+
 
   initMap() {
     // Initialize the map
