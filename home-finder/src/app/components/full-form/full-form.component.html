@@ -1,0 +1,76 @@
+<div class="form-container">
+    <form (ngSubmit)="handleSubmit()">
+      <!-- Endereço -->
+      <div class="form-group">
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" [(ngModel)]="formData.endereco" name="endereco" required />
+      </div>
+  
+      <!-- Lote ou Casa -->
+      <div class="form-group">
+        <label for="tipo">Lote ou Casa:</label>
+        <select id="tipo" [(ngModel)]="formData.tipo" name="tipo" required>
+          <option value="lote">Lote</option>
+          <option value="casa">Casa</option>
+        </select>
+      </div>
+  
+      <!-- Telefones (Multiple) -->
+      <div class="form-group">
+        <label>Telefones:</label>
+        <div *ngFor="let phone of formData.telefones; let index = index" class="phone-input">
+          <input type="tel" placeholder="(00) 0 0000-0000 " [(ngModel)]="formData.telefones[index]" [name]="'phone' + index" required />
+          <button type="button" (click)="removePhone(index)" class="remove-phone">Remover</button>
+        </div>
+        <button type="button" (click)="addPhone()" class="add-phone">Adicionar Telefone</button>
+      </div>
+  
+      <!-- Link (Optional) -->
+      <div class="form-group">
+        <label for="link">Link (Opcional):</label>
+        <input type="url" id="link" [(ngModel)]="formData.link" name="link" />
+      </div>
+  
+      <!-- Tamanho (Optional) -->
+      <div class="form-group">
+        <label for="tamanho">Dimensões:</label>
+        <div class="row">
+            <div class="col-6">
+                <label for="frente">Frente (m):</label>
+                <input type="number" id="frente" [(ngModel)]="formData.dimensao.frente" name="frente" />
+            </div>
+            <div class="col-6">
+                <label for="fundo">Fundo (m):</label>
+                <input type="number" id="fundo" [(ngModel)]="formData.dimensao.fundo" name="fundo" />
+            </div>
+        </div>
+      </div>
+  
+      <!-- Dimensões (Optional) -->
+      <div class="form-group">
+        <label for="dimensoes">Tamanho (m²):</label>
+        <input type="number" id="tamanho" [(ngModel)]="formData.tamanho" name="tamanho" />
+      </div>
+  
+      <!-- Descrição Grande -->
+      <div class="form-group">
+        <label for="descricao">Descrição Grande:</label>
+        <textarea id="descricao" [(ngModel)]="formData.descricao" name="descricao" required></textarea>
+      </div>
+  
+      <!-- Imagens (Multiple) -->
+      <div class="form-group">
+        <label>Imagens:</label>
+        <input type="file" multiple (change)="handleImageUpload($event)" accept="image/*" />
+        <div *ngIf="formData.imagens.length" class="image-preview">
+          <div *ngFor="let image of formData.imagens; let index = index" class="image-item">
+            <img [src]="image.url" alt="Preview" />
+            <button type="button" (click)="removeImage(index)" class="remove-image">Remover</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" class="submit-button">Enviar</button>
+    </form>
+  </div>

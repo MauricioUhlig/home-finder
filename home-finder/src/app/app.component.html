@@ -5,5 +5,7 @@
   <app-map [points]="points" (addPoint)="handleAddPoint($event)"></app-map>
 </app-location-list>
 
-<app-add-modal *ngIf="!isAddButtonDisabled" [latitude]="lat" [longitude]="lng"
+<app-add-modal *ngIf="!isAddButtonDisabled" [latitude]="lat!" [longitude]="lng!"
   (saveEvent)="save($event)"></app-add-modal>
+
+<app-full-form (submitEvent)="handleFormSubmit($event)"></app-full-form>

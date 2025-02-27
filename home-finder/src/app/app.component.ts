@@ -1,17 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import { AddModalComponent } from './components/add-modal/add-modal.component';
 import { LocationListComponent } from './components/location-list/location-list.component';
 import { MapComponent } from './components/map/map.component';
-import { CommonModule } from '@angular/common';
 import { Location } from './models/location.model';
 import { SelectOption } from './models/select-option.model';
-
+import { FullFormComponent } from './components/full-form/full-form.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent],
+  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent, FullFormComponent],
 })
 export class AppComponent {
   @ViewChild(MapComponent) map!: MapComponent;
@@ -48,5 +49,9 @@ export class AppComponent {
     this.lat = null;
     this.lng = null;
     this.isAddButtonDisabled = true;
+  }
+
+  handleFormSubmit(form: any) {
+
   }
 }

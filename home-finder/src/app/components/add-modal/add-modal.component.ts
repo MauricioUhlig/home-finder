@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Location } from '../../models/location.model'
-import { SelectOption } from '../../models/select-option.model'
+import { Location } from '../../models/location.model';
+import { SelectOption } from '../../models/select-option.model';
 
 @Component({
   selector: 'app-add-modal',
@@ -10,9 +10,9 @@ import { SelectOption } from '../../models/select-option.model'
   styleUrls: ['./add-modal.component.css'], // Optional, if you have styles
   imports: [FormsModule, CommonModule]
 })
-export class AddModalComponent {
-  @Input() latitude: number | null = null;
-  @Input() longitude: number | null = null;
+export class AddModalComponent implements OnChanges {
+  @Input() latitude!: number;
+  @Input() longitude!: number;
   @Output() saveEvent = new EventEmitter<any>();
 
   pointTypes: SelectOption[] = [
@@ -23,12 +23,19 @@ export class AddModalComponent {
   newPoint: Location = {
     Name: '',
     Details: '',
-    Lat: this.latitude ?? 0,
-    Lng: this.longitude ?? 0,
+    Lat: 0, // Initialize to 0, will be updated in ngOnChanges
+    Lng: 0, // Initialize to 0, will be updated in ngOnChanges
     Color: 'blue',
     Marker: null,
     Type: this.pointTypes[0]
   };
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['latitude'] || changes['longitude']) {
+      this.newPoint.Lat = this.latitude ?? 0;
+      this.newPoint.Lng = this.longitude ?? 0;
+    }
+  }
 
   save() {
     this.saveEvent.emit(this.newPoint);
