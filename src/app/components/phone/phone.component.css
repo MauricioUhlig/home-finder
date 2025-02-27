@@ -22,20 +22,11 @@
       margin-right: 10px;
   }
 
-  .remove-phone {
-      background-color: #ff4d4d;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-  }
-
   @media (max-width: 576px) {
     .d-xs-none {
         display: none;
     }
-    .remove-phone {
+    .btn {
         margin-top: 8px;
     }
 }
