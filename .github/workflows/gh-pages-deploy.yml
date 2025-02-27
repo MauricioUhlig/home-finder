@@ -1,9 +1,9 @@
 name: Deploy Angular App to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main # Change this to your default branch (e.g., master, main, etc.)
+# on:
+#   push:
+#     branches:
+#       - main # Change this to your default branch (e.g., master, main, etc.)
 
 jobs:
   build-and-deploy:
