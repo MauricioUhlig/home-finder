@@ -1,5 +1,5 @@
-<div class="row">
-    <p class="col-4"><i class="fa-solid fa-phone icon-color"></i> {{ formatedPhoneNumber()}}</p>
-    <p class="col-7"><i class="fa-solid fa-address-card icon-color"></i> {{ phone?.Name }}</p>
-    <a class="col-1" [href]="whatsappLink()" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+<div class="d-flex">
+    <p><i class="fa-solid fa-phone icon-color"></i> {{ formatedPhoneNumber()}}</p>
+    <p><i class="fa-solid fa-address-card icon-color"></i> {{ phone?.Name }}</p>
+    <a class="col-2" [href]="whatsappLink()" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 </div>
