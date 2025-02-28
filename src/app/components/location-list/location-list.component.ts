@@ -10,7 +10,8 @@ import { Location } from '../../models/location.model';
   imports: [CommonModule, LocationItemComponent]
 })
 export class LocationListComponent implements OnInit, OnDestroy {
-  @Input() points: Location[] = []; // Input for points array
+  @Input() points: Location[] | null = null; // Input for points array
+  @Input() loading: boolean = false;
   @Output() centerMap = new EventEmitter<Location>(); // Output to center the map on a point
 
   isExpanded = false; // State for expanded overlay

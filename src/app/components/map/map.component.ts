@@ -8,7 +8,7 @@ import { Location } from '../../models/location.model';
   styleUrls: ['./map.component.css'] // Optional, if you have styles
 })
 export class MapComponent implements AfterViewInit {
-  @Input() points: Location[] = []; // Input for points array
+  @Input() points: Location[] | null = null; // Input for points array
   @Output() addPoint = new EventEmitter<{ lat: number; lng: number }>(); // Output for new point coordinates
 
   map: L.Map | null = null;
@@ -43,10 +43,10 @@ export class MapComponent implements AfterViewInit {
       });
     }
 
-    // Add markers for each point
-    this.points.forEach((point) => {
-      point.Marker = this.addPointToMap(point);
-    });
+    if (this.points)
+      this.points.forEach((point) => {
+        point.Marker = this.addPointToMap(point);
+      });
   }
 
   addPointToMap(point: Location): L.Marker {

@@ -16,6 +16,9 @@
                 </div>
             </div>
             <ul id="dynamic-list" class="list-group">
+                <div *ngIf="!points" class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
                 <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)">
                     <app-location-item [location]="point"></app-location-item>
                 </div>
@@ -27,6 +30,9 @@
     <div *ngIf="!isSmallScreen" class="lateral-bar padding bg-light z">
         <h5 class="modal-title">Lista de Locais</h5>
         <ul id="dynamic-list" class="list-group">
+            <div *ngIf="!points" class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
             <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)">
                 <app-location-item [location]="point"></app-location-item>
             </div>
