@@ -5,12 +5,13 @@ import { AddressComponent } from '../address/address.component';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { getEmptyPhone } from '../../models/phone.model';
 import { PhoneComponent } from '../phone/phone.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-full-form',
   templateUrl: './full-form.component.html',
   styleUrls: ['./full-form.component.css'],
-  imports: [CommonModule, FormsModule, AddressComponent, PhoneComponent]
+  imports: [CommonModule, FormsModule, AddressComponent, PhoneComponent, RouterLink]
 })
 export class FullFormComponent {
   @Output() submitEvent = new EventEmitter<any>();

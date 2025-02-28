@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     { path: '', component: HomeMapComponent },
-    { path: 'detail/:id', component: FullFormComponent },
+    { path: 'edit/:id', component: FullFormComponent },
     // { path: '**', component: PageNotFoundComponent }
 ];
 

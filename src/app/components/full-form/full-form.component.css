@@ -118,3 +118,7 @@ label {
   background-color: #dde0e3;
   cursor: pointer;
 }
+
+a {
+  margin: 0px 10px;
+}

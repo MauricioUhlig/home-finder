@@ -4,4 +4,7 @@
         <br>
         <small>{{location.Description}}</small>
     </div>
+    <div>
+        <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i> Editar</a>
+    </div>
 </li>
