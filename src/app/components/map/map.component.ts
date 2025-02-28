@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { Location } from '../../models/location.model';
 
@@ -22,6 +22,11 @@ export class MapComponent implements AfterViewInit {
   }
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['points'] && this.map) {
+      this.addMarkers(); // Re-render markers when points change
+    }
+  }
 
   initMap() {
     // Initialize the map
@@ -35,6 +40,7 @@ export class MapComponent implements AfterViewInit {
 
   addMarkers() {
     // Clear existing markers
+    console.log(this.points)
     if (this.map) {
       this.map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
