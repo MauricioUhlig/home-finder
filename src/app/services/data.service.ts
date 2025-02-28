@@ -41,7 +41,7 @@ export class DataService {
                 Deep: 0
             },
             Size: null,
-            URL: new URL("https://mauriciouhlig.dev.br"),
+            URL: new URL("http://mauriciouhlig.dev.br"),
             Value: 0,
             Images: null
         },
