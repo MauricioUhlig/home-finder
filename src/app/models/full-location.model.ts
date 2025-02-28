@@ -7,7 +7,7 @@ import { SelectOption } from "./select-option.model"
 
 export interface FullLocation extends Location {
     Id: number | null,
-    Address: Address | null,
+    Address: Address,
     Phones: Phone[] | null,
     Dimensions: Dimensions,
     Size: number | null

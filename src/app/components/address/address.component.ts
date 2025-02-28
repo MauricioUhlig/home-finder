@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Address } from '../../models/address.mode';
+import { Address, getEmptyAddress } from '../../models/address.mode';
 
 @Component({
   selector: 'app-address',
@@ -9,13 +9,7 @@ import { Address } from '../../models/address.mode';
   imports: [FormsModule,]
 })
 export class AddressComponent {
-  @Input() endereco: Address | null = null;
+  @Input() endereco: Address = getEmptyAddress();
   @Output() submitEvent = new EventEmitter<any>();
 
-  addressForm: Address= {
-    Street: null,
-    District: '',
-    City: '',
-    CEP: null
-  };
 }

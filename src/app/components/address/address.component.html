@@ -4,11 +4,11 @@
         <div class="row">
             <div class="col-sm-9 col-9">
                 <label for="street">Rua:</label>
-                <input type="text" id="street" [(ngModel)]="addressForm.Street" />
+                <input type="text" id="street" [(ngModel)]="endereco.Street" />
             </div>
             <div class="col-3">
-                <label for="street">Número:</label>
-                <input type="text" id="street" [(ngModel)]="addressForm.Street" />
+                <label for="house-number">Número:</label>
+                <input type="text" id="house-number" [(ngModel)]="endereco.HouseNumber" />
             </div>
         </div>
     </div>
@@ -17,17 +17,17 @@
         <div class="row">
             <div class="col-sm-7 col-xs-12">
                 <label for="district">Bairro:</label>
-                <input type="text" id="district" [(ngModel)]="addressForm.District" required />
+                <input type="text" id="district" [(ngModel)]="endereco.District" required />
             </div>
             <div class="col-sm-5 col-xs-12">
                 <label for="city">Cidade:</label>
-                <input type="text" id="city" [(ngModel)]="addressForm.City" required />
+                <input type="text" id="city" [(ngModel)]="endereco.City" required />
             </div>
         </div>
     </div>
 
     <!-- <div class="form-group">
         <label for="CEP">CEP:</label>
-        <input type="text" id="CEP" [(ngModel)]="addressForm.CEP" required />
+        <input type="text" id="CEP" [(ngModel)]="endereco.CEP" required />
     </div> -->
 </div>

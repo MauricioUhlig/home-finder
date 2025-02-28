@@ -21,6 +21,7 @@ export class DataService {
             Type: null,
             Address: {
                 Street: 'Rua Ametista',
+                HouseNumber: "252",
                 District: 'São Geraldo',
                 City: 'Cariacica',
                 CEP: '29146-677'
@@ -56,6 +57,7 @@ export class DataService {
             Type: null,
             Address: {
                 Street: 'Rua Ametista',
+                HouseNumber: "N/A",
                 District: 'São Geraldo',
                 City: 'Cariacica',
                 CEP: '29146-677'
