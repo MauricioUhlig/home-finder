@@ -4,35 +4,34 @@ import { FormsModule } from '@angular/forms';
 import { AddressComponent } from '../address/address.component';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { getEmptyPhone } from '../../models/phone.model';
-import { PhoneComponent } from '../phone/phone.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PhoneFormComponent } from '../phone-form/phone-form.component';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-full-form',
   templateUrl: './full-form.component.html',
   styleUrls: ['./full-form.component.css'],
-  imports: [CommonModule, FormsModule, AddressComponent, PhoneComponent, RouterLink]
+  imports: [CommonModule, FormsModule, AddressComponent, PhoneFormComponent, RouterLink]
 })
 export class FullFormComponent {
   @Output() submitEvent = new EventEmitter<any>();
-  
-  constructor(private route: ActivatedRoute, private router: Router, private dataService : DataService){}
+
+  constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
   async ngOnInit() {
     let locationId = this.route.snapshot.paramMap.get('id');
     await this.getLocation(locationId);
-    
+
   }
   formData: FullLocation = getEmptyFullLocation()
 
-  async getLocation(locationId: any){
-    if(locationId && Number(locationId))
-      {
-        var resp = await this.dataService.getById(Number(locationId));
-        if(resp !== undefined)
-          this.formData = resp
-      }
+  async getLocation(locationId: any) {
+    if (locationId && Number(locationId)) {
+      var resp = await this.dataService.getById(Number(locationId));
+      if (resp !== undefined)
+        this.formData = resp
+    }
   }
   // Add a new phone input
   addPhone() {

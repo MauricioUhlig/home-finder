@@ -10,7 +10,6 @@ body {
     height: 100vh;
 }
 
-#map,
 #app {
     position: absolute !important;
     top: 0px;
@@ -211,4 +210,9 @@ textarea {
 
 .submit-button:hover {
     background-color: #0056b3;
+}
+
+.icon-color {
+    color: #357abd;
+    margin-right: 8px;
 }

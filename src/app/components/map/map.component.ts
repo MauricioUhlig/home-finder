@@ -9,7 +9,13 @@ import { Location } from '../../models/location.model';
 })
 export class MapComponent implements AfterViewInit {
   @Input() points: Location[] | null = null; // Input for points array
+  @Input() smallSize: boolean = false;
+  @Input() focusPoint: Location | undefined;
   @Output() addPoint = new EventEmitter<{ lat: number; lng: number }>(); // Output for new point coordinates
+
+  private maxZoom: number = 17;
+  private initialZoom: number = 15;
+  private initialLatLng = new L.LatLng(-20.345, -40.377);
 
   map: L.Map | null = null;
   currentMarker: L.Marker | null = null;
@@ -30,7 +36,11 @@ export class MapComponent implements AfterViewInit {
 
   initMap() {
     // Initialize the map
-    this.map = L.map('map').setView([-20.345, -40.377], 15);
+    this.map = L.map('map')
+    if (this.focusPoint)
+      this.map.setView([this.focusPoint.Lat, this.focusPoint.Lng], this.maxZoom);
+    else
+      this.map.setView(this.initialLatLng, this.initialZoom);
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -135,7 +145,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   flyTo(latlng: L.LatLngExpression, zoom: number | null = null) {
-    this.map?.flyTo(latlng, zoom ?? 18);
+    this.map?.flyTo(latlng, zoom ?? this.maxZoom);
   }
 
   resetZoom() {
@@ -146,10 +156,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   getZoom(): number {
-    return this.map?.getZoom() || 15;
+    return this.map?.getZoom() || this.initialZoom;
   }
 
   getCenter(): L.LatLng {
-    return this.map?.getCenter() || L.latLng(-20.345, -40.377);
+    return this.map?.getCenter() || this.initialLatLng;
   }
 }

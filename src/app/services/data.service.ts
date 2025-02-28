@@ -25,14 +25,23 @@ export class DataService {
                 City: 'Cariacica',
                 CEP: '29146-677'
             },
-            Phones: null,
+            Phones: [
+                {
+                    Name: "Mauricio",
+                    Phone: "27997987705"
+                },
+                {
+                    Name: "Uhlig",
+                    Phone: "9 9798-7705"
+                }
+            ],
             Dimensions: {
                 Front: 0,
                 Back: null,
                 Deep: 0
             },
             Size: null,
-            URL: null,
+            URL: new URL("https://mauriciouhlig.dev.br"),
             Value: 0,
             Images: null
         },

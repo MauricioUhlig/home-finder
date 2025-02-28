@@ -1,0 +1,36 @@
+<div class="location-details-menu">
+  <div class="header">
+    <h2>{{ location.Title }}</h2>
+    <a [routerLink]="['/']" class="close-button">&times;</a>
+  </div>
+  <div class="content">
+    <div class="image">
+      <!-- <img [src]="location.imageUrl" alt="{{ location.Title }}"> -->
+    </div>
+    <div class="details">
+      <p><i class="fa-solid fa-quote-left icon-color"></i> {{location.Description }}</p>
+      <p><i class="fa-solid fa-location-dot icon-color"></i> {{ computedAddress()}}</p>
+      <!-- <p><strong>Rating:</strong> {{ location.rating }} ★</p> -->
+      <div *ngIf="location.Phones">
+        <hr>
+        <p>Telefones</p>
+        <div *ngFor="let phone of location.Phones">
+          <app-phone [phone]="phone"></app-phone>
+        </div>
+      </div>
+      <div *ngIf="location.URL">
+        <hr>
+        <p><i class="fa-solid fa-link icon-color"></i> <a [href]="location.URL" target="_blank"> {{ location.URL }}</a>
+        </p>
+      </div>
+
+    </div>
+    <hr>
+  </div>
+  <div class="map-box">
+    <app-map *ngIf="location.Lat" [focusPoint]="location" [points]="[location]" [smallSize]="true"></app-map>
+  </div>
+  <div class="actions">
+    <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i> Editar</a>
+  </div>
+</div>
