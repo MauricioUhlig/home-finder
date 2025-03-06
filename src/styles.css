@@ -170,3 +170,11 @@ textarea {
     color: #357abd;
     margin-right: 8px;
 }
+
+
+/* .leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+    filter: invert(calc(var(--dark-mode) * 100%)) hue-rotate(calc(var(--dark-mode) * 180deg)) brightness(calc(95% - (var(--dark-mode) * 10%))) contrast(calc(90% + (var(--dark-mode) * 10%))) !important;
+} */

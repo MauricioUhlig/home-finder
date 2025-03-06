@@ -9,7 +9,7 @@ export class UtilService {
 
     constructor() {
         window.addEventListener('resize', () => {
-            this.screenWidth$.next(window.innerWidth < 700);
+            this.screenWidth$.next(window.innerWidth < 880);
         });
     }
 
