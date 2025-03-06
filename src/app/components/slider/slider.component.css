@@ -1,0 +1,49 @@
+
+.custom-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  /* Estiliza a trilha do slider para remover a linha extra */
+  .custom-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: transparent; /* Garante que o background seja definido pelo JavaScript */
+    border: none;
+  }
+  
+  .custom-slider::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: transparent;
+    border: none;
+  }
+  
+  /* Estiliza o "thumb" (o botão que arrasta) */
+  .custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0d6efd;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -5px; /* Ajusta para centralizar */
+    position: relative;
+  }
+  
+  .custom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #0d6efd;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  

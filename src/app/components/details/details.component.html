@@ -2,6 +2,10 @@
   <div class="header">
     <div>
       <h1>{{ location.Title }}</h1>
+      <div class="d-flex">
+        <div class="stars" [style.--rating]="4.4">★★★★★</div>
+        <p>(4.4)</p>
+      </div>
       <p>{{ location.Type.Name }}</p>
     </div>
     <a (click)="closeMenu()" class="close-button">&times;</a>
@@ -34,6 +38,8 @@
     <app-map *ngIf="location.Lat" [focusPoint]="location" [points]="[location]" [smallSize]="true"
       [mapId]="'map_'+location.Id"></app-map>
   </div>
+  <app-slider [value]="9">Segurança:</app-slider>
+
   <div class="actions">
     <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i> Editar</a>
   </div>

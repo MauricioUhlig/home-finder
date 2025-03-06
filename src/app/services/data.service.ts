@@ -13,7 +13,7 @@ export class DataService {
     private locations: FullLocation[] = [
         {
             Id: 1,
-            Title: 'Casa',
+            Title: 'Casa antiga com garagem',
             Description: 'casa atual',
             Lat: -20.345083831226688,
             Lng: -40.37798609159118,
@@ -38,13 +38,13 @@ export class DataService {
                 }
             ],
             Dimensions: {
-                Front: 0,
+                Front: 10,
                 Back: null,
-                Deep: 0
+                Deep: 12
             },
-            Size: null,
+            Size: 64,
             URL: new URL("http://mauriciouhlig.dev.br"),
-            Value: 0,
+            Value: 130000,
             Images: null
         },
         {

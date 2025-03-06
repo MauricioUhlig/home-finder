@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -7,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { MapComponent } from '../map/map.component';
 import { LocationDetailsService } from '../../services/location-details.service'
 import { UtilService } from '../../services/util.service';
+import { SliderComponent } from '../slider/slider.component';
 
 @Component({
   selector: 'app-details',
-  imports: [PhoneComponent, CommonModule, MapComponent, RouterLink],
+  imports: [PhoneComponent, CommonModule, MapComponent, RouterLink, FormsModule, SliderComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
@@ -27,7 +29,6 @@ export class DetailsComponent {
     });
     let locationId = this.route.snapshot.paramMap.get('id');
     await this.getLocation(locationId);
-
   }
 
 

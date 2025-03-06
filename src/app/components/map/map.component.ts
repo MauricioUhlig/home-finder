@@ -51,7 +51,6 @@ export class MapComponent implements AfterViewInit {
 
   addMarkers() {
     // Clear existing markers
-    console.log(this.points)
     if (this.map) {
       this.map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {

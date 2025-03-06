@@ -1,0 +1,4 @@
+<div class="container">
+    <label for="slider" class="form-label"><ng-content></ng-content></label>
+    <input type="range" class="form-range  custom-slider" id="slider" min="0" max="10" [(ngModel)]="value" (input)="updateSlider()" [style.background]="sliderBackground">
+  </div>
