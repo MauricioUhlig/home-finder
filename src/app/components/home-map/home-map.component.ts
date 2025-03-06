@@ -6,13 +6,14 @@ import { LocationListComponent } from '../location-list/location-list.component'
 import { MapComponent } from '../map/map.component';
 import { Location, getEmptyLocation } from '../../models/location.model';
 import { DataService } from '../../services/data.service';
+import { DetailsComponent } from "../details/details.component";
 
 
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
   styleUrls: ['./home-map.component.css'],
-  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent],
+  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent, DetailsComponent],
 })
 export class HomeMapComponent implements AfterViewInit {
   @ViewChild(MapComponent) map!: MapComponent;

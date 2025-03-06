@@ -1,8 +1,24 @@
-<div id="location-list-map" class="d-flex flex-column-reverse h-100">
-    <ng-content></ng-content> <!-- Slot for additional content -->
+<div id="location-list-map" class="d-flex h-100">
+    <!-- Lateral bar for larger screens -->
+    <div *ngIf="!isSmallScreen" class="d-flex z">
+        <div class="lateral-bar padding bg-light z">
+            <h5 class="modal-title">Lista de Locais</h5>
+            <ul id="dynamic-list" class="list-group">
+                <div *ngIf="!points" class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <!-- <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)"> -->
+                <div *ngFor="let point of points; let index = index" class="point-item">
+                    <app-location-item [location]="point"></app-location-item>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <app-details *ngIf="isDetailsOpen" class="z"></app-details>
+    <ng-content *ngIf="showContent"></ng-content>
 
     <!-- Overlay for small screens -->
-    <div *ngIf="isSmallScreen" class="overlay z" [class.expanded]="isExpanded">
+    <div *ngIf="isSmallScreen && !isDetailsOpen" class="overlay z" [class.expanded]="isExpanded">
         <div id="list-container" class="bg-light padding">
             <div class="bg-light">
                 <div class="accordion-header">
@@ -24,18 +40,5 @@
                 </div>
             </ul>
         </div>
-    </div>
-
-    <!-- Lateral bar for larger screens -->
-    <div *ngIf="!isSmallScreen" class="lateral-bar padding bg-light z">
-        <h5 class="modal-title">Lista de Locais</h5>
-        <ul id="dynamic-list" class="list-group">
-            <div *ngIf="!points" class="loading-spinner">
-                <div class="spinner"></div>
-            </div>
-            <div *ngFor="let point of points; let index = index" class="point-item" (click)="onCenterMap(point)">
-                <app-location-item [location]="point"></app-location-item>
-            </div>
-        </ul>
     </div>
 </div>

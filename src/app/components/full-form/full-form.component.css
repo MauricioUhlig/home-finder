@@ -1,6 +1,6 @@
 .form-container {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 500px;
+  margin: auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -116,4 +116,41 @@ label {
 
 a {
   margin: 0px 10px;
+}
+
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.phone-input input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.remove-phone {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-phone {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
 }

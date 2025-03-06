@@ -14,11 +14,11 @@
       <label>Tipo de imóvel<span>*</span></label>
         <div class="form-inline">
           <label class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="1" />
+            <input type="radio" class="form-check-input" [(ngModel)]="formData.Type.Id" name="tipo" value="0" />
             Lote
           </label>
           <label class="form-check form-check-inline">
-            <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="2" />
+            <input type="radio" class="form-check-input" [(ngModel)]="formData.Type.Id" name="tipo" value="1" />
             Casa
           </label>
         </div>
@@ -79,8 +79,8 @@
 
     <div class="row">
       <div class="col align-self-end">
-        <a [routerLink]="['/details',formData.Id]" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
-        <a [routerLink]="['/details',formData.Id]" class="btn btn-outline-danger"><i class="fa-solid fa-ban"></i> Cancelar</a>
+        <a [routerLink]="['/location',formData.Id]" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
+        <a [routerLink]="['/location',formData.Id]" class="btn btn-outline-danger"><i class="fa-solid fa-ban"></i> Cancelar</a>
       </div>
     </div>
   </form>

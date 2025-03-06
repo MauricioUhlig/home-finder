@@ -2,41 +2,46 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostListener
 import { CommonModule } from '@angular/common';
 import { LocationItemComponent } from '../location-item/location-item.component'
 import { Location } from '../../models/location.model';
+import { DetailsComponent } from '../details/details.component';
+import { UtilService } from '../../services/util.service';
+import { LocationDetailsService } from '../../services/location-details.service';
 
 @Component({
   selector: 'app-location-list',
   templateUrl: './location-list.component.html',
   styleUrls: ['./location-list.component.css'], // Optional, if you have styles
-  imports: [CommonModule, LocationItemComponent]
+  imports: [CommonModule, LocationItemComponent, DetailsComponent]
 })
 export class LocationListComponent implements OnInit, OnDestroy {
   @Input() points: Location[] | null = null; // Input for points array
   @Input() loading: boolean = false;
   @Output() centerMap = new EventEmitter<Location>(); // Output to center the map on a point
 
-  isExpanded = false; // State for expanded overlay
-  screenWidth = window.innerWidth; // Track screen width
+  constructor(private util: UtilService, private locationDetailsService : LocationDetailsService){}
 
-  // Computed property for small screen breakpoint
-  get isSmallScreen(): boolean {
-    return this.screenWidth < 1200;
+  isExpanded = false; // State for expanded overlay
+  isSmallScreen: boolean = true;
+  resize$: any;
+
+  get showContent(): boolean {
+    return !(this.isSmallScreen && this.isDetailsOpen)
+  }
+  get isDetailsOpen():boolean {
+    return this.locationDetailsService.isDetailsMenuOpen()
   }
 
   ngOnInit() {
-    // Add window resize listener
-    window.addEventListener('resize', this.onResize);
+    this.resize$ = this.util.isSmallScreen().subscribe((small) => {
+      this.isSmallScreen = small;
+    });
+
   }
 
   ngOnDestroy() {
     // Clean up window resize listener
-    window.removeEventListener('resize', this.onResize);
+    this.resize$.unsubscribe();
   }
 
-  // Handle window resize
-  @HostListener('window:resize')
-  onResize = () => {
-    this.screenWidth = window.innerWidth;
-  };
 
   // Toggle overlay expansion
   toggleOverlay() {

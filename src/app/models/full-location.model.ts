@@ -3,7 +3,7 @@ import { Dimensions, getEmptyDimensions } from "./dimensions.model"
 import { Image } from "./image.model"
 import { Location } from "./location.model"
 import { getEmptyPhone, Phone } from "./phone.model"
-import { SelectOption } from "./select-option.model"
+import { SelectOption, getEmptyLocation } from "./select-option.model"
 
 export interface FullLocation extends Location {
     Id: number | null,
@@ -13,7 +13,7 @@ export interface FullLocation extends Location {
     Size: number | null
     URL: URL | null,
     Value: number | null,
-    Type: SelectOption | null
+    Type: SelectOption,
     Images: Image[] | null
 }
 
@@ -28,7 +28,7 @@ export function getEmptyFullLocation(): FullLocation {
         URL: null,
         Description: '',
         Value: null,
-        Type: null,
+        Type: getEmptyLocation(),
         Lat: 0,
         Lng: 0,
         Color: null,
@@ -46,7 +46,7 @@ export function createFullLocation(location: Location): FullLocation {
         Size: 0,
         URL: null,
         Value: null,
-        Type: null,
+        Type: getEmptyLocation(),
         Images: null,
     }
 }

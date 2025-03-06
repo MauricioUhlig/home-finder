@@ -1,4 +1,4 @@
-<li [routerLink]="['/details', location.Id]" class="list-group-item d-flex justify-content-between align-items-center list-item">
+<li (click)="openDetails()" class="list-group-item d-flex justify-content-between align-items-center list-item">
     <div>
         <strong>{{location.Title}}</strong>
         <br>

@@ -12,13 +12,12 @@ export class DataService {
     private locations: FullLocation[] = [
         {
             Id: 1,
-            Title: 'Casa',
+            Title: 'Minha residencia atual',
             Description: 'casa atual',
             Lat: -20.345083831226688,
             Lng: -40.37798609159118,
             Color: 'green',
             Marker: null,
-            Type: null,
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "252",
@@ -44,7 +43,8 @@ export class DataService {
             Size: null,
             URL: new URL("http://mauriciouhlig.dev.br"),
             Value: 0,
-            Images: null
+            Images: null,
+            Type: { Id: 1, Name: "casa" }
         },
         {
             Id: 2,
@@ -54,7 +54,7 @@ export class DataService {
             Lng: -40.379709270782776,
             Color: 'blue',
             Marker: null,
-            Type: null,
+            Type: { Id: 0, Name: "Lote" },
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "N/A",
@@ -87,7 +87,7 @@ export class DataService {
 
     async add(location: Location): Promise<number> {
         const maxId = this.locations.length > 0 ? Math.max(...this.locations.map((item) => item.Id ?? 0)) : -1;
-        location.Id = maxId +1;
+        location.Id = maxId + 1;
         this.locations.push(createFullLocation(location))
         await this.delay(300);
         return maxId

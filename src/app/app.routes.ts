@@ -6,8 +6,8 @@ import { DetailsComponent } from './components/details/details.component';
 
 export const routes: Routes = [
     { path: '', component: HomeMapComponent },
-    { path: 'details/:id', component: DetailsComponent },
-    { path: 'edit/:id', component: FullFormComponent },
+    { path: 'location/:id', component: DetailsComponent },
+    { path: 'location/:id/edit', component: FullFormComponent },
     // { path: '**', component: PageNotFoundComponent }
 ];
 
