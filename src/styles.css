@@ -49,8 +49,10 @@ body {
 
 /* Overlay div */
 .overlay {
-    margin: 0px 100px;
-    width: auto;
+    position: absolute;
+    margin: 0px auto;
+    bottom: 0px;
+    width: 100%;
     max-height: 20vh;
     overflow: scroll;
     transition: height 0.5s ease;
@@ -112,7 +114,7 @@ body {
     /* Firefox */
     -ms-overflow-style: none;
     /* Internet Explorer 10+ */
-    height: 100vi;
+    height: 100vh;
 }
 
 .lateral-bar .list-item {
@@ -125,19 +127,6 @@ body {
 }
 
 /* FullForm */
-.form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    z-index: 1100;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
 
 .form-group {
     margin-bottom: 15px;
@@ -162,41 +151,6 @@ textarea {
     font-size: 14px;
 }
 
-.phone-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.phone-input input {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.remove-phone {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.add-phone {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.image-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
 
 .submit-button {
     background-color: #007bff;

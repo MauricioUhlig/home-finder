@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '../models/location.model';
 import { createFullLocation, FullLocation } from '../models/full-location.model';
+import { getEmptyLocation } from '../models/select-option.model'
 
 @Injectable({
     providedIn: 'root', // Provided in the root injector (singleton)
@@ -18,7 +19,7 @@ export class DataService {
             Lng: -40.37798609159118,
             Color: 'green',
             Marker: null,
-            Type: null,
+            Type: getEmptyLocation(),
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "252",
@@ -54,7 +55,7 @@ export class DataService {
             Lng: -40.379709270782776,
             Color: 'blue',
             Marker: null,
-            Type: null,
+            Type: getEmptyLocation(),
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "N/A",

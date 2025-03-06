@@ -10,6 +10,7 @@ import { Location } from '../../models/location.model';
 export class MapComponent implements AfterViewInit {
   @Input() points: Location[] | null = null; // Input for points array
   @Input() smallSize: boolean = false;
+  @Input() mapId: string = "map"
   @Input() focusPoint: Location | undefined;
   @Output() addPoint = new EventEmitter<{ lat: number; lng: number }>(); // Output for new point coordinates
 
@@ -36,7 +37,7 @@ export class MapComponent implements AfterViewInit {
 
   initMap() {
     // Initialize the map
-    this.map = L.map('map')
+    this.map = L.map(this.mapId)
     if (this.focusPoint)
       this.map.setView([this.focusPoint.Lat, this.focusPoint.Lng], this.maxZoom);
     else
