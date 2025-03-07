@@ -1,9 +1,9 @@
 <!-- <button id="add-new-button" class="btn btn-success z" data-bs-toggle="modal" data-bs-target="#novo-local-modal"
     title="Selecione um ponto no mapa primeiro" [disabled]="isAddButtonDisabled">+Adicionar</button> -->
 
-<app-map [points]="points" (addPoint)="handleAddPoint($event)" style="z-index: 1;"></app-map>
+<app-map *ngIf="showContent" [points]="points" (addPoint)="handleAddPoint($event)" style="z-index: 1;"></app-map>
 <div class="d-flex">
-    <app-location-list [points]="points" (centerMap)="centerMap($event)"></app-location-list>
+    <app-location-list *ngIf="showContent" [points]="points" (centerMap)="centerMap($event)"></app-location-list>
     <app-details *ngIf="isDetailsOpen" class="z"></app-details>
 </div>
 

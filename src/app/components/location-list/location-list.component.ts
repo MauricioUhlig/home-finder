@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LocationItemComponent } from '../location-item/location-item.component'
 import { Location } from '../../models/location.model';
 import { UtilService } from '../../services/util.service';
-import { LocationDetailsService } from '../../services/location-details.service';
 
 @Component({
   selector: 'app-location-list',
@@ -16,15 +15,11 @@ export class LocationListComponent implements OnInit, OnDestroy {
   @Input() loading: boolean = false;
   @Output() centerMap = new EventEmitter<Location>(); // Output to center the map on a point
 
-  constructor(private util: UtilService,  private locationDetailsService: LocationDetailsService) { }
+  constructor(private util: UtilService) { }
 
   isExpanded = false; // State for expanded overlay
   isSmallScreen: boolean = true;
   resize$: any;
-
-  get isDetailsOpen(): boolean {
-    return this.locationDetailsService.isDetailsMenuOpen()
-  }
 
 
   ngOnInit() {
