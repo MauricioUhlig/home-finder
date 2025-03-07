@@ -9,7 +9,10 @@
         </div>
         <p>{{ location.Type.Name }}</p>
       </div>
-      <a (click)="closeMenu()" class="close-button">&times;</a>
+      <div class="row">
+        <div class="col-6"><a (click)="edit()" class="button edit"><i class="fa-solid fa-pencil"></i></a></div>
+        <div class="col-6"><a (click)="closeMenu()" class="button close">&times;</a></div>
+      </div>
     </div>
     <div class="content">
       <div class="image">
@@ -42,9 +45,5 @@
     </div>
     <app-slider [value]="9">Segurança:</app-slider>
 
-    <div class="actions">
-      <a (click)="edit()" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i>
-        Editar</a>
-    </div>
+
   </div>
-</div>
