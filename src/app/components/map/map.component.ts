@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges } 
 import * as L from 'leaflet';
 import { Location } from '../../models/location.model';
 import { Address, getEmptyAddress } from '../../models/address.mode';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-map',
@@ -15,11 +16,13 @@ export class MapComponent implements AfterViewInit {
   @Input() focusPoint: Address | undefined;
   @Output() addPoint = new EventEmitter<Address>(); // Output for new point coordinates
 
+  constructor(private util: UtilService) { }
+
   private maxZoom: number = 17;
   private initialZoom: number = 15;
   private initialLatLng = new L.LatLng(-20.345, -40.377);
 
-  map: L.Map | null = null;
+  map!: L.Map;
   currentMarker: L.Marker | null = null;
   selectedMarker: { marker: L.Marker; previousZoom: number; previousLatLng: L.LatLng } | null = null;
 
@@ -29,24 +32,28 @@ export class MapComponent implements AfterViewInit {
     this.addListeners();
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['points'] && this.map) {
       this.addMarkers(); // Re-render markers when points change
-      if (this.focusPoint)
-        this.map.setView([this.focusPoint.Lat, this.focusPoint.Lng], this.maxZoom);
+      if (this.focusPoint) {
+        this.focusOnPoint(this.focusPoint);
+      }
     }
   }
 
   initMap() {
     // Initialize the map
-    this.map = L.map(this.mapId)
-    if (!this.smallSize)
+    this.map = L.map(this.mapId);
+
+    // Configure map controls based on size
+    if (this.smallSize) {
+      this.disableMapInteractions();
+    } else {
       this.map.zoomControl.remove();
-    if (this.focusPoint)
-      this.map.setView([this.focusPoint.Lat, this.focusPoint.Lng], this.maxZoom);
-    else
-      this.map.setView(this.initialLatLng, this.initialZoom);
+    }
+
+    // Set the initial view
+    this.setInitialMapView();
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,37 +61,107 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
   }
 
-  addMarkers() {
-    // Clear existing markers
-    if (this.map) {
-      this.map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
-          this.map?.removeLayer(layer);
+  addListeners() {
+    if (!this.smallSize && this.map) {
+      this.map.on('click', () => this.resetZoom());
+
+      // Handle right-click to add a new point
+      this.map.on('contextmenu', async (e: L.LeafletMouseEvent) => {
+        e.originalEvent.preventDefault();
+        await this.handleRightClick(e);
+      });
+
+      // Handle Escape key
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          this.resetZoom();
+          this.removeCurrentMarker();
         }
       });
     }
+  }
 
-    if (this.points)
+  // Helper Methods
+
+  private disableMapInteractions() {
+    this.map.scrollWheelZoom.disable();
+    this.map.doubleClickZoom.disable();
+    this.map.touchZoom.disable();
+    this.map.boxZoom.disable();
+    this.map.keyboard.disable();
+  }
+
+  private setInitialMapView() {
+    if (this.focusPoint) {
+      this.focusOnPoint(this.focusPoint);
+    } else {
+      this.map.setView(this.initialLatLng, this.initialZoom);
+    }
+  }
+
+  private focusOnPoint(point: { Lat: number; Lng: number }) {
+    this.map.setView([point.Lat, point.Lng], this.maxZoom);
+  }
+
+  private async handleRightClick(e: L.LeafletMouseEvent) {
+    const { lat, lng } = e.latlng;
+
+    // Remove existing marker if present
+    this.removeCurrentMarker();
+
+    // Add a new marker
+    this.currentMarker = L.marker([lat, lng], { icon: this.createCustomMarker('red') }).addTo(this.map);
+
+    // Show "Loading..." popup initially
+    this.currentMarker
+      .bindPopup(`<strong>Selected Location</strong><br>Loading address...`)
+      .openPopup();
+
+    try {
+      // Fetch and update the address
+      const address = await this.util.getAddress(lat, lng);
+      const addressHTML = this.getAddressHtml(address);
+      this.currentMarker.setPopupContent(addressHTML + this.getAddButton()).openPopup();
+
+      // Emit event with the new coordinates
+      this.addPoint.emit(address);
+    } catch (error) {
+      console.error('Error fetching address:', error);
+      this.currentMarker.setPopupContent(`<strong>Error</strong><br>Could not fetch address.`).openPopup();
+    }
+  }
+
+  private removeCurrentMarker() {
+    if (this.currentMarker) {
+      this.map.removeLayer(this.currentMarker);
+      this.currentMarker = null;
+    }
+  }
+  addMarkers() {
+    this.clearExistingMarkers();
+  
+    if (this.points) {
       this.points.forEach((point) => {
         point.Marker = this.addPointToMap(point);
       });
+    }
   }
-
+  
   addPointToMap(point: Location): L.Marker {
-    const marker = L.marker([point.Address.Lat, point.Address.Lng], { icon: this.createCustomMarker(point.Color) });
-    marker.bindPopup(`<div class="popup-details"><strong>${point.Title}</strong><br>${point.Description}</div>`);
-    marker.on('click', () => {
-      this.selectedMarker = {
-        marker,
-        previousZoom: this.getZoom(),
-        previousLatLng: this.getCenter(),
-      };
-      this.flyTo([point.Address.Lat, point.Address.Lng]); // Center the map on the clicked marker
+    const marker = L.marker([point.Address.Lat, point.Address.Lng], {
+      icon: this.createCustomMarker(point.Color),
     });
+  
+    marker.bindPopup(this.createPopupContent(point.Title, point.Description));
+  
+    marker.on('click', () => {
+      this.handleMarkerClick(marker, point);
+    });
+  
     marker.addTo(this.map!);
     return marker;
   }
-
+  
   createCustomMarker(color: string | null = 'blue'): L.Icon {
     return L.icon({
       iconUrl: `images/point-${color ?? 'blue'}.webp`, // Update with your icon path
@@ -93,99 +170,57 @@ export class MapComponent implements AfterViewInit {
       popupAnchor: [0, -34],
     });
   }
-
-  addListeners() {
-    if (this.map) {
-      this.map.on('click', () => this.resetZoom());
-
-      // Handle right-click to add a new point
-      this.map.on('contextmenu', async (e: L.LeafletMouseEvent) => {
-        e.originalEvent.preventDefault();
-        if (this.currentMarker) {
-          this.map?.removeLayer(this.currentMarker); // Remove existing marker
-        }
-
-        const { lat, lng } = e.latlng;
-        this.currentMarker = L.marker([lat, lng], { icon: this.createCustomMarker('red') }).addTo(this.map!);
-
-        // Show "Loading..." popup initially
-        this.currentMarker
-          .bindPopup(`<strong>Selected Location</strong><br>Loading address...`)
-          .openPopup();
-
-        // Fetch and update the address
-        const address = await this.getAddress(lat, lng);
-        const addressHTML = this.getAddressHtml(address)
-        this.currentMarker.setPopupContent(addressHTML + this.getAddButton()).openPopup();
-        // Emit event with the new coordinates
-        this.addPoint.emit(address);
-      });
-    }
-
-    // Handle Escape key
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        this.resetZoom();
-        if (this.currentMarker) {
-          this.map?.removeLayer(this.currentMarker);
-        }
-      }
-    });
+  
+  createPopupContent(title: string, description: string): string {
+    return `<div class="popup-details"><strong>${title}</strong><br>${description}</div>`;
   }
-
-  async getAddress(lat: number, lng: number): Promise<Address> {
-    return fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.address) {
-          const address: Address = {
-            Street: data.address.road,
-            District: data.address.suburb,
-            City: data.address.city,
-            CEP: data.address.postcode,
-            Lat: lat,
-            Lng: lng,
-            HouseNumber: null
-          }
-          return address
-        }
-        const emptyAddress: Address = getEmptyAddress();
-        emptyAddress.Lat = lat;
-        emptyAddress.Lng = lng;
-        return emptyAddress;
-
-      })
-      .catch((error) => {
-        console.error('Error fetching address:', error);
-        const emptyAddress: Address = getEmptyAddress();
-        emptyAddress.Lat = lat;
-        emptyAddress.Lng = lng;
-        return emptyAddress;
-      });
-  }
-
+  
   getAddressHtml(address: Address): string {
     return `<strong>${address.Street}</strong><br>${address.District} - ${address.City}<br>${address.CEP}`;
   }
+  
   getAddButton(): string {
-    return `<br><button class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`
+    return `<br><button class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`;
   }
+  
   flyTo(latlng: L.LatLngExpression, zoom: number | null = null) {
-    this.map?.flyTo(latlng, zoom ?? this.maxZoom);
+    this.map.flyTo(latlng, zoom ?? this.maxZoom);
   }
-
+  
   resetZoom() {
     if (this.selectedMarker) {
       this.flyTo(this.selectedMarker.previousLatLng, this.selectedMarker.previousZoom);
       this.selectedMarker = null;
     }
   }
-
+  
   getZoom(): number {
-    return this.map?.getZoom() || this.initialZoom;
+    return this.map.getZoom();
   }
-
+  
   getCenter(): L.LatLng {
-    return this.map?.getCenter() || this.initialLatLng;
+    return this.map.getCenter();
+  }
+  
+  // Helper Methods
+  
+  private clearExistingMarkers() {
+    if (this.map) {
+      this.map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          this.map.removeLayer(layer);
+        }
+      });
+    }
+  }
+  
+  private handleMarkerClick(marker: L.Marker, point: Location) {
+    this.selectedMarker = {
+      marker,
+      previousZoom: this.getZoom(),
+      previousLatLng: this.getCenter(),
+    };
+  
+    this.flyTo([point.Address.Lat, point.Address.Lng]);
   }
 }
