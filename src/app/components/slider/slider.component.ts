@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -12,6 +12,11 @@ export class SliderComponent {
 
   ngOnInit() {
     this.updateSlider();
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['value']) {
+      this.updateSlider();
+    }
   }
 
   sliderBackground: string = '';

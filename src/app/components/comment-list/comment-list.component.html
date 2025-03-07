@@ -1,0 +1,33 @@
+<div class="comment-list">
+  <!-- Comment List -->
+  <p>Comentários</p>
+  <div class="comments">
+    <div *ngFor="let comment of comments" class="comment-item">
+      <div class="comment-header">
+        <span class="author-name">{{ comment.AuthorName }}</span>
+        <div class="comment-actions">
+          <span class="comment-date">{{ comment.Date }}</span>
+          <div class="action-buttons">
+            <button (click)="editComment(comment)" class="btn btn-sm btn-edit" *ngIf="comment.AuthorId === 103">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button (click)="deleteComment(comment.Id)" class="btn btn-sm btn-delete" *ngIf="comment.AuthorId === 103">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="comment-body">
+        {{ comment.Comment }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Form -->
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="comment-form">
+    <textarea formControlName="commentText" placeholder="Escreva seu comentário..." class="comment-input"></textarea>
+    <button type="submit" [disabled]="commentForm.invalid" class="btn btn-primary">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </form>
+</div>

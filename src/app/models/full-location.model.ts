@@ -1,4 +1,4 @@
-import { Address, getEmptyAddress } from "./address.mode"
+import { getEmptyAddress } from "./address.mode"
 import { Dimensions, getEmptyDimensions } from "./dimensions.model"
 import { Image } from "./image.model"
 import { Location } from "./location.model"
@@ -12,7 +12,7 @@ export interface FullLocation extends Location {
     Size: number | null
     URL: URL | null,
     Value: number | null,
-    Type: SelectOption, 
+    Type: SelectOption,
     Images: Image[] | null
 }
 

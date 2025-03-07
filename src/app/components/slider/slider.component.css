@@ -7,6 +7,7 @@
     transition: background 0.15s;
     -webkit-appearance: none;
     appearance: none;
+    margin: 10px 0px;
   }
   
   /* Estiliza a trilha do slider para remover a linha extra */
@@ -47,3 +48,7 @@
     cursor: pointer;
   }
   
+label {
+  font-size: small;
+  color: #5e5e5e
+}

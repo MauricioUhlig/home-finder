@@ -4,8 +4,8 @@
       <div>
         <h1>{{ location.Title }}</h1>
         <div class="d-flex">
-          <div class="stars" [style.--rating]="4.4">★★★★★</div>
-          <p>(4.4)</p>
+          <div class="stars" [style.--rating]="metrics.Estrelas">★★★★★</div>
+          <p>({{metrics.Estrelas}})</p>
         </div>
         <p>{{ location.Type.Name }}</p>
       </div>
@@ -21,7 +21,13 @@
       <div class="details">
         <p><i class="fa-solid fa-quote-left icon-color"></i> {{location.Description }}</p>
         <p><i class="fa-solid fa-location-dot icon-color"></i> {{ computedAddress()}}</p>
-        <!-- <p><strong>Rating:</strong> {{ location.rating }} ★</p> -->
+        <div *ngIf="location.Size">
+          <p><i class="fa-solid fa-ruler-combined icon-color"></i>
+            Total: {{location.Size}}m<sup>2</sup>;
+            Frente: {{location.Dimensions.Front ?? '-'}}m;
+            Fundo: {{location.Dimensions.Deep ?? '-'}}m
+          </p>
+        </div>
         <div *ngIf="location.Phones">
           <hr>
           <p>Telefones</p>
@@ -43,7 +49,12 @@
       <app-map *ngIf="location.Title" [focusPoint]="location.Address" [points]="[location]" [smallSize]="true"
         [mapId]="'map_'+location.Id"></app-map>
     </div>
-    <app-slider [value]="9">Segurança:</app-slider>
+    <app-slider [value]="metrics.Seguranca">Segurança</app-slider>
+    <app-slider [value]="metrics.Vizinhanca">Vizinhanca</app-slider>
+    <app-slider [value]="metrics.Localicao">Localicao</app-slider>
+    <app-slider [value]="metrics.CustoBeneficio">Custo Beneficio</app-slider>
 
+    <hr>
+    <app-comment-list *ngIf="location.Id" [locationId]="location.Id"></app-comment-list>
 
   </div>

@@ -1,12 +1,12 @@
 export interface Dimensions {
-    Front: number,
-    Deep: number,
+    Front: number |null,
+    Deep: number | null,
     Back: number | null
 }
 export function getEmptyDimensions():Dimensions {
     return {
-        Front: 0,
-        Deep: 0,
+        Front: null,
+        Deep: null,
         Back: null
     }
 }

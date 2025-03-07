@@ -9,15 +9,18 @@ import { MapComponent } from '../map/map.component';
 import { LocationDetailsService } from '../../services/location-details.service'
 import { UtilService } from '../../services/util.service';
 import { SliderComponent } from '../slider/slider.component';
+import { createEmptyLocationMetrics, getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-details',
-  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent],
+  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent, CommentListComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
 export class DetailsComponent implements OnInit {
   location: FullLocation = getEmptyFullLocation();
+  metrics: LocationMetrics = getEmptyLocationMetrics();
   isOverlayMode = true;
   resize$: any;
 
@@ -45,16 +48,22 @@ export class DetailsComponent implements OnInit {
   edit(): void {
     this.detailsService.openEditMenu(this.location.Id!)
   }
-  
+
   closeMenu(): void {
     this.detailsService.closeDetailsMenu();
   }
 
   async getLocation(locationId: any) {
     if (locationId && Number(locationId)) {
-      var resp = await this.dataService.getById(Number(locationId));
+      let resp = await this.dataService.getById(Number(locationId));
       if (resp !== undefined)
         this.location = resp
+
+      let metrics = await this.dataService.getMetricsByLocationId(resp?.Id!);
+      if (metrics !== undefined)
+        this.metrics = metrics;
+      else
+        this.metrics = createEmptyLocationMetrics(resp?.Id!)
     }
   }
 

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Location } from '../models/location.model';
 import { createFullLocation, FullLocation } from '../models/full-location.model';
 import { getEmptyLocation } from '../models/select-option.model'
+import { LocationMetrics } from '../models/location-metrics.model';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
     providedIn: 'root', // Provided in the root injector (singleton)
@@ -38,7 +40,7 @@ export class DataService {
                 }
             ],
             Dimensions: {
-                Front: 10,
+                Front: null,
                 Back: null,
                 Deep: 12
             },
@@ -76,6 +78,36 @@ export class DataService {
         },
     ];
 
+    private metrics: LocationMetrics[] = [
+        {
+            Id: 0,
+            LocationId: 1,
+            Seguranca: 8,
+            Vizinhanca: 9,
+            CustoBeneficio: 3,
+            Estrelas: 4.3,
+            Localicao: 9
+        }
+    ]
+
+    private comments: Comment[] = [
+        {
+            Id: 1,
+            LocationId: 1,
+            AuthorId: 101,
+            AuthorName: 'Mauricio',
+            Date: '2025-03-07 19:33:15',
+            Comment: 'Eu gostei desta opção!',
+        },
+        {
+            Id: 2,
+            LocationId: 1,
+            AuthorId: 102,
+            AuthorName: 'Hillary',
+            Date: '2025-03-07 19:35:15',
+            Comment: 'Achei meio pequeno',
+        },
+    ];
     async getAllLocations(): Promise<FullLocation[]> {
         await this.delay(500);
         return this.locations;
@@ -86,9 +118,19 @@ export class DataService {
         return this.locations.find(l => l.Id == id)
     }
 
+    async getMetricsByLocationId(id: number): Promise<LocationMetrics | undefined> {
+        await this.delay(500);
+        return this.metrics.find(l => l.LocationId == id)
+    }
+
+    async getCommentsByLocationId(id: number): Promise<Comment[] | undefined> {
+        await this.delay(300);
+        return this.comments.filter(l => l.LocationId == id)
+    }
+
     async add(location: Location): Promise<number> {
         const maxId = this.locations.length > 0 ? Math.max(...this.locations.map((item) => item.Id ?? 0)) : -1;
-        location.Id = maxId +1;
+        location.Id = maxId + 1;
         this.locations.push(createFullLocation(location))
         await this.delay(300);
         return maxId
