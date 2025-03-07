@@ -8,9 +8,13 @@ import { ReportComponent } from './components/report/report.component';
 
 
 export const routes: Routes = [
-    { path: '', component: HomeMapComponent },
-    { path: 'details/:id', component: DetailsComponent },
-    { path: 'edit/:id', component: FullFormComponent },
+    {
+        path: '', component: HomeMapComponent, children: [
+            { path: 'location/:id', component: DetailsComponent },
+            { path: 'location/:id/edit', component: FullFormComponent },
+        ]
+    },
+
     { path: 'report', component: ReportComponent },
     { path: '**', component: PageNotFoundComponent },
 ];
@@ -19,6 +23,5 @@ export const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
-  })
-  export class AppRoutingModule { }
-  
+})
+export class AppRoutingModule { }

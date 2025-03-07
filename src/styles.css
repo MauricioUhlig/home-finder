@@ -189,3 +189,21 @@ textarea {
     -webkit-mask: url('/images/location-add-dark.svg') no-repeat center;
     mask: url('/images/location-add-dark.svg') no-repeat center;
 }
+
+
+.overlay-mode {
+    overflow: scroll;
+    max-height: 100vh;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* scroll hide */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+}
+
+.full-page-mode {
+    position: absolute;
+    width: 100vi;
+    height: 100vh;
+    background-color: white;
+}

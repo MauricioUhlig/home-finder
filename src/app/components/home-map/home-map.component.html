@@ -2,7 +2,10 @@
     title="Selecione um ponto no mapa primeiro" [disabled]="isAddButtonDisabled">+Adicionar</button> -->
 
 <app-map [points]="points" (addPoint)="handleAddPoint($event)" style="z-index: 1;"></app-map>
-<app-location-list [points]="points" (centerMap)="centerMap($event)"></app-location-list>
+<div class="d-flex">
+    <app-location-list [points]="points" (centerMap)="centerMap($event)"></app-location-list>
+    <app-details *ngIf="isDetailsOpen" class="z"></app-details>
+</div>
 
 <app-add-modal *ngIf="!isAddButtonDisabled" [latitude]="lat!" [longitude]="lng!"
     (saveEvent)="save($event)"></app-add-modal>

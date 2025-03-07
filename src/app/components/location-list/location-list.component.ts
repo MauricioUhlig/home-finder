@@ -16,18 +16,16 @@ export class LocationListComponent implements OnInit, OnDestroy {
   @Input() loading: boolean = false;
   @Output() centerMap = new EventEmitter<Location>(); // Output to center the map on a point
 
-  constructor(private util: UtilService, private locationDetailsService: LocationDetailsService) { }
+  constructor(private util: UtilService,  private locationDetailsService: LocationDetailsService) { }
 
   isExpanded = false; // State for expanded overlay
   isSmallScreen: boolean = true;
   resize$: any;
 
-  get showContent(): boolean {
-    return !(this.isSmallScreen && this.isDetailsOpen)
-  }
   get isDetailsOpen(): boolean {
     return this.locationDetailsService.isDetailsMenuOpen()
   }
+
 
   ngOnInit() {
     this.resize$ = this.util.isSmallScreen().subscribe((small) => {

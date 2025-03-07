@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { DataService } from '../../services/data.service';
@@ -16,7 +16,7 @@ import { SliderComponent } from '../slider/slider.component';
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
   location: FullLocation = getEmptyFullLocation();
   isOverlayMode = true;
   resize$: any;
@@ -27,8 +27,13 @@ export class DetailsComponent {
     this.resize$ = this.util.isSmallScreen().subscribe((small) => {
       this.isOverlayMode = !small;
     });
-    let locationId = this.route.snapshot.paramMap.get('id');
-    await this.getLocation(locationId);
+    this.route.children.forEach(childRoute => {
+      childRoute.paramMap.subscribe(params => {
+        let locationId = params.get('id') || '';
+        console.log(locationId)
+        this.getLocation(locationId);
+      });
+    });
   }
 
 
@@ -48,6 +53,7 @@ export class DetailsComponent {
       if (resp !== undefined)
         this.location = resp
     }
+    console.log(locationId, this.location)
   }
 
   computedAddress(): string {
