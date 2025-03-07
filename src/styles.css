@@ -186,6 +186,6 @@ textarea {
 .location-plus {
     width: 30px;
     height: 30px;
-    -webkit-mask: url('/images/location\ add\ -\ dark.svg') no-repeat center;
-    mask: url('/images/location\ add\ -\ dark.svg') no-repeat center;
+    -webkit-mask: url('/images/location-add-dark.svg') no-repeat center;
+    mask: url('/images/location-add-dark.svg') no-repeat center;
 }
