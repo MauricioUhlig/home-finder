@@ -30,7 +30,6 @@ export class DetailsComponent implements OnInit {
     this.route.children.forEach(childRoute => {
       childRoute.paramMap.subscribe(params => {
         let locationId = params.get('id') || '';
-        console.log(locationId)
         this.getLocation(locationId);
       });
     });
@@ -53,7 +52,6 @@ export class DetailsComponent implements OnInit {
       if (resp !== undefined)
         this.location = resp
     }
-    console.log(locationId, this.location)
   }
 
   computedAddress(): string {

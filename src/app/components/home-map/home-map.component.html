@@ -7,7 +7,7 @@
     <app-details *ngIf="isDetailsOpen" class="z"></app-details>
 </div>
 
-<app-add-modal *ngIf="!isAddButtonDisabled" [latitude]="lat!" [longitude]="lng!"
+<app-add-modal *ngIf="!isAddButtonDisabled" [address]="address!"
     (saveEvent)="save($event)"></app-add-modal>
 
 <!-- <app-full-form (submitEvent)="handleFormSubmit($event)"></app-full-form> -->

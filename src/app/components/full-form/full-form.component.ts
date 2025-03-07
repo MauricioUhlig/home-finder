@@ -73,7 +73,6 @@ export class FullFormComponent {
 
   // Handle form submission
   handleSubmit() {
-    console.log('Form Data:', this.formData);
     this.submitEvent.emit(this.formData);
   }
 }

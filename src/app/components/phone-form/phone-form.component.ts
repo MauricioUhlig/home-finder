@@ -14,7 +14,6 @@ export class PhoneFormComponent {
   @Output() removeEvent = new EventEmitter<number>();
 
   removePhone(index: number) {
-    console.log(index)
     this.removeEvent.emit(index);
   }
 }

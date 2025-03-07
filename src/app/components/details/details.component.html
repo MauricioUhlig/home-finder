@@ -1,5 +1,5 @@
 <div [ngClass]="{ 'overlay-mode': isOverlayMode, 'full-page-mode': !isOverlayMode }">
-  <div class="location-details-menu" >
+  <div class="location-details-menu">
     <div class="header">
       <div>
         <h1>{{ location.Title }}</h1>
@@ -28,21 +28,23 @@
         </div>
         <div *ngIf="location.URL">
           <hr>
-          <p><i class="fa-solid fa-link icon-color"></i> <a [href]="location.URL" target="_blank"> {{ location.URL }}</a>
+          <p><i class="fa-solid fa-link icon-color"></i> <a [href]="location.URL" target="_blank"> {{ location.URL
+              }}</a>
           </p>
         </div>
-  
+
       </div>
       <hr>
     </div>
     <div class="map-box">
-      <app-map *ngIf="location.Lat" [focusPoint]="location" [points]="[location]" [smallSize]="true"
+      <app-map *ngIf="location.Title" [focusPoint]="location.Address" [points]="[location]" [smallSize]="true"
         [mapId]="'map_'+location.Id"></app-map>
     </div>
     <app-slider [value]="9">Segurança:</app-slider>
-  
+
     <div class="actions">
-      <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i> Editar</a>
+      <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i>
+        Editar</a>
     </div>
   </div>
 </div>

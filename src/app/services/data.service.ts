@@ -15,8 +15,6 @@ export class DataService {
             Id: 1,
             Title: 'Casa antiga com garagem',
             Description: 'casa atual',
-            Lat: -20.345083831226688,
-            Lng: -40.37798609159118,
             Color: 'green',
             Marker: null,
             Type: getEmptyLocation(),
@@ -25,7 +23,9 @@ export class DataService {
                 HouseNumber: "252",
                 District: 'São Geraldo',
                 City: 'Cariacica',
-                CEP: '29146-677'
+                CEP: '29146-677',
+                Lat: -20.345083831226688,
+                Lng: -40.37798609159118,
             },
             Phones: [
                 {
@@ -51,8 +51,6 @@ export class DataService {
             Id: 2,
             Title: 'Lote',
             Description: 'Boa opção',
-            Lat: -20.34140545584462,
-            Lng: -40.379709270782776,
             Color: 'blue',
             Marker: null,
             Type: getEmptyLocation(),
@@ -61,7 +59,9 @@ export class DataService {
                 HouseNumber: "N/A",
                 District: 'São Geraldo',
                 City: 'Cariacica',
-                CEP: '29146-677'
+                CEP: '29146-677',
+                Lat: -20.34140545584462,
+                Lng: -40.379709270782776,
             },
             Phones: null,
             Dimensions: {

@@ -3,7 +3,9 @@ export interface Address {
     HouseNumber: string | null,
     District: string,
     City: string,
-    CEP: string | null
+    CEP: string | null,
+    Lat: number,
+    Lng: number
 }
 
 export function getEmptyAddress(): Address {
@@ -13,5 +15,7 @@ export function getEmptyAddress(): Address {
         District: '',
         City: '',
         CEP: null,
+        Lat: -20.345, 
+        Lng: -40.377
     };
 }

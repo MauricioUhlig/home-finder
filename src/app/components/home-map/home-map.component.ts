@@ -9,6 +9,7 @@ import { DataService } from '../../services/data.service';
 import { DetailsComponent } from "../details/details.component";
 import { UtilService } from '../../services/util.service';
 import { LocationDetailsService } from '../../services/location-details.service';
+import { Address, getEmptyAddress } from '../../models/address.mode';
 
 
 @Component({
@@ -42,8 +43,7 @@ export class HomeMapComponent implements AfterViewInit {
     this.map.addMarkers();
   }
 
-  lat: number | null = null;
-  lng: number | null = null;
+  address : Address = getEmptyAddress();
   points: Location[] | null = null;
   isSmallScreen: boolean = true;
   resize$: any;
@@ -53,9 +53,8 @@ export class HomeMapComponent implements AfterViewInit {
     this.map.flyTo(point.Marker!.getLatLng())
   }
 
-  handleAddPoint(coords: { lat: number; lng: number }) {
-    this.lat = coords.lat;
-    this.lng = coords.lng;
+  handleAddPoint(address: Address) {
+    this.address = address;
     this.isAddButtonDisabled = false;
   }
 
@@ -65,14 +64,14 @@ export class HomeMapComponent implements AfterViewInit {
   }
 
   async addLocation(newPoint: Location) {
+    
     newPoint.Color = 'blue'
     newPoint.Marker = this.map.addPointToMap(newPoint);
     await this.dataService.add(newPoint);
   }
 
   clear() {
-    this.lat = null;
-    this.lng = null;
+    this.address = getEmptyAddress();
     this.isAddButtonDisabled = true;
   }
 

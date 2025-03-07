@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '../../models/location.model';
 import { SelectOption } from '../../models/select-option.model';
+import { Address, getEmptyAddress } from '../../models/address.mode';
 
 @Component({
   selector: 'app-add-modal',
@@ -11,8 +12,7 @@ import { SelectOption } from '../../models/select-option.model';
   imports: [FormsModule, CommonModule]
 })
 export class AddModalComponent implements OnChanges {
-  @Input() latitude!: number;
-  @Input() longitude!: number;
+  @Input() address!: Address;
   @Output() saveEvent = new EventEmitter<any>();
 
   pointTypes: SelectOption[] = [
@@ -24,17 +24,15 @@ export class AddModalComponent implements OnChanges {
     Id: 0,
     Title: '',
     Description: '',
-    Lat: 0, // Initialize to 0, will be updated in ngOnChanges
-    Lng: 0, // Initialize to 0, will be updated in ngOnChanges
+    Address: getEmptyAddress(),
     Color: 'blue',
     Marker: null,
     Type: this.pointTypes[0]
   };
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['latitude'] || changes['longitude']) {
-      this.newPoint.Lat = this.latitude ?? 0;
-      this.newPoint.Lng = this.longitude ?? 0;
+    if (changes['address']) {
+      this.newPoint.Address = this.address ?? getEmptyAddress();
     }
   }
 
