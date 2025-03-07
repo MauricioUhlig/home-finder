@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class LocationDetailsService {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   openDetailsMenu(locationId: number) {
     // Navigate to the details menu route
@@ -17,8 +17,24 @@ export class LocationDetailsService {
     this.router.navigate(['/']);
   }
 
+  openEditMenu(locationId: number) {
+    // Navigate to the details menu route
+    this.router.navigate(['/location', locationId, 'edit']);
+  }
+  closeEditMenu(locationId: number | null) {
+    // Navigate back to the main page
+    if (locationId)
+      this.router.navigate(['/location', locationId]);
+    else
+      this.closeDetailsMenu();
+  }
+
   isDetailsMenuOpen(): boolean {
     // Check if the current route is the details menu
-    return this.router.url.includes('/location/');
+    return this.router.url.includes('/location/') && !this.router.url.includes('/edit');
+  }
+  isEditMenuOpen(): boolean {
+    // Check if the current route is the details menu
+    return this.router.url.includes('/edit');
   }
 }

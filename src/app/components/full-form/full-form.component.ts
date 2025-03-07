@@ -5,25 +5,39 @@ import { AddressComponent } from '../address/address.component';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { getEmptyPhone } from '../../models/phone.model';
 import { PhoneFormComponent } from '../phone-form/phone-form.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/data.service';
+import { LocationDetailsService } from '../../services/location-details.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-full-form',
   templateUrl: './full-form.component.html',
   styleUrls: ['./full-form.component.css'],
-  imports: [CommonModule, FormsModule, AddressComponent, PhoneFormComponent, RouterLink]
+  imports: [CommonModule, FormsModule, AddressComponent, PhoneFormComponent]
 })
 export class FullFormComponent {
   @Output() submitEvent = new EventEmitter<any>();
 
-  constructor(private route: ActivatedRoute, private dataService: DataService) { }
+  isOverlayMode = true;
+  resize$: any;
+
+
+  constructor(private route: ActivatedRoute, private dataService: DataService, private detailsService: LocationDetailsService, private util: UtilService) { }
 
   async ngOnInit() {
-    let locationId = this.route.snapshot.paramMap.get('id');
-    await this.getLocation(locationId);
-
+    this.resize$ = this.util.isSmallScreen().subscribe((small) => {
+      this.isOverlayMode = !small;
+    });
+    this.route.children.forEach(childRoute => {
+      childRoute.paramMap.subscribe(params => {
+        let locationId = params.get('id') || '';
+        console.log(params)
+        this.getLocation(locationId);
+      });
+    });
   }
+
   formData: FullLocation = getEmptyFullLocation()
 
   async getLocation(locationId: any) {
@@ -69,6 +83,10 @@ export class FullFormComponent {
   // Remove an image
   removeImage(index: number) {
     this.formData.Images!.splice(index, 1);
+  }
+
+  close(): void {
+    this.detailsService.closeEditMenu(this.formData.Id);
   }
 
   // Handle form submission

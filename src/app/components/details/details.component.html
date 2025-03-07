@@ -43,7 +43,7 @@
     <app-slider [value]="9">Segurança:</app-slider>
 
     <div class="actions">
-      <a [routerLink]="['/edit', location.Id]" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i>
+      <a (click)="edit()" class="btn btn-outline-info"><i class="fa-solid fa-pencil"></i>
         Editar</a>
     </div>
   </div>

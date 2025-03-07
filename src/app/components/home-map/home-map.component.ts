@@ -4,19 +4,20 @@ import { CommonModule } from '@angular/common';
 import { AddModalComponent } from '../add-modal/add-modal.component';
 import { LocationListComponent } from '../location-list/location-list.component';
 import { MapComponent } from '../map/map.component';
-import { Location, getEmptyLocation } from '../../models/location.model';
+import { Location } from '../../models/location.model';
 import { DataService } from '../../services/data.service';
 import { DetailsComponent } from "../details/details.component";
 import { UtilService } from '../../services/util.service';
 import { LocationDetailsService } from '../../services/location-details.service';
 import { Address, getEmptyAddress } from '../../models/address.mode';
+import { FullFormComponent } from '../full-form/full-form.component';
 
 
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
   styleUrls: ['./home-map.component.css'],
-  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent, DetailsComponent],
+  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent, DetailsComponent, FullFormComponent],
 })
 export class HomeMapComponent implements AfterViewInit {
   @ViewChild(MapComponent) map!: MapComponent;
@@ -37,6 +38,9 @@ export class HomeMapComponent implements AfterViewInit {
   }
   get isDetailsOpen(): boolean {
     return this.locationDetailsService.isDetailsMenuOpen()
+  }
+  get isEditOpen(): boolean {
+    return this.locationDetailsService.isEditMenuOpen()
   }
   async ngAfterViewInit(): Promise<void> {
     this.points = await this.dataService.getAllLocations();

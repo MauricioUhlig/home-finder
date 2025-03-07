@@ -1,7 +1,7 @@
 
 .location-details-menu {
   position: relative;
-  width: 408px;
+  max-width: var(--overlay-menu-max-width);
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

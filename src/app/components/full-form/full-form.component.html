@@ -1,17 +1,18 @@
-<div class="form-container">
-  <form (ngSubmit)="handleSubmit()">
-    <div class="form-group">
-      <label for="title">Titulo<span>*</span></label>
-      <input type="text" id="title" [(ngModel)]="formData.Title" name="title" />
-    </div>
+<div [ngClass]="{ 'overlay-mode': isOverlayMode, 'full-page-mode': !isOverlayMode }">
+  <div class="form-container">
+    <form (ngSubmit)="handleSubmit()">
+      <div class="form-group">
+        <label for="title">Titulo<span>*</span></label>
+        <input type="text" id="title" [(ngModel)]="formData.Title" name="title" />
+      </div>
 
-    <div class="form-group">
-      <label for="descricao">Descrição<span>*</span></label>
-      <textarea id="descricao" [(ngModel)]="formData.Description" name="descricao" rows="5" required></textarea>
-    </div>
+      <div class="form-group">
+        <label for="descricao">Descrição<span>*</span></label>
+        <textarea id="descricao" [(ngModel)]="formData.Description" name="descricao" rows="5" required></textarea>
+      </div>
 
-    <div class="form-group">
-      <label>Tipo de imóvel<span>*</span></label>
+      <div class="form-group">
+        <label>Tipo de imóvel<span>*</span></label>
         <div class="form-inline">
           <label class="form-check form-check-inline">
             <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="1" />
@@ -22,66 +23,67 @@
             Casa
           </label>
         </div>
-    </div>
-
-    <app-address [endereco]="formData.Address"></app-address>
-
-    <!-- Telefones (Multiple) -->
-    <div class="form-group">
-      <label>Telefones:</label>
-      <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
-        <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
       </div>
-      <button type="button" (click)="addPhone()" class="btn btn-success">Adicionar Telefone</button>
-    </div>
 
-    <!-- Link (Optional) -->
-    <div class="form-group">
-      <label for="link">Link:</label>
-      <input type="url" id="link" [(ngModel)]="formData.URL" name="link" />
-    </div>
+      <app-address [endereco]="formData.Address"></app-address>
 
-    <!-- Tamanho (Optional) -->
-    <div class="form-group">
-      <label for="tamanho">Dimensões:</label>
-      <div class="row input-group ">
-        <div class="col-4">
-          <label for="dimensoes">Total (m²):</label>
-          <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="number-input" />
+      <!-- Telefones (Multiple) -->
+      <div class="form-group">
+        <label>Telefones:</label>
+        <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
+          <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
         </div>
-        <div class="col-4">
-          <label for="frente">Frente (m):</label>
-          <input type="number" id="frente" [(ngModel)]="formData.Dimensions.Front" name="frente" class="number-input" />
-        </div>
-        <div class="col-4">
-          <label for="fundo">Fundo (m):</label>
-          <input type="number" id="fundo" [(ngModel)]="formData.Dimensions.Deep" name="fundo" class="number-input" />
-        </div>
+        <button type="button" (click)="addPhone()" class="btn btn-success">Adicionar Telefone</button>
       </div>
-    </div>
 
-    <!-- Imagens (Multiple) -->
-    <div class="form-group">
-      <label>Imagens:</label>
-      <div *ngIf="formData.Images?.length" class="image-preview">
-        <div *ngFor="let image of formData.Images; let index = index" class="image-item">
-          <img [src]="image.URL" alt="Preview" />
-          <button type="button" (click)="removeImage(index)"><i class="fa-solid fa-trash remove-image"></i></button>
+      <!-- Link (Optional) -->
+      <div class="form-group">
+        <label for="link">Link:</label>
+        <input type="url" id="link" [(ngModel)]="formData.URL" name="link" />
+      </div>
+
+      <!-- Tamanho (Optional) -->
+      <div class="form-group">
+        <label for="tamanho">Dimensões:</label>
+        <div class="row input-group ">
+          <div class="col-4">
+            <label for="dimensoes">Total (m²):</label>
+            <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="number-input" />
+          </div>
+          <div class="col-4">
+            <label for="frente">Frente (m):</label>
+            <input type="number" id="frente" [(ngModel)]="formData.Dimensions.Front" name="frente"
+              class="number-input" />
+          </div>
+          <div class="col-4">
+            <label for="fundo">Fundo (m):</label>
+            <input type="number" id="fundo" [(ngModel)]="formData.Dimensions.Deep" name="fundo" class="number-input" />
+          </div>
         </div>
       </div>
-      <div class="input-group custom-file-button">
-        <label class="btn btn-secondary" for="inputGroupFile"><i class="fa-solid fa-file-import"></i> Imagens</label>
-        <input type="file" id="inputGroupFile" multiple (change)="handleImageUpload($event)" accept="image/*"
-          aria-describedby="inputGroupFile" aria-label="Upload"
-          aria-placeholder="Upload de imagens" />
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col align-self-end">
-        <a [routerLink]="['/details',formData.Id]" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
-        <a [routerLink]="['/details',formData.Id]" class="btn btn-outline-danger"><i class="fa-solid fa-ban"></i> Cancelar</a>
+      <!-- Imagens (Multiple) -->
+      <div class="form-group">
+        <label>Imagens:</label>
+        <div *ngIf="formData.Images?.length" class="image-preview">
+          <div *ngFor="let image of formData.Images; let index = index" class="image-item">
+            <img [src]="image.URL" alt="Preview" />
+            <button type="button" (click)="removeImage(index)"><i class="fa-solid fa-trash remove-image"></i></button>
+          </div>
+        </div>
+        <div class="input-group custom-file-button">
+          <label class="btn btn-secondary" for="inputGroupFile"><i class="fa-solid fa-file-import"></i> Imagens</label>
+          <input type="file" id="inputGroupFile" multiple (change)="handleImageUpload($event)" accept="image/*"
+            aria-describedby="inputGroupFile" aria-label="Upload" aria-placeholder="Upload de imagens" />
+        </div>
       </div>
-    </div>
-  </form>
+
+      <div class="row">
+        <div class="col align-self-end">
+          <a (click)="close()" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
+          <a (click)="close()" class="btn btn-outline-danger"><i class="fa-solid fa-ban"></i> Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

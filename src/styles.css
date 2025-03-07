@@ -1,3 +1,6 @@
+:root {
+    --overlay-menu-max-width: 420px;
+}
 .leaflet-control {
     position: absolute !important;
     z-index: 0;
@@ -206,4 +209,5 @@ textarea {
     width: 100vi;
     height: 100vh;
     background-color: white;
+    --overlay-menu-max-width: 750px;
 }

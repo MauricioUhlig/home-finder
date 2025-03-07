@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { DataService } from '../../services/data.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PhoneComponent } from '../phone/phone.component';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from '../map/map.component';
@@ -12,7 +12,7 @@ import { SliderComponent } from '../slider/slider.component';
 
 @Component({
   selector: 'app-details',
-  imports: [PhoneComponent, CommonModule, MapComponent, RouterLink, FormsModule, SliderComponent],
+  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
@@ -42,6 +42,10 @@ export class DetailsComponent implements OnInit {
     this.resize$.unsubscribe();
   }
 
+  edit(): void {
+    this.detailsService.openEditMenu(this.location.Id!)
+  }
+  
   closeMenu(): void {
     this.detailsService.closeDetailsMenu();
   }
