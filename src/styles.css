@@ -20,9 +20,9 @@ body {
 /* Overlay Button */
 #add-new-button {
     position: absolute;
-    top: 20px;
+    top: 60px;
     right: 20px;
-    z-index: 1000;
+    z-index: 1;
     padding: 10px 20px;
 }
 
@@ -126,6 +126,10 @@ body {
     z-index: 1000;
 }
 
+.z-1001 {
+    z-index: 1001;
+}
+
 /* FullForm */
 
 .form-group {
@@ -178,3 +182,10 @@ textarea {
 .leaflet-control-attribution {
     filter: invert(calc(var(--dark-mode) * 100%)) hue-rotate(calc(var(--dark-mode) * 180deg)) brightness(calc(95% - (var(--dark-mode) * 10%))) contrast(calc(90% + (var(--dark-mode) * 10%))) !important;
 } */
+
+.location-plus {
+    width: 30px;
+    height: 30px;
+    -webkit-mask: url('/images/location\ add\ -\ dark.svg') no-repeat center;
+    mask: url('/images/location\ add\ -\ dark.svg') no-repeat center;
+}

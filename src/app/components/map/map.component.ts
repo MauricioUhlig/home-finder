@@ -38,6 +38,9 @@ export class MapComponent implements AfterViewInit {
   initMap() {
     // Initialize the map
     this.map = L.map(this.mapId)
+    if(!this.smallSize)
+      this.map.zoomControl.remove();
+
     if (this.focusPoint)
       this.map.setView([this.focusPoint.Lat, this.focusPoint.Lng], this.maxZoom);
     else
@@ -132,7 +135,7 @@ export class MapComponent implements AfterViewInit {
       .then((response) => response.json())
       .then((data) => {
         const address = data.address ? this.getAddressHtml(data.address) : 'Address not found';
-        marker.setPopupContent(address).openPopup();
+        marker.setPopupContent(address + this.getAddButton()).openPopup();
       })
       .catch((error) => {
         console.error('Error fetching address:', error);
@@ -143,7 +146,9 @@ export class MapComponent implements AfterViewInit {
   getAddressHtml(address: any): string {
     return `<strong>${address.road}</strong><br>${address.suburb} - ${address.city}<br>${address.postcode}`;
   }
-
+  getAddButton(): string {
+    return `<br><button class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`
+  }
   flyTo(latlng: L.LatLngExpression, zoom: number | null = null) {
     this.map?.flyTo(latlng, zoom ?? this.maxZoom);
   }

@@ -77,12 +77,12 @@ export class DataService {
     ];
 
     async getAllLocations(): Promise<FullLocation[]> {
-        await this.delay(2000);
+        await this.delay(500);
         return this.locations;
     }
 
     async getById(id: number): Promise<FullLocation | undefined> {
-        await this.delay(1000);
+        await this.delay(500);
         return this.locations.find(l => l.Id == id)
     }
 
