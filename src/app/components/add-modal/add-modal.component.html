@@ -18,10 +18,28 @@
                         placeholder="Adicione detalhes">
                 </div>
                 <div class="mb-3">
-                    <label for="details" class="form-label fw-semibold">Tipo:</label>
-                    <select class="form-select" [(ngModel)]="newPoint.Type">
-                        <option *ngFor="let type of pointTypes" [value]="type.Id">{{ type.Name }}</option>
-                    </select>
+                    <div class="form-inline">
+                        <label class="form-check form-check-inline">
+                          <input
+                            type="radio"
+                            class="form-check-input"
+                            [(ngModel)]="newPoint.Type"
+                            name="tipo"
+                            value="Lote"
+                          />
+                          Lote
+                        </label>
+                        <label class="form-check form-check-inline">
+                          <input
+                            type="radio"
+                            class="form-check-input"
+                            [(ngModel)]="newPoint.Type"
+                            name="tipo"
+                            value="Casa"
+                          />
+                          Casa
+                        </label>
+                      </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">

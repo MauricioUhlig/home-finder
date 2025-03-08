@@ -1,8 +1,8 @@
 export interface SelectOption {
-    Id: number,
+    Id: string,
     Name: string,
 }
 
 export function getEmptyLocation() {
-    return { Id: 0, Name: "Lote" }
+    return { Id: '0', Name: "Lote" }
 }

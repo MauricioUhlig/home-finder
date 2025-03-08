@@ -9,7 +9,7 @@ export interface Location {
     Description: string,
     Color: string | null,
     Marker: Marker | null,
-    Type: SelectOption | null
+    Type: string
 }
 
 export function getEmptyLocation(): Location {
@@ -17,7 +17,7 @@ export function getEmptyLocation(): Location {
         Id: 0,
         Title: '',
         Description: '',
-        Type: null,
+        Type: 'Lote',
         Address: getEmptyAddress(),
         Color: null,
         Marker: null,

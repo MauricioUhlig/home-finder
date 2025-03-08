@@ -59,6 +59,7 @@ export class DetailsComponent implements OnInit {
       if (resp !== undefined)
         this.location = resp
 
+      console.log(resp)
       let metrics = await this.dataService.getMetricsByLocationId(resp?.Id!);
       if (metrics !== undefined)
         this.metrics = metrics;

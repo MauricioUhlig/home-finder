@@ -12,7 +12,7 @@ export interface FullLocation extends Location {
     Size: number | null
     URL: URL | null,
     Value: number | null,
-    Type: SelectOption,
+    Type: string,
     Images: Image[] | null
 }
 
@@ -27,7 +27,7 @@ export function getEmptyFullLocation(): FullLocation {
         URL: null,
         Description: '',
         Value: null,
-        Type: getEmptyLocation(),
+        Type: '',
         Color: null,
         Marker: null,
         Images: null,
@@ -42,7 +42,6 @@ export function createFullLocation(location: Location): FullLocation {
         Size: 0,
         URL: null,
         Value: null,
-        Type: getEmptyLocation(),
         Images: null,
     }
 }

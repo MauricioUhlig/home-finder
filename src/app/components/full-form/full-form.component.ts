@@ -32,7 +32,6 @@ export class FullFormComponent {
     this.route.children.forEach(childRoute => {
       childRoute.paramMap.subscribe(params => {
         let locationId = params.get('id') || '';
-        console.log(params)
         this.getLocation(locationId);
       });
     });

@@ -15,11 +15,6 @@ export class AddModalComponent implements OnChanges {
   @Input() address!: Address;
   @Output() saveEvent = new EventEmitter<any>();
 
-  pointTypes: SelectOption[] = [
-    { Id: 1, Name: 'Casa' },
-    { Id: 2, Name: 'Lote' }
-  ];
-
   newPoint: Location = {
     Id: 0,
     Title: '',
@@ -27,7 +22,7 @@ export class AddModalComponent implements OnChanges {
     Address: getEmptyAddress(),
     Color: 'blue',
     Marker: null,
-    Type: this.pointTypes[0]
+    Type: ''
   };
 
   ngOnChanges(changes: SimpleChanges) {
@@ -37,6 +32,7 @@ export class AddModalComponent implements OnChanges {
   }
 
   save() {
+    console.log(this.newPoint)
     this.saveEvent.emit(this.newPoint);
   }
 }

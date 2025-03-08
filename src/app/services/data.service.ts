@@ -19,7 +19,7 @@ export class DataService {
             Description: 'casa atual',
             Color: 'green',
             Marker: null,
-            Type: getEmptyLocation(),
+            Type: 'Casa',
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "252",
@@ -55,7 +55,7 @@ export class DataService {
             Description: 'Boa opção',
             Color: 'blue',
             Marker: null,
-            Type: getEmptyLocation(),
+            Type: 'Lote',
             Address: {
                 Street: 'Rua Ametista',
                 HouseNumber: "N/A",
