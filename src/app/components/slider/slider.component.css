@@ -47,8 +47,7 @@
     border-radius: 50%;
     cursor: pointer;
   }
-  
-label {
-  font-size: small;
-  color: #5e5e5e
-}
+  .form-label {
+    margin-right: 8px;
+    width: 20px;
+  }

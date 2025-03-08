@@ -50,10 +50,10 @@
         [mapId]="'map_'+location.Id"></app-map>
     </div>
     <div *ngIf="metrics" class="content">
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Seguranca">Segurança</app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Vizinhanca">Vizinhanca</app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Localicao">Localicao</app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.CustoBeneficio">Custo Beneficio</app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Seguranca"><i class="fas fa-shield-alt text-primary"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Vizinhanca"><i class="fas fa-people-arrows text-info"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Localicao"><i class="fas fa-map-marker-alt text-warning"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.CustoBeneficio"><i class="fas fa-coins text-success"></i></app-slider>
       <div class="d-flex save-metrics">
         <button *ngIf="metricChanged" class="btn btn-primary" (click)="updateMetrics()">Salvar</button>
       </div>
