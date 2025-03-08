@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Location } from '../../models/location.model'
 import { LocationDetailsService } from '../../services/location-details.service';
+import { getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
 
 @Component({
   selector: 'app-location-item',
@@ -10,12 +11,20 @@ import { LocationDetailsService } from '../../services/location-details.service'
 export class LocationItemComponent {
   @Input() location!: Location;
 
+  metrics: LocationMetrics = getEmptyLocationMetrics();
+
   constructor(private locationDetailsService: LocationDetailsService) { }
 
   openDetails() {
     this.locationDetailsService.openDetailsMenu(this.location.Id ?? 0);
   }
 
+  get formatedPrice(): string {
+    if (this.location.Price > 1000)
+      return (this.location.Price / 1000) + 'K'
+
+    return String(this.location.Price);
+  }
   get shortDescription(): string {
     const maxSize: number = 80;
     if (this.location.Description.length > maxSize)

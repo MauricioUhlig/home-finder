@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Location } from '../models/location.model';
 import { createFullLocation, FullLocation } from '../models/full-location.model';
-import { getEmptyLocation } from '../models/select-option.model'
 import { LocationMetrics } from '../models/location-metrics.model';
 import { Comment } from '../models/comment.model';
 
@@ -46,7 +45,7 @@ export class DataService {
             },
             Size: 64,
             URL: new URL("http://mauriciouhlig.dev.br"),
-            Value: 130000,
+            Price: 130000,
             Images: null
         },
         {
@@ -73,7 +72,7 @@ export class DataService {
             },
             Size: null,
             URL: null,
-            Value: 0,
+            Price: 0,
             Images: null
         },
     ];

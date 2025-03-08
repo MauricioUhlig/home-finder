@@ -109,7 +109,7 @@ body {
 }
 
 .lateral-bar {
-    max-width: 300px;
+    width: 360px;
     z-index: 2;
     overflow: scroll;
     /* scroll hide */
@@ -121,7 +121,7 @@ body {
 }
 
 .lateral-bar .list-item {
-    min-width: 200px;
+    width: 100%;
     margin-top: 10px;
 }
 

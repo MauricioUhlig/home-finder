@@ -1,7 +1,47 @@
-<li (click)="openDetails()" class="list-group-item d-flex justify-content-between align-items-center list-item">
+<!-- <li (click)="openDetails()" class="list-group-item d-flex justify-content-between align-items-center list-item">
     <div>
         <strong>{{location.Title}}</strong>
         <br>
         <small>{{shortDescription}}</small>
     </div>
-</li>
+</li> -->
+
+<div (click)="openDetails()" class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <!-- Title -->
+        <h5 class="card-title">{{ location.Title }}</h5>
+
+        <!-- Description -->
+        <p class="card-text text-muted">{{ shortDescription }}</p>
+
+
+        <!-- Metrics -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <!-- Price -->
+            <h2 class="card-title text-success col-4">R${{ formatedPrice }}</h2>
+            <!-- Security -->
+            <div class="text-center">
+                <i class="fas fa-shield-alt text-primary"></i>
+                <span class="badge bg-primary">{{ metrics.Seguranca }}</span>
+            </div>
+
+            <!-- Neighborhood -->
+            <div class="text-center">
+                <i class="fas fa-people-arrows text-info"></i>
+                <span class="badge bg-info">{{ metrics.Vizinhanca }}</span>
+            </div>
+
+            <!-- Location -->
+            <div class="text-center">
+                <i class="fas fa-map-marker-alt text-warning"></i>
+                <span class="badge bg-warning">{{ metrics.Localicao }}</span>
+            </div>
+
+            <!-- Cost Benefit -->
+            <div class="text-center">
+                <i class="fas fa-coins text-success"></i>
+                <span class="badge bg-success">{{ metrics.CustoBeneficio }}</span>
+            </div>
+        </div>
+    </div>
+</div>

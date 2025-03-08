@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '../../models/location.model';
-import { SelectOption } from '../../models/select-option.model';
 import { Address, getEmptyAddress } from '../../models/address.mode';
 
 @Component({
@@ -18,6 +17,7 @@ export class AddModalComponent implements OnChanges {
   newPoint: Location = {
     Id: 0,
     Title: '',
+    Price: 0,
     Description: '',
     Address: getEmptyAddress(),
     Color: 'blue',

@@ -1,5 +1,4 @@
 import { Marker } from "leaflet"
-import { SelectOption } from "./select-option.model"
 import { Address, getEmptyAddress } from "./address.mode"
 
 export interface Location {
@@ -9,7 +8,8 @@ export interface Location {
     Description: string,
     Color: string | null,
     Marker: Marker | null,
-    Type: string
+    Type: string,
+    Price: number
 }
 
 export function getEmptyLocation(): Location {
@@ -21,5 +21,6 @@ export function getEmptyLocation(): Location {
         Address: getEmptyAddress(),
         Color: null,
         Marker: null,
+        Price: 0,
     }
 }
