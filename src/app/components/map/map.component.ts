@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { Location } from '../../models/location.model';
 import { Address, getEmptyAddress } from '../../models/address.mode';
 import { UtilService } from '../../services/util.service';
+import { LocationDetailsService } from '../../services/location-details.service';
 
 @Component({
   selector: 'app-map',
@@ -16,7 +17,7 @@ export class MapComponent implements AfterViewInit {
   @Input() focusPoint: Address | undefined;
   @Output() addPoint = new EventEmitter<Address>(); // Output for new point coordinates
 
-  constructor(private util: UtilService) { }
+  constructor(private util: UtilService, private locationDetails: LocationDetailsService) { }
 
   private maxZoom: number = 17;
   private initialZoom: number = 15;
@@ -78,6 +79,7 @@ export class MapComponent implements AfterViewInit {
           this.removeCurrentMarker();
         }
       });
+
     }
   }
 
@@ -139,29 +141,29 @@ export class MapComponent implements AfterViewInit {
   }
   addMarkers() {
     this.clearExistingMarkers();
-  
+
     if (this.points) {
       this.points.forEach((point) => {
         point.Marker = this.addPointToMap(point);
       });
     }
   }
-  
+
   addPointToMap(point: Location): L.Marker {
     const marker = L.marker([point.Address.Lat, point.Address.Lng], {
       icon: this.createCustomMarker(point.Color),
     });
-  
+
     marker.bindPopup(this.createPopupContent(point.Title, point.Description));
-  
+
     marker.on('click', () => {
       this.handleMarkerClick(marker, point);
     });
-  
+
     marker.addTo(this.map!);
     return marker;
   }
-  
+
   createCustomMarker(color: string | null = 'blue'): L.Icon {
     return L.icon({
       iconUrl: `images/point-${color ?? 'blue'}.webp`, // Update with your icon path
@@ -170,40 +172,43 @@ export class MapComponent implements AfterViewInit {
       popupAnchor: [0, -34],
     });
   }
-  
+
   createPopupContent(title: string, description: string): string {
-    return `<div class="popup-details"><strong>${title}</strong><br>${description}</div>`;
+    return `<div class="popup-details"><strong>${title}</strong><br>${description}</div>` + this.getExpandButton();
   }
-  
+
   getAddressHtml(address: Address): string {
     return `<strong>${address.Street}</strong><br>${address.District} - ${address.City}<br>${address.CEP}`;
   }
-  
+
   getAddButton(): string {
     return `<br><button class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`;
   }
-  
+  getExpandButton(): string {
+    return `<br><button class="btn btn-outline-primary" id="popup-button"> <i class="fas fa-expand"></i></button>`;
+  }
+
   flyTo(latlng: L.LatLngExpression, zoom: number | null = null) {
     this.map.flyTo(latlng, zoom ?? this.maxZoom);
   }
-  
+
   resetZoom() {
     if (this.selectedMarker) {
       this.flyTo(this.selectedMarker.previousLatLng, this.selectedMarker.previousZoom);
       this.selectedMarker = null;
     }
   }
-  
+
   getZoom(): number {
     return this.map.getZoom();
   }
-  
+
   getCenter(): L.LatLng {
     return this.map.getCenter();
   }
-  
+
   // Helper Methods
-  
+
   private clearExistingMarkers() {
     if (this.map) {
       this.map.eachLayer((layer) => {
@@ -213,14 +218,24 @@ export class MapComponent implements AfterViewInit {
       });
     }
   }
-  
+
   private handleMarkerClick(marker: L.Marker, point: Location) {
     this.selectedMarker = {
       marker,
       previousZoom: this.getZoom(),
       previousLatLng: this.getCenter(),
     };
-  
+    const button = document.getElementById('popup-button');
+
+    button!.addEventListener('click', () => {
+      this.expand(point.Id ?? 0);
+      marker.closePopup();
+    });
+
     this.flyTo([point.Address.Lat, point.Address.Lng]);
+  }
+
+  private expand(id: number) {
+    this.locationDetails.openDetailsMenu(id)
   }
 }
