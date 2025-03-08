@@ -20,7 +20,7 @@ import { CommentListComponent } from '../comment-list/comment-list.component';
 })
 export class DetailsComponent implements OnInit {
   location: FullLocation = getEmptyFullLocation();
-  metrics!: LocationMetrics;
+  metrics: LocationMetrics = getEmptyLocationMetrics();
   isOverlayMode = true;
   resize$: any;
   metricChanged: boolean = false;
