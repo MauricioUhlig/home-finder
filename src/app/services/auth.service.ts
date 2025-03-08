@@ -15,12 +15,13 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) {
         this.autoLogin();
-     }
+    }
 
     // Login method
     login(username: string, password: string) {
-        if (username == 'mauricio' && password == '1234') {
-            let response = { userId: 1, userName: 'Mauricio', token: 'lkj1234kn1234' };
+        let response = this.loginApi(username, password);
+        
+        if (response) {
             this.isAuthenticatedSubject.next(true);
             this.currentUserSubject.next(response); // Store user data
             localStorage.setItem('currentUser', JSON.stringify(response)); // Persist user data
@@ -58,15 +59,15 @@ export class AuthService {
     }
 
     // Get current user ID
-    getCurrentUserId(): number | null {
+    getCurrentUser() {
         const user = this.currentUserSubject.value;
-        return user ? user.userId : null;
+        return user ? user : null;
     }
 
     // Auto-login on app initialization
     autoLogin() {
         const localData = localStorage.getItem('currentUser');
-        if(!localData)
+        if (!localData)
             return;
         const user = JSON.parse(localData);
         console.log(user)
@@ -76,7 +77,27 @@ export class AuthService {
         }
     }
 
-    getToken():string {
+    getToken(): string {
         return '';
+    }
+    /********* Temporário */
+    private users = [
+        {
+            userId: 1,
+            username: 'mauricio',
+            password: '1234',
+            token: 'asdf234v2'
+        },
+        {
+            userId: 2,
+            username: 'hillary',
+            password: '1234',
+            token: 'asddr234543f'
+        },
+    ]
+
+    private loginApi(username: string, password: string) {
+        console.log(username, password)
+        return this.users.find(u => u.username == username && u.password == password);
     }
 }

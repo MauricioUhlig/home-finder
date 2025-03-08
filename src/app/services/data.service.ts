@@ -94,9 +94,9 @@ export class DataService {
         {
             Id: 1,
             LocationId: 1,
-            AuthorId: 101,
+            AuthorId: 1,
             AuthorName: 'Mauricio',
-            Date: '2025-03-07 19:33:15',
+            Date: '07/03/2025 19:33:15',
             Comment: 'Eu gostei desta opção!',
         },
         {
@@ -104,7 +104,7 @@ export class DataService {
             LocationId: 1,
             AuthorId: 102,
             AuthorName: 'Hillary',
-            Date: '2025-03-07 19:35:15',
+            Date: '07/03/2025 19:35:15',
             Comment: 'Achei meio pequeno',
         },
     ];
