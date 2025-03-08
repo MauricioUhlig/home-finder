@@ -128,6 +128,30 @@ export class DataService {
         return this.comments.filter(l => l.LocationId == id)
     }
 
+    async addComment(comment: Comment): Promise<number> {
+        const maxId = this.comments.length > 0 ? Math.max(...this.comments.map((item) => item.Id ?? 0)) : -1;
+        comment.Id = maxId + 1;
+        this.comments.push(comment)
+        await this.delay(300);
+        return maxId
+    }
+    async deleteComment(id: number): Promise<boolean> {
+        this.comments = this.comments.filter((comment) => comment.Id !== id);
+        await this.delay(100);
+        return true;
+    }
+    async updateComment(comment: Comment): Promise<boolean> {
+        const index = this.comments.findIndex((m) => m.Id === comment.Id);
+        await this.delay(100);
+        if (index !== -1) {
+            // Update existing metric
+            this.comments[index] = { ...this.comments[index], ...comment };
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     async add(location: Location): Promise<number> {
         const maxId = this.locations.length > 0 ? Math.max(...this.locations.map((item) => item.Id ?? 0)) : -1;
         location.Id = maxId + 1;

@@ -44,7 +44,7 @@ export class CommentListComponent implements OnInit {
   }
 
   // Submit a new comment
-  onSubmit(): void {
+  async onSubmit() {
     if (this.commentForm.valid) {
       const newComment: Comment = {
         Id: this.comments.length + 1, // Generate a new ID (replace with backend logic)
@@ -55,20 +55,23 @@ export class CommentListComponent implements OnInit {
         Comment: this.commentForm.value.commentText,
       };
 
-      this.comments.push(newComment); // Add the new comment to the list
+      const newId = await this.dataService.addComment(newComment);
+      await this.loadComments()
       this.commentForm.reset(); // Reset the form
     }
   }
 
   // Delete a comment by ID
-  deleteComment(commentId: number): void {
-    this.comments = this.comments.filter((comment) => comment.Id !== commentId);
+  async deleteComment(commentId: number) {
+    await this.dataService.deleteComment(commentId);
+    await this.loadComments();
   }
 
-  editComment(comment: Comment): void {
+  async editComment(comment: Comment) {
     const updatedText = prompt('Edit your comment:', comment.Comment);
     if (updatedText !== null && updatedText.trim() !== '') {
       comment.Comment = updatedText.trim();
+      await this.dataService.updateComment(comment);
     }
   }
 }
