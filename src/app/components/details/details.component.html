@@ -1,13 +1,18 @@
 <div [ngClass]="{ 'overlay-mode': isOverlayMode, 'full-page-mode': !isOverlayMode }">
   <div class="location-details-menu">
     <div class="header">
-      <div>
+      <div class="w-100">
         <h1>{{ location.Title }}</h1>
-        <div class="d-flex">
-          <div class="stars" [style.--rating]="metrics.Estrelas">★★★★★</div>
-          <p>({{metrics.Estrelas}})</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="d-flex ">
+              <div class="stars" [style.--rating]="metrics.Estrelas">★★★★★</div>
+              <p>({{metrics.Estrelas}})</p>
+            </div>
+            <p>{{ location.Type }}</p>
+          </div>
+          <h1 class="card-title text-success"><strong>R${{ formatedPrice }}</strong></h1>
         </div>
-        <p>{{ location.Type }}</p>
       </div>
       <div class="row">
         <div class="col-6"><a (click)="edit()" class="btn btn-sm btn-edit"><i class="fa-solid fa-pen"></i></a></div>

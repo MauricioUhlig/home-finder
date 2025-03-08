@@ -88,4 +88,10 @@ export class DetailsComponent implements OnInit {
     return values.filter(value => value).join(', ');
   }
 
+  get formatedPrice(): string {
+    if (this.location.Price > 1000)
+      return (this.location.Price / 1000) + 'K'
+
+    return String(this.location.Price);
+  }
 }
