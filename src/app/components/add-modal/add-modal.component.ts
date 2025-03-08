@@ -32,7 +32,6 @@ export class AddModalComponent implements OnChanges {
   }
 
   save() {
-    console.log(this.newPoint)
     this.saveEvent.emit(this.newPoint);
   }
 }

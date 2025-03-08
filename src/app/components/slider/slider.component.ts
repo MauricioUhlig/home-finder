@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SliderComponent {
   @Input() value: number = 0;
+  @Output() valueChange = new EventEmitter<number>();
 
   ngOnInit() {
     this.updateSlider();
@@ -34,5 +35,6 @@ export class SliderComponent {
       color = '#28a745'
     }
     this.sliderBackground = `linear-gradient(to right, ${color} ${percentage}%, #ddd ${percentage}%)`;
+    this.valueChange.emit(this.value);
   }
 }

@@ -49,10 +49,15 @@
       <app-map *ngIf="location.Title" [focusPoint]="location.Address" [points]="[location]" [smallSize]="true"
         [mapId]="'map_'+location.Id"></app-map>
     </div>
-    <app-slider [value]="metrics.Seguranca">Segurança</app-slider>
-    <app-slider [value]="metrics.Vizinhanca">Vizinhanca</app-slider>
-    <app-slider [value]="metrics.Localicao">Localicao</app-slider>
-    <app-slider [value]="metrics.CustoBeneficio">Custo Beneficio</app-slider>
+    <div *ngIf="metrics" class="content">
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Seguranca">Segurança</app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Vizinhanca">Vizinhanca</app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Localicao">Localicao</app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.CustoBeneficio">Custo Beneficio</app-slider>
+      <div class="d-flex save-metrics">
+        <button *ngIf="metricChanged" class="btn btn-primary" (click)="updateMetrics()">Salvar</button>
+      </div>
+    </div>
 
     <hr>
     <app-comment-list *ngIf="location.Id" [locationId]="location.Id"></app-comment-list>

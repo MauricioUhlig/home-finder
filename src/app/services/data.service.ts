@@ -80,7 +80,7 @@ export class DataService {
 
     private metrics: LocationMetrics[] = [
         {
-            Id: 0,
+            Id: 1,
             LocationId: 1,
             Seguranca: 8,
             Vizinhanca: 9,
@@ -134,6 +134,19 @@ export class DataService {
         this.locations.push(createFullLocation(location))
         await this.delay(300);
         return maxId
+    }
+
+    async saveMetric(metric: LocationMetrics) {
+        await this.delay(100);
+        const index = this.metrics.findIndex((m) => m.Id === metric.Id);
+
+        if (index !== -1) {
+            // Update existing metric
+            this.metrics[index] = { ...this.metrics[index], ...metric };
+        } else {
+            // Insert new metric
+            this.metrics.push(metric);
+        }
     }
 
     async delay(ms: number) {

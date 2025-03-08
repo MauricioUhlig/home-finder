@@ -20,9 +20,10 @@ import { CommentListComponent } from '../comment-list/comment-list.component';
 })
 export class DetailsComponent implements OnInit {
   location: FullLocation = getEmptyFullLocation();
-  metrics: LocationMetrics = getEmptyLocationMetrics();
+  metrics!: LocationMetrics;
   isOverlayMode = true;
   resize$: any;
+  metricChanged: boolean = false;
 
   constructor(private route: ActivatedRoute, private dataService: DataService, private detailsService: LocationDetailsService, private util: UtilService) { }
 
@@ -38,7 +39,15 @@ export class DetailsComponent implements OnInit {
     });
   }
 
+  metricsChange(){
+    this.metricChanged = true;
+    console.log(this.metrics)
+  }
 
+  updateMetrics(){
+    this.metricChanged = false;
+    this.dataService.saveMetric(this.metrics);
+  }
 
   ngOnDestroy() {
     // Clean up window resize listener
@@ -59,7 +68,6 @@ export class DetailsComponent implements OnInit {
       if (resp !== undefined)
         this.location = resp
 
-      console.log(resp)
       let metrics = await this.dataService.getMetricsByLocationId(resp?.Id!);
       if (metrics !== undefined)
         this.metrics = metrics;

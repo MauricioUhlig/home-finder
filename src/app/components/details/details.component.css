@@ -117,3 +117,9 @@ p {
   background-color: #dc3545;
   color: #fff;
 }
+
+.save-metrics {
+  margin-top: 16px;
+  width: 100%;
+  justify-content: end;
+}
