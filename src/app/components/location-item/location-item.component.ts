@@ -10,9 +10,17 @@ import { LocationDetailsService } from '../../services/location-details.service'
 export class LocationItemComponent {
   @Input() location!: Location;
 
-  constructor(private locationDetailsService: LocationDetailsService){}
+  constructor(private locationDetailsService: LocationDetailsService) { }
 
   openDetails() {
     this.locationDetailsService.openDetailsMenu(this.location.Id ?? 0);
+  }
+
+  get shortDescription(): string {
+    const maxSize: number = 80;
+    if (this.location.Description.length > maxSize)
+      return this.location.Description.substring(0, maxSize) + '...';
+
+    return this.location.Description;
   }
 }
