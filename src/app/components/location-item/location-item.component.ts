@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Location } from '../../models/location.model'
 import { LocationDetailsService } from '../../services/location-details.service';
 import { getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-location-item',
@@ -13,7 +14,11 @@ export class LocationItemComponent {
 
   metrics: LocationMetrics = getEmptyLocationMetrics();
 
-  constructor(private locationDetailsService: LocationDetailsService) { }
+  constructor(private locationDetailsService: LocationDetailsService, private dataService: DataService) { }
+
+  async ngOnInit() {
+    this.metrics = await this.dataService.getMetricsByLocationId(this.location.Id!) ?? getEmptyLocationMetrics();
+  }
 
   openDetails() {
     this.locationDetailsService.openDetailsMenu(this.location.Id ?? 0);

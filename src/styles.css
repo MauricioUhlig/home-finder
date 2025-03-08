@@ -109,7 +109,7 @@ body {
 }
 
 .lateral-bar {
-    width: 360px;
+    width: 380px;
     z-index: 2;
     overflow: scroll;
     /* scroll hide */
