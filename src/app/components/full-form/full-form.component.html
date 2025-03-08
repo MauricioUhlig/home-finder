@@ -1,39 +1,40 @@
 <div [ngClass]="{ 'overlay-mode': isOverlayMode, 'full-page-mode': !isOverlayMode }">
   <div class="form-container">
+    <h2>Edição</h2>
     <form (ngSubmit)="handleSubmit()">
-      <div class="form-group">
-        <label for="title">Titulo<span>*</span></label>
-        <input type="text" id="title" [(ngModel)]="formData.Title" name="title" />
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Insira um titulo"
+          [(ngModel)]="formData.Title" required>
+        <label for="title">Titulo<span class="required">*</span></label>
       </div>
-
-      <div class="form-group">
-        <label for="descricao">Descrição<span>*</span></label>
-        <textarea id="descricao" [(ngModel)]="formData.Description" name="descricao" rows="5" required></textarea>
+      <div class="form-floating mb-3">
+        <textarea id="descricao" [(ngModel)]="formData.Description" class="form-control" name="descricao"
+          style="height: 150px" placeholder="Deixe aqui uma descrição..." required></textarea>
+        <label for="descricao">Descrição<span class="required">*</span></label>
       </div>
-
-      <div class="form-group">
-        <label>Tipo de imóvel<span>*</span></label>
-        <div class="form-inline">
-          <label class="form-check form-check-inline">
-            <input
-              type="radio"
-              class="form-check-input"
-              [(ngModel)]="formData.Type"
-              name="tipo"
-              value="Lote"
-            />
-            Lote
-          </label>
-          <label class="form-check form-check-inline">
-            <input
-              type="radio"
-              class="form-check-input"
-              [(ngModel)]="formData.Type"
-              name="tipo"
-              value="Casa"
-            />
-            Casa
-          </label>
+      <div class="d-flex">
+        <div class="col-6 form-group">
+          <label>Tipo de imóvel<span class="required">*</span></label>
+          <div class="input-group">
+            <label class="form-check form-check-inline">
+              <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Lote" />
+              Lote
+            </label>
+            <label class="form-check form-check-inline">
+              <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Casa" />
+              Casa
+            </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div>
+            <label for="preco">Preço</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input type="number" id="preco" [(ngModel)]="formData.Price" name="preco" class="form-control"
+                aria-label="Amount (to the nearest dollar)">
+            </div>
+          </div>
         </div>
       </div>
 
@@ -41,17 +42,17 @@
 
       <!-- Telefones (Multiple) -->
       <div class="form-group">
-        <label>Telefones:</label>
+        <label>Telefones</label>
         <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
           <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
         </div>
-        <button type="button" (click)="addPhone()" class="btn btn-success">Adicionar Telefone</button>
+        <button type="button" (click)="addPhone()" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
       </div>
 
       <!-- Link (Optional) -->
-      <div class="form-group">
+      <div class="form-floating mb-3">
+        <input type="url" id="link" class="form-control" [(ngModel)]="formData.URL" name="link" />
         <label for="link">Link:</label>
-        <input type="url" id="link" [(ngModel)]="formData.URL" name="link" />
       </div>
 
       <!-- Tamanho (Optional) -->
@@ -59,17 +60,28 @@
         <label for="tamanho">Dimensões:</label>
         <div class="row input-group ">
           <div class="col-4">
-            <label for="dimensoes">Total (m²):</label>
-            <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="number-input" />
+            <label for="dimensoes">Total</label>
+            <div class="input-group">
+              <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="form-control t-end"
+                aria-label="Tamanho total">
+              <span class="input-group-text">m²</span>
+            </div>
           </div>
           <div class="col-4">
-            <label for="frente">Frente (m):</label>
-            <input type="number" id="frente" [(ngModel)]="formData.Dimensions.Front" name="frente"
-              class="number-input" />
+            <label for="frente">Frente</label>
+            <div class="input-group">
+              <input type="number" id="frente" class="form-control t-end" [(ngModel)]="formData.Dimensions.Front"
+                name="frente" />
+              <span class="input-group-text">m</span>
+            </div>
           </div>
           <div class="col-4">
-            <label for="fundo">Fundo (m):</label>
-            <input type="number" id="fundo" [(ngModel)]="formData.Dimensions.Deep" name="fundo" class="number-input" />
+            <label for="fundo">Fundo</label>
+            <div class="input-group">
+              <input type="number" id="fundo" class="form-control t-end" [(ngModel)]="formData.Dimensions.Deep"
+                name="fundo" />
+              <span class="input-group-text">m</span>
+            </div>
           </div>
         </div>
       </div>

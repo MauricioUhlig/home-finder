@@ -1,32 +1,33 @@
-  /* .phone-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  } */
+label {
+    margin-left: 10px;
+    font-weight: normal;
+}
 
-  label {
-      font-weight: normal;
-  }
+.phone-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-  .phone-input {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-  }
+.phone-input input {
+    flex: 1;
+    margin-right: 8px;
+}
 
-  .phone-input input {
-      flex: 1;
-      margin-right: 10px;
-  }
-
-  @media (max-width: 576px) {
-    .d-xs-none {
-        display: none;
+@media (max-width: 576px) {
+    .button-contaner {
+        display: block !important;
+        margin-bottom: 16px;
     }
-    .btn {
-        margin-top: 8px;
-    }
+}
+
+.button-contaner {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    /* Centers vertically */
+    justify-content: center;
+    /* Centers horizontally (optional) */
+    height: 100%;
+    /* Full viewport height */
 }

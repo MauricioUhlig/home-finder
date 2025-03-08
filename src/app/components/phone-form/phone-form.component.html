@@ -1,15 +1,14 @@
 <div class="phone-container row">
-  <div class="col-sm-5 col-xs-12">
+  <div class="form-floating mb-3 col-sm-5 col-xs-12">
+    <input type="text" class="form-control" placeholder="Nome do contato" [(ngModel)]="phone.Name" [name]="'phone.name' + index" required />
     <label>Nome</label>
-    <input type="text" placeholder="Nome do contato" [(ngModel)]="phone.Name" [name]="'phone.name' + index" required />
   </div>
-  <div class="col-sm-4 col-xs-8">
+  <div class="form-floating mb-3 col-sm-5 col-xs-8">
+    <input type="tel" class="form-control" placeholder="(00) 0 0000-0000 " [(ngModel)]="phone.Phone" [name]="'phone.phone' + index"
+    required />
     <label>Número</label>
-    <input type="tel" placeholder="(00) 0 0000-0000 " [(ngModel)]="phone.Phone" [name]="'phone.phone' + index"
-      required />
   </div>
-  <div class="col-sm-3 col-xs-4">
-    <label class="d-xs-none"><br/></label>
-    <button type="button" (click)="removePhone(index)" class="btn btn-danger">Remover</button>
+  <div class="button-contaner col-sm-2 col-xs-4">
+    <button type="button" (click)="removePhone(index)" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
   </div>
 </div>

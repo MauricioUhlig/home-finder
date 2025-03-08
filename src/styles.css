@@ -193,6 +193,14 @@ textarea {
     mask: url('/images/location-add-dark.svg') no-repeat center;
 }
 
+.phone-plus {
+    display: block;
+    width: 16px;
+    height: 16px;
+    color: white;
+    -webkit-mask: url('/images/phone-plus.svg') no-repeat center;
+    mask: url('/images/phone-plus.svg') no-repeat center;
+}
 
 .overlay-mode {
     overflow: scroll;
