@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Comment } from '../../models/comment.model';
 import { CommonModule } from '@angular/common';
@@ -28,12 +28,19 @@ export class CommentListComponent implements OnInit {
     // Load initial comments (you can replace this with an API call)
     this.loadComments();
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['locationId']) {
+      this.loadComments();
+    }
+  }
 
   // Load initial comments (mock data)
   async loadComments() {
     let commtens = await this.dataService.getCommentsByLocationId(this.locationId);
     if (commtens)
       this.comments = commtens
+    else
+      this.comments = []
   }
 
   // Submit a new comment
