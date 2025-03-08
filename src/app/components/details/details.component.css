@@ -19,29 +19,13 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
+.header .row {
+  margin-right: 0px;
+}
+
 .header h2 {
   margin: 0;
   font-size: 18px;
-}
-
-.button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  text-decoration: none;
-  /* Removes underline */
-  color: inherit;
-  /* Uses the text color of the parent element */
-}
-
-.edit {
-  color: var(--bs-info);
-  font-size: 20px;
-}
-
-.close {
-  color: var(--bs-danger);
 }
 
 .content {
@@ -113,4 +97,23 @@ p {
 
 .stars {
   --rating: 0;
+}
+
+.btn-edit,
+.btn-xmark {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-xmark {
+  background-color: #dc3545;
+  color: #fff;
 }
