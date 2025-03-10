@@ -43,3 +43,5 @@ Thumbs.db
 
 # My files
 */.env
+/backend/tmp
+#/backend/.air.toml

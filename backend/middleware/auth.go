@@ -30,7 +30,7 @@ func AuthMiddleware() gin.HandlerFunc {
             c.Abort()
             return
         }
-
+        
         claims := token.Claims.(jwt.MapClaims)
         c.Set("userID", claims["userID"])
         c.Set("role", claims["role"])
