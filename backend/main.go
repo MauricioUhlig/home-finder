@@ -17,12 +17,13 @@ func main() {
 
     r := gin.Default()
 
-    r.POST("/register", controllers.Register)
+    
     r.POST("/login", controllers.Login)
 
     auth := r.Group("/auth")
     auth.Use(middleware.AuthMiddleware())
     {
+        auth.POST("/register", controllers.Register)
         auth.GET("/profile", controllers.Profile)
     }
 
