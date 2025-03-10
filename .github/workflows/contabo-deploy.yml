@@ -25,7 +25,7 @@ jobs:
 
       
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: cd frontend && npm run build -- --configuration production
 
       
       - name: Deploy to Linux server
@@ -34,5 +34,5 @@ jobs:
           host: ${{ secrets.SSH_HOST }} # Server IP or hostname
           username: ${{ secrets.SSH_USERNAME }} # SSH username
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "dist/home-finder/browser/*" # Path to built Angular files
+          source: "frontend/dist/home-finder/browser/*" # Path to built Angular files
           target: "/home/containers_volume/nginx/www" # Target directory on the server
