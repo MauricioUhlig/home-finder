@@ -1,15 +1,19 @@
 package controllers
 
 import (
-    "net/http"
-    "github.com/MauricioUhlig/home-finder/models"
-    "github.com/MauricioUhlig/home-finder/database"
-    "github.com/gin-gonic/gin"
+	"net/http"
+	"time"
+
+	"github.com/MauricioUhlig/home-finder/database"
+	"github.com/MauricioUhlig/home-finder/models"
+	"github.com/gin-gonic/gin"
 )
 
 // CreateComment creates a new comment with the AuthorID from JWT claims
 func CreateComment(c *gin.Context) {
     var comment models.Comment
+
+    comment.Date = time.Now().UTC()
 
     // Bind JSON input to the Comment struct
     if err := c.ShouldBindJSON(&comment); err != nil {
