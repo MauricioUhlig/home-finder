@@ -4,15 +4,20 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "18"
+    },
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "latest"
     }
   },
   "postCreateCommand": "npm install -g @angular/cli && npm install",
-  "forwardPorts": [4200],
+  "forwardPorts": [4200, 8080], // Added 8080 for Golang API
   "customizations": {
     "vscode": {
       "extensions": [
-        "angular.ng-template",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "golang.go",
+        "PKief.material-icon-theme",
+        "Angular.ng-template"
       ]
     }
   }
