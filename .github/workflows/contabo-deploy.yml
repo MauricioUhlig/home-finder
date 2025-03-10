@@ -20,12 +20,8 @@ jobs:
         with:
           node-version: 18 # Use the Node.js version compatible with your Angular app
       
-      - name: cd frontend
-        run: cd frontend 
-      
-      
       - name: Install dependencies
-        run: npm install
+        run: cd frontend && npm install
 
       
       - name: Build Angular app
