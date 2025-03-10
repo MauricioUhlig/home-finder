@@ -2,3 +2,23 @@
     width: 100%;
     height: 100%;
 }
+
+.full-size {
+    width: calc(100vi - 380px);
+    position: absolute !important;
+    top: 0px;
+    left: 0px;
+}
+
+.small-size {
+    position: relative !important;
+    border-radius: 5px;
+    height: 100%;
+}
+
+@media (min-width: 880px) {
+    .full-size {
+        left: 380px;
+        width: calc(100vi - 380px) !important;
+    }
+}

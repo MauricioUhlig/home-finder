@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { Location } from '../../models/location.model';
-import { Address, getEmptyAddress } from '../../models/address.mode';
+import { Address } from '../../models/address.mode';
 import { UtilService } from '../../services/util.service';
 import { LocationDetailsService } from '../../services/location-details.service';
 

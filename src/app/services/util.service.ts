@@ -6,7 +6,7 @@ import { Address, getEmptyAddress } from '../models/address.mode';
     providedIn: 'root', // Provided in the root injector (singleton)
 })
 export class UtilService {
-    private screenWidth$ = new BehaviorSubject<boolean>(window.innerWidth < 700);
+    private screenWidth$ = new BehaviorSubject<boolean>(window.innerWidth < 880);
 
     constructor() {
         window.addEventListener('resize', () => {
