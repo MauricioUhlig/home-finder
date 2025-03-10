@@ -118,6 +118,7 @@ body {
     -ms-overflow-style: none;
     /* Internet Explorer 10+ */
     height: 100vh;
+    background-color: #afeeeea2 !important;
 }
 
 .lateral-bar .list-item {
