@@ -61,5 +61,5 @@ func Login(c *gin.Context) {
 
 func Profile(c *gin.Context) {
 
-    c.JSON(http.StatusOK, gin.H{"message": "Successful test!"})
+    c.JSON(http.StatusOK, gin.H{"message": "Successful tested!"})
 }
