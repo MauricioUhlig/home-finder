@@ -59,7 +59,9 @@ export class DataService {
       const response = await firstValueFrom(
         this.http.get<{ data: any[] }>(`${this.apiUrl}/comments/location/${id}`)
       );
-      return response.data.map(comment =>  comment = { ...comment, Date: new Date(comment.Date).toLocaleString('pt-br')})
+      if(response.data)
+        return response.data.map(comment =>  comment = { ...comment, Date: new Date(comment.Date).toLocaleString('pt-br')})
+      return undefined
     } catch (error) {
       console.error('Error fetching comments:', error);
       throw error;
@@ -70,13 +72,13 @@ export class DataService {
   async addComment(comment: Comment): Promise<number> {
     try {
       const response = await firstValueFrom(
-        this.http.post<{ data: Comment }>(`${this.apiUrl}/comments/`, comment, {
+        this.http.post<{ data: number }>(`${this.apiUrl}/comments/`, comment, {
           headers: { 'Content-Type': 'application/json' },
         })
       );
 
-      if (response.data.ID) {
-        return response.data.ID; // Success
+      if (response.data) {
+        return response.data; // Success
       } else {
         throw new Error('Invalid response from server');
       }

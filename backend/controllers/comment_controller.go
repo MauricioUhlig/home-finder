@@ -54,7 +54,7 @@ func (ctrl *commentController) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"data": gin.H{"id": comment.ID}})
+	c.JSON(http.StatusCreated, gin.H{"data": comment.ID})
 }
 
 // GetCommentsByLocationID retrieves all comments for a specific location
