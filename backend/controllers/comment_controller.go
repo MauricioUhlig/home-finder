@@ -14,7 +14,7 @@ type commentPayload struct {
 	LocationID uint
 	Comment    string
 	AuthorID   uint8
-	Author     string
+	AuthorName string
 	Date       *time.Time
 }
 type commentController struct{}
@@ -54,7 +54,7 @@ func (ctrl *commentController) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated,gin.H{"data": gin.H{"id": comment.ID}})
+	c.JSON(http.StatusCreated, gin.H{"data": gin.H{"id": comment.ID}})
 }
 
 // GetCommentsByLocationID retrieves all comments for a specific location
@@ -64,7 +64,7 @@ func (ctrl *commentController) GetByLocationID(c *gin.Context) {
 
 	// Fetch comments by LocationID
 	if err := database.DB.Model(&models.Comment{}).
-		Select("comments.id, comments.location_id, comments.comment, comments.date, users.id as author_id, users.username as author").
+		Select("comments.id, comments.location_id, comments.comment, comments.date, users.id as author_id, users.username as author_name").
 		Joins("LEFT JOIN users ON users.id = comments.author_id").
 		Where("comments.location_id = ?", locationID).
 		Scan(&comments).Error; err != nil {

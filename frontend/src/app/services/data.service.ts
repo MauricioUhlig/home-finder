@@ -59,18 +59,7 @@ export class DataService {
       const response = await firstValueFrom(
         this.http.get<{ data: any[] }>(`${this.apiUrl}/comments/location/${id}`)
       );
-
-      // Map the API response to the Comment interface
-      const comments: Comment[] = response.data.map(item => ({
-        ID: item.ID,
-        LocationId: item.LocationID,
-        AuthorId: item.User.ID,
-        AuthorName: item.User.Username, // Extract the author's name from the nested `user` object
-        Date: item.Date,
-        Comment: item.Comment,
-      }));
-
-      return comments;
+      return response.data;
     } catch (error) {
       console.error('Error fetching comments:', error);
       throw error;
