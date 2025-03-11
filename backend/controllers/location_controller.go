@@ -62,7 +62,7 @@ func (ctrl *locationController) GetByID(c *gin.Context) {
 	id := c.Param("id")
 
 	// Fetch the location by ID
-	if err := database.DB.Preload("Phones").Preload("Images").Preload("Comments").Preload("Metrics").First(&location, id).Error; err != nil {
+	if err := database.DB.Preload("Phones").Preload("Images").First(&location, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
 		return
 	}
@@ -114,32 +114,4 @@ func (ctrl *locationController) Delete(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Location deleted successfully"})
-}
-
-func (ctrl *locationController) MapLocationsTolocationCompact(locations []models.Location) []locationCompact {
-	var payloads []locationCompact
-
-	for _, location := range locations {
-		payload := ctrl.MapLocationTolocationCompact(location)
-		payloads = append(payloads, payload)
-	}
-
-	return payloads
-}
-
-func (ctrl *locationController) MapLocationTolocationCompact(location models.Location) locationCompact {
-	return locationCompact{
-		ID: location.ID,
-		Address: struct {
-			Lat float64
-			Lng float64
-		}{
-			Lat: location.Address.Lat,
-			Lng: location.Address.Lng,
-		},
-		Title:       location.Title,
-		Description: location.Description,
-		Color:       location.Color,
-		Price:       location.Price,
-	}
 }

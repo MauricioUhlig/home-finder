@@ -46,7 +46,6 @@ func main() {
 	{
 		commentRoutes.POST("/", controllers.CommentController.Create)
 		commentRoutes.GET("/location/:locationId", controllers.CommentController.GetByLocationID)
-		commentRoutes.GET("/:id", controllers.CommentController.GetByID)
 		commentRoutes.PUT("/:id", controllers.CommentController.Update)
 		commentRoutes.DELETE("/:id", controllers.CommentController.Delete)
 	}

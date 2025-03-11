@@ -7,18 +7,15 @@ import (
 	"github.com/MauricioUhlig/home-finder/database"
 	"github.com/MauricioUhlig/home-finder/models"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type commentPayload struct {
 	ID         *uint
 	LocationID uint
 	Comment    string
-	User       *struct {
-		ID       uint8
-		Username string
-	}
-	Date *time.Time
+	AuthorID   uint8
+	Author     string
+	Date       *time.Time
 }
 type commentController struct{}
 
@@ -57,39 +54,24 @@ func (ctrl *commentController) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"data": ctrl.MapCommentToPayload(comment)})
+	c.JSON(http.StatusCreated,gin.H{"data": gin.H{"id": comment.ID}})
 }
 
 // GetCommentsByLocationID retrieves all comments for a specific location
 func (ctrl *commentController) GetByLocationID(c *gin.Context) {
-	var comments []models.Comment
+	var comments []commentPayload
 	locationID := c.Param("locationId")
 
 	// Fetch comments by LocationID
-	if err := database.DB.Preload("User",
-		func(db *gorm.DB) *gorm.DB {
-			return db.Select("ID, Username")
-		}).Where("location_id = ?", locationID).Find(&comments).Error; err != nil {
+	if err := database.DB.Model(&models.Comment{}).
+		Select("comments.id, comments.location_id, comments.comment, comments.date, users.id as author_id, users.username as author").
+		Joins("LEFT JOIN users ON users.id = comments.author_id").
+		Where("comments.location_id = ?", locationID).
+		Scan(&comments).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch comments"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": ctrl.MapCommentsToPayload(comments)})
-}
-
-// GetCommentByID retrieves a comment by its ID
-func (ctrl *commentController) GetByID(c *gin.Context) {
-	var comment models.Comment
-	id := c.Param("id")
-
-	// Fetch the comment by ID
-	if err := database.DB.Preload("User", func(db *gorm.DB) *gorm.DB {
-		return db.Select("ID, Username")
-	}).First(&comment, id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Comment not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": ctrl.MapCommentToPayload(comment)})
+	c.JSON(http.StatusOK, gin.H{"data": comments})
 }
 
 // UpdateComment updates an existing comment
@@ -115,7 +97,7 @@ func (ctrl *commentController) Update(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": ctrl.MapCommentToPayload(comment)})
+	c.JSON(http.StatusOK, gin.H{"data": true})
 }
 
 // DeleteComment deletes a comment by its ID
@@ -136,31 +118,4 @@ func (ctrl *commentController) Delete(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Comment deleted successfully"})
-}
-
-func (ctrl *commentController) MapCommentsToPayload(comments []models.Comment) []commentPayload {
-	var payloads []commentPayload
-
-	for _, comment := range comments {
-		payload := ctrl.MapCommentToPayload(comment)
-		payloads = append(payloads, payload)
-	}
-
-	return payloads
-}
-
-func (ctrl *commentController) MapCommentToPayload(comment models.Comment) commentPayload {
-	return commentPayload{
-		ID:         &comment.ID,
-		LocationID: comment.LocationID,
-		Comment:    comment.Comment,
-		User: &struct {
-			ID       uint8
-			Username string
-		}{
-			ID:       comment.User.ID,
-			Username: comment.User.Username,
-		},
-		Date: &comment.Date,
-	}
 }
