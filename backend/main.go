@@ -45,7 +45,7 @@ func main() {
 	commentRoutes.Use(middleware.AuthMiddleware())
 	{
 		commentRoutes.POST("/", controllers.CreateComment)
-		commentRoutes.GET("/location/:id", controllers.GetCommentsByLocationID)
+		commentRoutes.GET("/location/:locationId", controllers.GetCommentsByLocationID)
 		commentRoutes.GET("/:id", controllers.GetCommentByID)
 		commentRoutes.PUT("/:id", controllers.UpdateComment)
 		commentRoutes.DELETE("/:id", controllers.DeleteComment)
