@@ -61,6 +61,13 @@ func main() {
 		locationRoutes.PUT("/:id", controllers.UpdateLocation)
 		locationRoutes.DELETE("/:id", controllers.DeleteLocation)
 	}
+	// Location routes
+	metricsRoutes := api.Group("/metrics")
+	metricsRoutes.Use(middleware.AuthMiddleware())
+	{
+		metricsRoutes.GET("/location/", controllers.GetMetricsByLocationID)
+		metricsRoutes.POST("/:id", controllers.UpdateMetrics)
+	}
 	// admin := r.Group("/admin")
 	// admin.Use(middleware.AuthMiddleware(), middleware.RoleMiddleware("admin"))
 	// {
