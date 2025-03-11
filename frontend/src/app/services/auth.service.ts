@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { LoginRequest, LoginResponse } from '../models/login.model';
 
 @Injectable({
     providedIn: 'root',
@@ -10,39 +12,47 @@ export class AuthService {
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
     public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-    private currentUserSubject = new BehaviorSubject<any>(null);
+    private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
+    private apiUrl = 'https://sturdy-space-computing-machine-vpq6x57grwwcww7x-8080.app.github.dev/api/login';
     public currentUser$ = this.currentUserSubject.asObservable();
 
     constructor(private http: HttpClient, private router: Router) {
         this.autoLogin();
     }
 
-    // Login method
-    login(username: string, password: string) {
-        let response = this.loginApi(username, password);
-        
-        if (response) {
-            this.isAuthenticatedSubject.next(true);
-            this.currentUserSubject.next(response); // Store user data
-            localStorage.setItem('currentUser', JSON.stringify(response)); // Persist user data
-            this.router.navigate(['/']); // Redirect to home page
+  // Login method
+  async login(username: string, password: string) {
+    const payload: LoginRequest = { username, password };
+    try {
+        const response = await fetch(this.apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        else
-            alert('Falha de login');
-        // return this.http.post<any>('https://your-api-url.com/login', { username, password }).subscribe({
-        //   next: (response) => {
-        //     if (response.userId) {
-        //       this.isAuthenticatedSubject.next(true);
-        //       this.currentUserSubject.next(response); // Store user data
-        //       localStorage.setItem('currentUser', JSON.stringify(response)); // Persist user data
-        //       this.router.navigate(['/']); // Redirect to home page
-        //     }
-        //   },
-        //   error: (error) => {
-        //     console.error('Login failed:', error);
-        //   },
-        // });
-    }
+    
+        const data = await response.json();
+    
+        if (data.userId) {
+          // Handle successful login
+          localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
+          console.log('Login successful:', data);
+          this.router.navigate(['/']); // Redirect to home page
+          // Redirect or update state as needed
+        } else {
+          throw new Error('Invalid response from server');
+        }
+      } catch (error) {
+        console.error('Login failed:', error);
+        // Handle error (e.g., show error message to the user)
+      }
+  }
+
 
     // Logout method
     logout() {
@@ -78,7 +88,7 @@ export class AuthService {
     }
 
     getToken(): string {
-        return '';
+        return this.getCurrentUser()?.token ?? '';
     }
     /********* Temporário */
     private users = [

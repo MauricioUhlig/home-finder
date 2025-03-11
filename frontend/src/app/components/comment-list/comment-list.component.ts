@@ -50,7 +50,7 @@ export class CommentListComponent implements OnInit {
         Id: this.comments.length + 1, // Generate a new ID (replace with backend logic)
         LocationId: this.locationId,
         AuthorId: this.user.userId, // Replace with logged-in user ID
-        AuthorName: this.user.username, // Replace with logged-in user name
+        AuthorName: this.user.userName, // Replace with logged-in user name
         Date: new Date().toLocaleString('pt-BR').replace('T', ' '), // Current date
         Comment: this.commentForm.value.commentText,
       };

@@ -1,10 +1,13 @@
 package main
 
 import (
+	"time"
+
 	"github.com/MauricioUhlig/home-finder/config"
 	"github.com/MauricioUhlig/home-finder/controllers"
 	"github.com/MauricioUhlig/home-finder/database"
 	"github.com/MauricioUhlig/home-finder/middleware"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +19,17 @@ func main() {
 	//database.Migrate()
 
 	r := gin.Default()
-    api := r.Group("/api")
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // Replace with your Angular app's URL
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	api := r.Group("/api")
 
 	api.POST("/login", controllers.Login)
 
@@ -29,7 +42,7 @@ func main() {
 
 	// Comment routes
 	commentRoutes := api.Group("/comments")
-    commentRoutes.Use(middleware.AuthMiddleware())
+	commentRoutes.Use(middleware.AuthMiddleware())
 	{
 		commentRoutes.POST("/", controllers.CreateComment)
 		commentRoutes.GET("/location/:id", controllers.GetCommentsByLocationID)
@@ -40,7 +53,7 @@ func main() {
 
 	// Location routes
 	locationRoutes := api.Group("/locations")
-    locationRoutes.Use(middleware.AuthMiddleware())
+	locationRoutes.Use(middleware.AuthMiddleware())
 	{
 		locationRoutes.POST("/", controllers.CreateLocation)
 		locationRoutes.GET("/", controllers.GetAllLocations)

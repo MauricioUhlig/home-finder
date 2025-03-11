@@ -9,6 +9,7 @@ import { Comment } from '../models/comment.model';
 })
 export class DataService {
     public isLoading: boolean = false;
+    private apiURL = "https://sturdy-space-computing-machine-vpq6x57grwwcww7x-8080.app.github.dev/api"
     constructor() { }
 
     private locations: FullLocation[] = [
@@ -123,8 +124,16 @@ export class DataService {
     }
 
     async getCommentsByLocationId(id: number): Promise<Comment[] | undefined> {
-        await this.delay(300);
-        return this.comments.filter(l => l.LocationId == id)
+        // await this.delay(300);
+        // return this.comments.filter(l => l.LocationId == id)
+        const response = await fetch(this.apiURL + '/comments/location/'+ id, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+        return response.json()
     }
 
     async addComment(comment: Comment): Promise<number> {
