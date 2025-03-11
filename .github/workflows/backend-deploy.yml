@@ -61,3 +61,4 @@ jobs:
             cd /home/containers_volume/nginx/www/backend
             chmod +x homefinder
             ./homefinder &
+            echo "ready!"
