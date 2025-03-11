@@ -6,8 +6,8 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <div class="d-flex ">
-              <div class="stars" [style.--rating]="metrics.Estrelas">★★★★★</div>
-              <p>({{metrics.Estrelas}})</p>
+              <div class="stars" [style.--rating]="metrics.Stars">★★★★★</div>
+              <p>({{metrics.Stars}})</p>
             </div>
             <p>{{ location.Type }}</p>
           </div>
@@ -55,10 +55,10 @@
         [mapId]="'map_'+location.ID"></app-map>
     </div>
     <div *ngIf="metrics" class="content">
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Seguranca"><i class="fas fa-shield-alt text-primary"></i></app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Vizinhanca"><i class="fas fa-people-arrows text-info"></i></app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.Localicao"><i class="fas fa-map-marker-alt text-warning"></i></app-slider>
-      <app-slider (change)="metricsChange()" [(value)]="metrics.CustoBeneficio"><i class="fas fa-coins text-success"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Safety"><i class="fas fa-shield-alt text-primary"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Neighborhood"><i class="fas fa-people-arrows text-info"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.Location"><i class="fas fa-map-marker-alt text-warning"></i></app-slider>
+      <app-slider (change)="metricsChange()" [(value)]="metrics.CustBenefit"><i class="fas fa-coins text-success"></i></app-slider>
       <div class="d-flex save-metrics">
         <button *ngIf="metricChanged" class="btn btn-primary" (click)="updateMetrics()">Salvar</button>
       </div>

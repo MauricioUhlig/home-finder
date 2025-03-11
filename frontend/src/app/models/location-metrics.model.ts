@@ -1,22 +1,22 @@
 export interface LocationMetrics {
     ID: number,
-    LocationId: number,
-    Estrelas: number,
-    Localicao: number,
-    Vizinhanca: number,
-    Seguranca: number,
-    CustoBeneficio: number,
+    LocationID: number,
+    Stars: number,
+    Location: number,
+    Neighborhood: number,
+    Safety: number,
+    CustBenefit: number,
 }
 
 export function getEmptyLocationMetrics(): LocationMetrics {
     return {
         ID: 0,
-        LocationId: 0,
-        Estrelas: 0,
-        Localicao: 0,
-        Vizinhanca: 0,
-        Seguranca: 0,
-        CustoBeneficio: 0
+        LocationID: 0,
+        Stars: 0,
+        Location: 0,
+        Neighborhood: 0,
+        Safety: 0,
+        CustBenefit: 0
     }
 }
 
@@ -24,6 +24,6 @@ export function getEmptyLocationMetrics(): LocationMetrics {
 export function createEmptyLocationMetrics(locationId: number): LocationMetrics {
     return {
         ... getEmptyLocationMetrics(),
-        LocationId: locationId
+        LocationID: locationId
     }
 }

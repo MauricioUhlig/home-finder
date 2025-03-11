@@ -157,7 +157,7 @@ export class DataService {
   async saveMetric(metric: LocationMetrics): Promise<boolean> {
     try {
       const response = await firstValueFrom(
-        this.http.post<{ data: LocationMetrics }>(`${this.apiUrl}/metrics/${metric.LocationId}`, metric, {
+        this.http.post<{ data: LocationMetrics }>(`${this.apiUrl}/metrics/${metric.LocationID}`, metric, {
           headers: { 'Content-Type': 'application/json' },
         })
       );

@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
   }
 
   updateMetrics(){
-    this.metrics.LocationId = this.location.ID!;
+    this.metrics.LocationID = this.location.ID!;
     this.metricChanged = false;
     this.dataService.saveMetric(this.metrics);
   }

@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// GetByLocationID retrieves metrics by LocationID
 func GetMetricsByLocationID(c *gin.Context) {
 	locationID := c.Param("locationID")
 
@@ -24,7 +23,7 @@ func GetMetricsByLocationID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, metrics)
+	c.JSON(http.StatusOK, gin.H{"data": metrics})
 }
 
 // Update updates or inserts metrics (upsert)
@@ -52,7 +51,7 @@ func UpdateMetrics(c *gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusOK, existingMetrics)
+		c.JSON(http.StatusOK, gin.H{"data": existingMetrics})
 		return
 	} else if result.Error == gorm.ErrRecordNotFound {
 		// Insert new metrics
