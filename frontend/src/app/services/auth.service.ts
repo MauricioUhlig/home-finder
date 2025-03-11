@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/login.model';
 
 @Injectable({
@@ -13,7 +12,7 @@ export class AuthService {
     public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
     private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
-    private apiUrl = 'https://sturdy-space-computing-machine-vpq6x57grwwcww7x-8080.app.github.dev/api/login';
+    private apiUrl = 'http://mauriciouhlig.dev.br:8080/api/login';
     public currentUser$ = this.currentUserSubject.asObservable();
 
     constructor(private http: HttpClient, private router: Router) {

@@ -9,7 +9,7 @@ import { Comment } from '../models/comment.model';
 })
 export class DataService {
     public isLoading: boolean = false;
-    private apiURL = "https://sturdy-space-computing-machine-vpq6x57grwwcww7x-8080.app.github.dev/api"
+    private apiURL = "http://mauriciouhlig.dev.br:8080/api"
     constructor() { }
 
     private locations: FullLocation[] = [
