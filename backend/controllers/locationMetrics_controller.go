@@ -60,7 +60,7 @@ func UpdateMetrics(c *gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusCreated, input)
+		c.JSON(http.StatusCreated, gin.H{"data": input})
 		return
 	} else {
 		// Handle other errors
