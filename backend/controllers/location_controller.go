@@ -6,6 +6,7 @@ import (
 	"github.com/MauricioUhlig/home-finder/database"
 	"github.com/MauricioUhlig/home-finder/models"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type locationController struct{}
@@ -72,28 +73,51 @@ func (ctrl *locationController) GetByID(c *gin.Context) {
 
 // UpdateLocation updates an existing location
 func (ctrl *locationController) Update(c *gin.Context) {
-	var location models.Location
+	var inputLocation models.Location
 	id := c.Param("id")
 
-	// Fetch the location by ID
-	if err := database.DB.First(&location, id).Error; err != nil {
+	// Fetch the existing location by ID
+	var existingLocation models.Location
+	if err := database.DB.Preload("Phones").First(&existingLocation, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
 		return
 	}
 
-	// Bind JSON input to the Location struct
-	if err := c.ShouldBindJSON(&location); err != nil {
+	// Bind JSON input to the inputLocation struct
+	if err := c.ShouldBindJSON(&inputLocation); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Save the updated location
-	if err := database.DB.Save(&location).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update location"})
+	// Update the location fields (excluding nested associations)
+	existingLocation.Title = inputLocation.Title
+	existingLocation.Description = inputLocation.Description
+	existingLocation.Color = inputLocation.Color
+	existingLocation.Type = inputLocation.Type
+	existingLocation.Price = inputLocation.Price
+	existingLocation.Dimensions = inputLocation.Dimensions
+	existingLocation.Size = inputLocation.Size
+	existingLocation.URL = inputLocation.URL
+	existingLocation.Address = inputLocation.Address
+
+	// Handle Phones
+	if err := updatePhones(database.DB, &existingLocation, inputLocation.Phones); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
 		return
 	}
+	database.DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Save(&existingLocation).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update location"})
+			return err
+		}
+		if err := tx.Save(&existingLocation.Phones).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
+			return err
+		}
+		return nil
+	})
 
-	c.JSON(http.StatusOK, gin.H{"data": location})
+	c.JSON(http.StatusOK, gin.H{"data": existingLocation})
 }
 
 // DeleteLocation deletes a location by its ID
@@ -114,4 +138,40 @@ func (ctrl *locationController) Delete(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Location deleted successfully"})
+}
+
+func updatePhones(db *gorm.DB, location *models.Location, inputPhones []models.Phone) error {
+	// Create a map of input phones for quick lookup
+	inputPhoneMap := make(map[uint]models.Phone)
+	for _, phone := range inputPhones {
+		if phone.ID != 0 { // Only consider phones with an existing ID
+			inputPhoneMap[phone.ID] = phone
+		}
+	}
+
+	// Iterate over existing phones in reverse order
+	for i := len(location.Phones) - 1; i >= 0; i-- {
+		existingPhone := location.Phones[i]
+		if inputPhone, exists := inputPhoneMap[existingPhone.ID]; exists {
+			// Update the existing phone
+			location.Phones[i].Name = inputPhone.Name
+			location.Phones[i].Phone = inputPhone.Phone
+		} else {
+			// Delete the phone if it's not in the input
+			if err := db.Delete(&existingPhone).Error; err != nil {
+				return err
+			}
+			// Remove the phone from the location's Phones slice
+			location.Phones = append(location.Phones[:i], location.Phones[i+1:]...)
+		}
+	}
+
+	// Add new phones
+	for _, inputPhone := range inputPhones {
+		if inputPhone.ID == 0 { // New phone (ID is 0 or not set)
+			location.Phones = append(location.Phones, inputPhone)
+		}
+	}
+
+	return nil
 }

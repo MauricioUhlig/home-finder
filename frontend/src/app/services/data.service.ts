@@ -141,6 +141,31 @@ export class DataService {
       return -1; // Error
     }
   }
+  
+   async update(location: FullLocation): Promise<number> {
+    try {
+        const payload: Location = 
+        {
+            ...location, 
+            Marker: null,
+        }
+      const response = await firstValueFrom(
+        this.http.put<{ data: Location }>(`${this.apiUrl}/locations/${location.ID}`, payload, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
+
+      if (response.data.ID) {
+        return response.data.ID; // Success
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error) {
+      console.error('Error adding location:', error);
+      return -1; // Error
+    }
+  }
+
 
   // Save or update location metrics
   async saveMetric(metric: LocationMetrics): Promise<boolean> {

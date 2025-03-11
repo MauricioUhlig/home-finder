@@ -89,7 +89,17 @@ export class FullFormComponent {
   }
 
   // Handle form submission
-  handleSubmit() {
-    this.submitEvent.emit(this.formData);
+  async handleSubmit() {
+    try {
+      const id = await this.dataService.update(this.formData)
+      if(id)
+        this.close();
+
+      else
+        alert('Erro ao salvar')
+    } catch {
+      alert('Erro ao salvar')
+    }
   }
+
 }

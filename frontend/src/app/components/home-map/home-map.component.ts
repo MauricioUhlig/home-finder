@@ -79,8 +79,4 @@ export class HomeMapComponent implements AfterViewInit {
     this.address = getEmptyAddress();
     this.isAddButtonDisabled = true;
   }
-
-  handleFormSubmit(form: any) {
-
-  }
 }
