@@ -17,11 +17,11 @@ export class LocationItemComponent {
   constructor(private locationDetailsService: LocationDetailsService, private dataService: DataService) { }
 
   async ngOnInit() {
-    this.metrics = await this.dataService.getMetricsByLocationId(this.location.Id!) ?? getEmptyLocationMetrics();
+    this.metrics = await this.dataService.getMetricsByLocationId(this.location.ID!) ?? getEmptyLocationMetrics();
   }
 
   openDetails() {
-    this.locationDetailsService.openDetailsMenu(this.location.Id ?? 0);
+    this.locationDetailsService.openDetailsMenu(this.location.ID ?? 0);
   }
 
   get formatedPrice(): string {

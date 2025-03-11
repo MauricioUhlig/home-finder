@@ -19,32 +19,32 @@ export class AuthService {
         this.autoLogin();
     }
 
-  // Login method
-  async login(username: string, password: string) {
-    const payload: LoginRequest = { username, password };
-    try {
-      this.http.post<any>(this.apiUrl, payload, { headers: { 'Content-Type': 'application/json' } })
-      .subscribe({
-        next: (data) => {
-          if (data.userId) {
-            // Handle successful login
-            localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
-            console.log('Login successful:', data);
-            this.router.navigate(['/']); // Redirect to home page
-          } else {
-            throw new Error('Invalid response from server');
-          }
-        },
-        error: (error) => {
-          console.error(`HTTP error! Status: ${error.status}`, error);
-        }
-      });
-    
+    async login(username: string, password: string) {
+      const payload: LoginRequest = { username, password };
+      try {
+        this.http.post<LoginResponse>(this.apiUrl, payload, { headers: { 'Content-Type': 'application/json' } })
+          .subscribe({
+            next: (data) => {
+              if (data.userId) {
+                // Handle successful login
+                localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
+                this.isAuthenticatedSubject.next(true); // Update authentication state
+                this.currentUserSubject.next(data); // Update current user
+                console.log('Login successful:', data);
+                this.router.navigate(['/']); // Redirect to home page
+              } else {
+                throw new Error('Invalid response from server');
+              }
+            },
+            error: (error) => {
+              console.error(`HTTP error! Status: ${error.status}`, error);
+            }
+          });
       } catch (error) {
         console.error('Login failed:', error);
         // Handle error (e.g., show error message to the user)
       }
-  }
+    }
 
 
     // Logout method
@@ -82,25 +82,5 @@ export class AuthService {
 
     getToken(): string {
         return this.getCurrentUser()?.token ?? '';
-    }
-    /********* Temporário */
-    private users = [
-        {
-            userId: 1,
-            username: 'mauricio',
-            password: '1234',
-            token: 'asdf234v2'
-        },
-        {
-            userId: 2,
-            username: 'hillary',
-            password: '1234',
-            token: 'asddr234543f'
-        },
-    ]
-
-    private loginApi(username: string, password: string) {
-        console.log(username, password)
-        return this.users.find(u => u.username == username && u.password == password);
     }
 }

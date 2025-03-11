@@ -1,5 +1,5 @@
 export interface LocationMetrics {
-    Id: number,
+    ID: number,
     LocationId: number,
     Estrelas: number,
     Localicao: number,
@@ -10,7 +10,7 @@ export interface LocationMetrics {
 
 export function getEmptyLocationMetrics(): LocationMetrics {
     return {
-        Id: 0,
+        ID: 0,
         LocationId: 0,
         Estrelas: 0,
         Localicao: 0,

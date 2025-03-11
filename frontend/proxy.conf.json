@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "http://mauriciouhlig.dev.br:8080",
+      "target": "http://mauriciouhlig.dev.br",
       "secure": false,
       "changeOrigin": true
     }

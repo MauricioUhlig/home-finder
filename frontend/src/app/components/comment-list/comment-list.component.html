@@ -11,7 +11,7 @@
             <button (click)="editComment(comment)" class="btn btn-sm btn-edit" *ngIf="comment.AuthorId === user.userId">
               <i class="fa-solid fa-pen"></i>
             </button>
-            <button (click)="deleteComment(comment.Id)" class="btn btn-sm btn-delete" *ngIf="comment.AuthorId === user.userId">
+            <button (click)="deleteComment(comment.ID!)" class="btn btn-sm btn-delete" *ngIf="comment.AuthorId === user.userId">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>

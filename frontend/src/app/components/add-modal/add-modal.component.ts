@@ -15,7 +15,7 @@ export class AddModalComponent implements OnChanges {
   @Output() saveEvent = new EventEmitter<any>();
 
   newPoint: Location = {
-    Id: 0,
+    ID: 0,
     Title: '',
     Price: 0,
     Description: '',

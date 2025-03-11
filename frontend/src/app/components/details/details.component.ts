@@ -55,7 +55,7 @@ export class DetailsComponent implements OnInit {
   }
 
   edit(): void {
-    this.detailsService.openEditMenu(this.location.Id!)
+    this.detailsService.openEditMenu(this.location.ID!)
   }
 
   closeMenu(): void {
@@ -68,11 +68,11 @@ export class DetailsComponent implements OnInit {
       if (resp !== undefined)
         this.location = resp
 
-      let metrics = await this.dataService.getMetricsByLocationId(resp?.Id!);
+      let metrics = await this.dataService.getMetricsByLocationId(resp?.ID!);
       if (metrics !== undefined)
         this.metrics = metrics;
       else
-        this.metrics = createEmptyLocationMetrics(resp?.Id!)
+        this.metrics = createEmptyLocationMetrics(resp?.ID!)
     }
   }
 

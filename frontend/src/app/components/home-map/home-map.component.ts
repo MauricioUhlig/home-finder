@@ -71,7 +71,8 @@ export class HomeMapComponent implements AfterViewInit {
     
     newPoint.Color = 'blue'
     newPoint.Marker = this.map.addPointToMap(newPoint);
-    await this.dataService.add(newPoint);
+    newPoint.ID  = await this.dataService.add(newPoint);
+    this.points?.push(newPoint);
   }
 
   clear() {

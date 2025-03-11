@@ -2,7 +2,7 @@ import { Marker } from "leaflet"
 import { Address, getEmptyAddress } from "./address.mode"
 
 export interface Location {
-    Id: number | null,
+    ID: number | null,
     Address: Address,
     Title: string,
     Description: string,
@@ -14,7 +14,7 @@ export interface Location {
 
 export function getEmptyLocation(): Location {
     return {
-        Id: 0,
+        ID: 0,
         Title: '',
         Description: '',
         Type: 'Lote',

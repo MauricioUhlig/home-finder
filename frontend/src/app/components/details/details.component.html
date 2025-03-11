@@ -52,7 +52,7 @@
     </div>
     <div class="map-box">
       <app-map *ngIf="location.Title" [focusPoint]="location.Address" [points]="[location]" [smallSize]="true"
-        [mapId]="'map_'+location.Id"></app-map>
+        [mapId]="'map_'+location.ID"></app-map>
     </div>
     <div *ngIf="metrics" class="content">
       <app-slider (change)="metricsChange()" [(value)]="metrics.Seguranca"><i class="fas fa-shield-alt text-primary"></i></app-slider>
@@ -65,6 +65,6 @@
     </div>
 
     <hr>
-    <app-comment-list *ngIf="location.Id" [locationId]="location.Id"></app-comment-list>
+    <app-comment-list *ngIf="location.ID" [locationId]="location.ID"></app-comment-list>
 
   </div>

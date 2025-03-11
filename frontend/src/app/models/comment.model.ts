@@ -1,5 +1,5 @@
 export interface Comment {
-    Id: number,
+    ID: number | null,
     LocationId: number,
     AuthorId: number,
     AuthorName: string,

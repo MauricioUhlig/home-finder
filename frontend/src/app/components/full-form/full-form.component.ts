@@ -85,7 +85,7 @@ export class FullFormComponent {
   }
 
   close(): void {
-    this.detailsService.closeEditMenu(this.formData.Id);
+    this.detailsService.closeEditMenu(this.formData.ID);
   }
 
   // Handle form submission

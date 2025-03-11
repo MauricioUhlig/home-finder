@@ -228,7 +228,7 @@ export class MapComponent implements AfterViewInit {
     const button = document.getElementById('popup-button');
 
     button!.addEventListener('click', () => {
-      this.expand(point.Id ?? 0);
+      this.expand(point.ID ?? 0);
       marker.closePopup();
     });
 

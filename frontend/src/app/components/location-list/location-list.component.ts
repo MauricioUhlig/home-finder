@@ -26,7 +26,7 @@ export class LocationListComponent implements OnInit, OnDestroy {
     this.resize$ = this.util.isSmallScreen().subscribe((small) => {
       this.isSmallScreen = small;
     });
-
+    console.log('points',this.points)
   }
 
   ngOnDestroy() {

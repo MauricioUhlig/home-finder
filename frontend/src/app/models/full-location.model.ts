@@ -5,7 +5,7 @@ import { Location } from "./location.model"
 import { getEmptyPhone, Phone } from "./phone.model"
 
 export interface FullLocation extends Location {
-    Id: number | null,
+    ID: number | null,
     Phones: Phone[] | null,
     Dimensions: Dimensions,
     Size: number | null
@@ -16,7 +16,7 @@ export interface FullLocation extends Location {
 
 export function getEmptyFullLocation(): FullLocation {
     return {
-        Id: 0,
+        ID: 0,
         Title: '',
         Address: getEmptyAddress(),
         Phones: [getEmptyPhone()],
