@@ -41,7 +41,6 @@ export class DetailsComponent implements OnInit {
 
   metricsChange(){
     this.metricChanged = true;
-    console.log(this.metrics)
   }
 
   updateMetrics(){

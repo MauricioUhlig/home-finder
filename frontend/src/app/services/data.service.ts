@@ -18,7 +18,7 @@ export class DataService {
   async getAllLocations(): Promise<FullLocation[]> {
     try {
       const response = await firstValueFrom(
-        this.http.get<{ data: FullLocation[] }>(`${this.apiUrl}/locations`)
+        this.http.get<{ data: FullLocation[] }>(`${this.apiUrl}/locations/`)
       );
       return response.data;
     } catch (error) {
@@ -81,7 +81,7 @@ export class DataService {
   async addComment(comment: Comment): Promise<number> {
     try {
       const response = await firstValueFrom(
-        this.http.post<{ data: Comment }>(`${this.apiUrl}/comments`, comment, {
+        this.http.post<{ data: Comment }>(`${this.apiUrl}/comments/`, comment, {
           headers: { 'Content-Type': 'application/json' },
         })
       );

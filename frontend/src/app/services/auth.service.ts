@@ -30,7 +30,6 @@ export class AuthService {
                 localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
                 this.isAuthenticatedSubject.next(true); // Update authentication state
                 this.currentUserSubject.next(data); // Update current user
-                console.log('Login successful:', data);
                 this.router.navigate(['/']); // Redirect to home page
               } else {
                 throw new Error('Invalid response from server');
@@ -73,7 +72,6 @@ export class AuthService {
         if (!localData)
             return;
         const user = JSON.parse(localData);
-        console.log(user)
         if (user) {
             this.isAuthenticatedSubject.next(true);
             this.currentUserSubject.next(user);
