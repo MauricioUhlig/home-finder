@@ -22,7 +22,7 @@ jobs:
 
       # Build the Go application
       - name: Build Go app
-        run: go build -o homefinder
+        run: cd backend && go build -o homefinder
 
       # Stop the running application
       - name: Stop existing app
