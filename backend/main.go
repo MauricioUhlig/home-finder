@@ -44,22 +44,22 @@ func main() {
 	commentRoutes := api.Group("/comments")
 	commentRoutes.Use(middleware.AuthMiddleware())
 	{
-		commentRoutes.POST("/", controllers.CreateComment)
-		commentRoutes.GET("/location/:locationId", controllers.GetCommentsByLocationID)
-		commentRoutes.GET("/:id", controllers.GetCommentByID)
-		commentRoutes.PUT("/:id", controllers.UpdateComment)
-		commentRoutes.DELETE("/:id", controllers.DeleteComment)
+		commentRoutes.POST("/", controllers.CommentController.Create)
+		commentRoutes.GET("/location/:locationId", controllers.CommentController.GetByLocationID)
+		commentRoutes.GET("/:id", controllers.CommentController.GetByID)
+		commentRoutes.PUT("/:id", controllers.CommentController.Update)
+		commentRoutes.DELETE("/:id", controllers.CommentController.Delete)
 	}
 
 	// Location routes
 	locationRoutes := api.Group("/locations")
 	locationRoutes.Use(middleware.AuthMiddleware())
 	{
-		locationRoutes.POST("/", controllers.CreateLocation)
-		locationRoutes.GET("/", controllers.GetAllLocations)
-		locationRoutes.GET("/:id", controllers.GetLocationByID)
-		locationRoutes.PUT("/:id", controllers.UpdateLocation)
-		locationRoutes.DELETE("/:id", controllers.DeleteLocation)
+		locationRoutes.POST("/", controllers.LocationController.Create)
+		locationRoutes.GET("/", controllers.LocationController.GetAll)
+		locationRoutes.GET("/:id", controllers.LocationController.GetByID)
+		locationRoutes.PUT("/:id", controllers.LocationController.Update)
+		locationRoutes.DELETE("/:id", controllers.LocationController.Delete)
 	}
 	// Location routes
 	metricsRoutes := api.Group("/metrics")
@@ -68,11 +68,6 @@ func main() {
 		metricsRoutes.GET("/location/:locationID", controllers.GetMetricsByLocationID)
 		metricsRoutes.POST("/:id", controllers.UpdateMetrics)
 	}
-	// admin := r.Group("/admin")
-	// admin.Use(middleware.AuthMiddleware(), middleware.RoleMiddleware("admin"))
-	// {
-	//     admin.GET("/dashboard", controllers.AdminDashboard)
-	// }
 
 	r.Run(":8080")
 }

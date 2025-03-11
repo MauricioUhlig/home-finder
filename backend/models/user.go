@@ -12,6 +12,6 @@ type User struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Username  string         `gorm:"unique;not null"`
-	Password  string         `gorm:"not null"`
+	Password  string         `gorm:"not null" json:"-"`
 	Role      string         `gorm:"not null"`
 }
