@@ -105,8 +105,9 @@
 
       <div class="row">
         <div class="col align-self-end">
+          <a (click)="handleDelete()" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> Excluir</a>
+          <a (click)="close()" class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i> Cancelar</a>
           <a (click)="handleSubmit()" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
-          <a (click)="close()" class="btn btn-outline-danger"><i class="fa-solid fa-ban"></i> Cancelar</a>
         </div>
       </div>
     </form>

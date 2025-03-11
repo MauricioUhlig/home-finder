@@ -166,6 +166,15 @@ export class DataService {
     }
   }
 
+  async delete(id: number): Promise<boolean> {
+    try {
+      await firstValueFrom(this.http.delete(`${this.apiUrl}/locations/${id}`));
+      return true;
+    } catch (error) {
+      console.error(`Error deleting location with ID ${id}:`, error);
+      return false;
+    }
+  }
 
   // Save or update location metrics
   async saveMetric(metric: LocationMetrics): Promise<boolean> {

@@ -5,7 +5,7 @@ import { AddressComponent } from '../address/address.component';
 import { FullLocation, getEmptyFullLocation } from '../../models/full-location.model';
 import { getEmptyPhone } from '../../models/phone.model';
 import { PhoneFormComponent } from '../phone-form/phone-form.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { LocationDetailsService } from '../../services/location-details.service';
 import { UtilService } from '../../services/util.service';
@@ -23,7 +23,7 @@ export class FullFormComponent {
   resize$: any;
 
 
-  constructor(private route: ActivatedRoute, private dataService: DataService, private detailsService: LocationDetailsService, private util: UtilService) { }
+  constructor(private route: ActivatedRoute, private dataService: DataService, private detailsService: LocationDetailsService, private util: UtilService, private router: Router) { }
 
   async ngOnInit() {
     this.resize$ = this.util.isSmallScreen().subscribe((small) => {
@@ -94,6 +94,14 @@ export class FullFormComponent {
 
   close(): void {
     this.detailsService.closeEditMenu(this.formData.ID);
+  }
+
+  async handleDelete() {
+    const resp = prompt('Digite "SIM" para apagar:');
+    if (resp !== null && resp.trim() == 'SIM') {
+      await this.dataService.delete(this.formData.ID!);
+      this.router.navigate(['/']); // Redirect to home page
+    }
   }
 
   // Handle form submission
