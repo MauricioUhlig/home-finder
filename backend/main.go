@@ -65,7 +65,7 @@ func main() {
 	metricsRoutes := api.Group("/metrics")
 	metricsRoutes.Use(middleware.AuthMiddleware())
 	{
-		metricsRoutes.GET("/location/:id", controllers.GetMetricsByLocationID)
+		metricsRoutes.GET("/location/:locationID", controllers.GetMetricsByLocationID)
 		metricsRoutes.POST("/:id", controllers.UpdateMetrics)
 	}
 	// admin := r.Group("/admin")
