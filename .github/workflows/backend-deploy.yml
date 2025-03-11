@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: "backend/homefinder"
-          target: "/var/www/homefinder"
+          target: "/home/containers_volume/nginx/www/"
 
       # Restart the application
       - name: Restart application
@@ -58,6 +58,6 @@ jobs:
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             export DB_NAME=${{ secrets.DB_NAME }}
             export JWT_SECRET=${{ secrets.JWT_SECRET }}
-            cd /var/www/homefinder
+            cd /home/containers_volume/nginx/www/backend
             chmod +x homefinder
             ./homefinder &
