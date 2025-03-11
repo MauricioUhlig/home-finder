@@ -68,11 +68,15 @@ export class DetailsComponent implements OnInit {
       if (resp !== undefined)
         this.location = resp
 
-      let metrics = await this.dataService.getMetricsByLocationId(resp?.ID!);
-      if (metrics !== undefined)
-        this.metrics = metrics;
-      else
+      try {
+        let metrics = await this.dataService.getMetricsByLocationId(resp?.ID!);
+        if (metrics !== undefined)
+          this.metrics = metrics;
+        else
+          this.metrics = createEmptyLocationMetrics(resp?.ID!)
+      } catch (error) {
         this.metrics = createEmptyLocationMetrics(resp?.ID!)
+      }
     }
   }
 

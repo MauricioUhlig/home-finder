@@ -31,10 +31,11 @@
             <label for="preco">Preço</label>
             <div class="input-group">
               <span class="input-group-text">R$</span>
-              <input type="number" id="preco" [(ngModel)]="formData.Price" name="preco" class="form-control"
-                aria-label="Amount (to the nearest dollar)">
+              <input type="text" id="preco" [(ngModel)]="formatedPrice" name="preco" class="form-control"
+                aria-label="Preço do imóvel">
             </div>
           </div>
+          
         </div>
       </div>
 

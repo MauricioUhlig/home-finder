@@ -59,7 +59,7 @@ export class DataService {
       const response = await firstValueFrom(
         this.http.get<{ data: any[] }>(`${this.apiUrl}/comments/location/${id}`)
       );
-      return response.data;
+      return response.data.map(comment =>  comment = { ...comment, Date: new Date(comment.Date).toLocaleString('pt-br')})
     } catch (error) {
       console.error('Error fetching comments:', error);
       throw error;

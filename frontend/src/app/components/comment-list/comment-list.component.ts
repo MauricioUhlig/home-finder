@@ -22,6 +22,7 @@ export class CommentListComponent {
       commentText: ['', [Validators.required, Validators.minLength(1)]],
     });
     this.user = auth.getCurrentUser();
+    console.log(this.user)
   }
 
   // ngOnInit(): void {
@@ -48,8 +49,8 @@ export class CommentListComponent {
     if (this.commentForm.valid) {
       const newComment: Comment = {
         ID: null,
-        LocationId: this.locationId,
-        AuthorId: this.user.userId, // Replace with logged-in user ID
+        LocationID: this.locationId,
+        AuthorID: this.user.userId, // Replace with logged-in user ID
         AuthorName: this.user.userName, // Replace with logged-in user name
         Date: new Date().toISOString(), // Current date
         Comment: this.commentForm.value.commentText,

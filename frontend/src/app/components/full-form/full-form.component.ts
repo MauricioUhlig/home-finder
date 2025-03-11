@@ -38,6 +38,14 @@ export class FullFormComponent {
   }
 
   formData: FullLocation = getEmptyFullLocation()
+  get formatedPrice(): string {
+    // Add the dot as thousands separator
+    return this.formData.Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  set formatedPrice(value: string) {
+    const price = Number(value.toString().replace(/[^\d]+/g, ''))
+    this.formData.Price = price;
+  }
 
   async getLocation(locationId: any) {
     if (locationId && Number(locationId)) {
