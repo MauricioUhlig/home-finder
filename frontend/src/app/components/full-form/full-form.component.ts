@@ -68,24 +68,16 @@ export class FullFormComponent {
   }
 
   // Handle image upload
-  handleImageUpload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      const files = Array.from(input.files);
-      for (let file of files) {
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          if (e.target?.result) {
-            if (this.formData.Images)
-              this.formData.Images!.push({ File: file, URL: e.target.result as string });
-            else
-              this.formData.Images = [{ File: file, URL: e.target.result as string }]
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+  async handleImageUpload(event: any) {
+    const tempFile = event.target.files[0];
+    const uri = await this.dataService.uploadFile(tempFile);
+    
+    if (this.formData.Images)
+      this.formData.Images!.push({ ID: null, URL: uri});
+    else
+      this.formData.Images = [{ ID: null, URL: uri}]
   }
+  
 
   // Remove an image
   removeImage(index: number) {

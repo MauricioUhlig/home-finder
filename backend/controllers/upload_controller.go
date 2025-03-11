@@ -37,5 +37,5 @@ func UploadFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": filename, "uri": utils.UploadDir+"/"+filename})
+	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": filename, "uri":"/api/files/temp/"+filename})
 }

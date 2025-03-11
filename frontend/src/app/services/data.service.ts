@@ -197,4 +197,13 @@ export class DataService {
       return false;
     }
   }
+
+  async uploadFile(file: any): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await firstValueFrom(this.http.post<{ message: string; filename: string, uri: string }>(`${this.apiUrl}/files/upload`, formData))
+    if(response.uri)
+      return response.uri
+    return ''
+  }
 }

@@ -1,4 +1,4 @@
 export interface Image {
-    File: File,
+    ID: number | null,
     URL: string
 }
