@@ -12,7 +12,7 @@ export class AuthService {
     public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
     private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
-    private apiUrl = 'http://mauriciouhlig.dev.br:8080/api/login';
+    private apiUrl = '/api/login';
     public currentUser$ = this.currentUserSubject.asObservable();
 
     constructor(private http: HttpClient, private router: Router) {
@@ -23,29 +23,23 @@ export class AuthService {
   async login(username: string, password: string) {
     const payload: LoginRequest = { username, password };
     try {
-        const response = await fetch(this.apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-    
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+      this.http.post<any>(this.apiUrl, payload, { headers: { 'Content-Type': 'application/json' } })
+      .subscribe({
+        next: (data) => {
+          if (data.userId) {
+            // Handle successful login
+            localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
+            console.log('Login successful:', data);
+            this.router.navigate(['/']); // Redirect to home page
+          } else {
+            throw new Error('Invalid response from server');
+          }
+        },
+        error: (error) => {
+          console.error(`HTTP error! Status: ${error.status}`, error);
         }
+      });
     
-        const data = await response.json();
-    
-        if (data.userId) {
-          // Handle successful login
-          localStorage.setItem('currentUser', JSON.stringify(data)); // Store user data
-          console.log('Login successful:', data);
-          this.router.navigate(['/']); // Redirect to home page
-          // Redirect or update state as needed
-        } else {
-          throw new Error('Invalid response from server');
-        }
       } catch (error) {
         console.error('Login failed:', error);
         // Handle error (e.g., show error message to the user)

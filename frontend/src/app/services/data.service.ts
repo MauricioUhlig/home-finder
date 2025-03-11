@@ -3,14 +3,16 @@ import { Location } from '../models/location.model';
 import { createFullLocation, FullLocation } from '../models/full-location.model';
 import { LocationMetrics } from '../models/location-metrics.model';
 import { Comment } from '../models/comment.model';
+import { firstValueFrom } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root', // Provided in the root injector (singleton)
 })
 export class DataService {
     public isLoading: boolean = false;
-    private apiURL = "http://mauriciouhlig.dev.br:8080/api"
-    constructor() { }
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
     private locations: FullLocation[] = [
         {
@@ -126,14 +128,13 @@ export class DataService {
     async getCommentsByLocationId(id: number): Promise<Comment[] | undefined> {
         // await this.delay(300);
         // return this.comments.filter(l => l.LocationId == id)
-        const response = await fetch(this.apiURL + '/comments/location/'+ id, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-        return response.json()
+        try {
+            const comments = await firstValueFrom(this.http.get<any[]>(`/api/comments/location/${id}`, { headers: this.headers()}));
+            return comments;
+          } catch (error) {
+            console.error('Error fetching comments:', error);
+            throw error;
+          }
     }
 
     async addComment(comment: Comment): Promise<number> {
@@ -183,5 +184,12 @@ export class DataService {
 
     async delay(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    headers():HttpHeaders {
+     return new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+this.authService.getToken() // Add any additional headers as needed
+      });
     }
 }
