@@ -116,18 +116,22 @@ func (ctrl *locationController) Update(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update location"})
 			return err
 		}
-		if err := tx.Save(&existingLocation.Phones).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
-			return err
+		if len(existingLocation.Phones) > 0 {
+			if err := tx.Save(&existingLocation.Phones).Error; err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
+				return err
+			}
 		}
-		if err := tx.Save(&existingLocation.Images).Error; err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update images"})
-			return err
+		if len(existingLocation.Images) > 0 {
+			if err := tx.Save(&existingLocation.Images).Error; err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update images"})
+				return err
+			}
 		}
 		return nil
 	})
 
-	go utils.MoveFileAndUpdate(existingLocation.Images)
+	utils.MoveFileAndUpdate(existingLocation.Images)
 
 	c.JSON(http.StatusOK, gin.H{"data": existingLocation})
 }
