@@ -33,6 +33,7 @@ func main() {
 	}))
 
 	api := r.Group("/api")
+	api.Static("/files", utils.FilesDir)
 
 	api.POST("/login", controllers.Login)
 
@@ -75,7 +76,6 @@ func main() {
 	fileRoutes.Use(middleware.AuthMiddleware())
 	{
 		fileRoutes.POST("/upload", controllers.UploadFile)
-		fileRoutes.Static("/", utils.FilesDir)
 	}
 
 	r.Run(":8080")
