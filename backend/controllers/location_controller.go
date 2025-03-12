@@ -5,6 +5,7 @@ import (
 
 	"github.com/MauricioUhlig/home-finder/database"
 	"github.com/MauricioUhlig/home-finder/models"
+	"github.com/MauricioUhlig/home-finder/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -78,7 +79,7 @@ func (ctrl *locationController) Update(c *gin.Context) {
 
 	// Fetch the existing location by ID
 	var existingLocation models.Location
-	if err := database.DB.Preload("Phones").First(&existingLocation, id).Error; err != nil {
+	if err := database.DB.Preload("Phones").Preload("Images").First(&existingLocation, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
 		return
 	}
@@ -105,6 +106,11 @@ func (ctrl *locationController) Update(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
 		return
 	}
+	if err := updateImages(database.DB, &existingLocation, inputLocation.Images); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update images"})
+		return
+	}
+
 	database.DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Save(&existingLocation).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update location"})
@@ -114,8 +120,14 @@ func (ctrl *locationController) Update(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update phones"})
 			return err
 		}
+		if err := tx.Save(&existingLocation.Images).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update images"})
+			return err
+		}
 		return nil
 	})
+
+	go utils.MoveFileAndUpdate(existingLocation.Images)
 
 	c.JSON(http.StatusOK, gin.H{"data": existingLocation})
 }
@@ -172,6 +184,38 @@ func updatePhones(db *gorm.DB, location *models.Location, inputPhones []models.P
 			location.Phones = append(location.Phones, inputPhone)
 		}
 	}
+
+	return nil
+}
+
+func updateImages(db *gorm.DB, location *models.Location, inputImages []models.Image) error {
+	inputImageMap := make(map[uint]models.Image)
+	for _, image := range inputImages {
+		if image.ID != 0 { // Only consider images with an existing ID
+			inputImageMap[image.ID] = image
+		}
+	}
+
+	// Iterate over existing images in reverse order
+	for i := len(location.Images) - 1; i >= 0; i-- {
+		existingImage := location.Images[i]
+		if _, exists := inputImageMap[existingImage.ID]; !exists {
+			// Delete the image if it's not in the input
+			if err := db.Delete(&existingImage).Error; err != nil {
+				return err
+			}
+			// Remove the image from the location's Phones slice
+			location.Images = append(location.Images[:i], location.Images[i+1:]...)
+		}
+	}
+
+	// Add new phones
+	for _, inputImage := range inputImages {
+		if inputImage.ID == 0 { // New phone (ID is 0 or not set)
+			location.Images = append(location.Images, inputImage)
+		}
+	}
+
 
 	return nil
 }

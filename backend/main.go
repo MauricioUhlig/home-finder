@@ -17,11 +17,11 @@ func main() {
 	database.Connect()
 
 	// Run migrations
-	//database.Migrate()
+	// database.Migrate()
 
 	r := gin.Default()
 	
-	go utils.CleanupOldFiles()
+	// go utils.CleanupOldFiles()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"}, // Replace with your Angular app's URL
