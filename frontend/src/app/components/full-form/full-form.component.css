@@ -122,3 +122,21 @@ a {
 .t-end {
   text-align: end;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  padding: 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header .row {
+  margin-right: 0px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+}

@@ -1,115 +1,118 @@
 <div [ngClass]="{ 'overlay-mode': isOverlayMode, 'full-page-mode': !isOverlayMode }">
   <div class="form-container">
-    <h2>Edição</h2>
-    <form (ngSubmit)="handleSubmit()">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="title" name="title" placeholder="Insira um titulo"
-          [(ngModel)]="formData.Title" required>
-        <label for="title">Titulo<span class="required">*</span></label>
+    <div class="header">
+      <div class="w-100">
+        <h2>Edição</h2>
       </div>
-      <div class="form-floating mb-3">
-        <textarea id="descricao" [(ngModel)]="formData.Description" class="form-control" name="descricao"
-          style="height: 150px" placeholder="Deixe aqui uma descrição..." required></textarea>
-        <label for="descricao">Descrição<span class="required">*</span></label>
-      </div>
-      <div class="d-flex">
-        <div class="col-6 form-group">
-          <label>Tipo de imóvel<span class="required">*</span></label>
-          <div class="input-group">
-            <label class="form-check form-check-inline">
-              <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Lote" />
-              Lote
-            </label>
-            <label class="form-check form-check-inline">
-              <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Casa" />
-              Casa
-            </label>
-          </div>
-        </div>
-        <div class="col-6">
-          <div>
-            <label for="preco">Preço</label>
-            <div class="input-group">
-              <span class="input-group-text">R$</span>
-              <input type="text" id="preco" [(ngModel)]="formatedPrice" name="preco" class="form-control"
-                aria-label="Preço do imóvel">
-            </div>
-          </div>
-          
-        </div>
-      </div>
-
-      <app-address [endereco]="formData.Address"></app-address>
-
-      <!-- Telefones (Multiple) -->
-      <div class="form-group">
-        <label>Telefones</label>
-        <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
-          <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
-        </div>
-        <button type="button" (click)="addPhone()" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
-      </div>
-
-      <!-- Link (Optional) -->
-      <div class="form-floating mb-3">
-        <input type="url" id="link" class="form-control" [(ngModel)]="formData.URL" name="link" />
-        <label for="link">Link:</label>
-      </div>
-
-      <!-- Tamanho (Optional) -->
-      <div class="form-group">
-        <label for="tamanho">Dimensões:</label>
-        <div class="row input-group ">
-          <div class="col-4">
-            <label for="dimensoes">Total</label>
-            <div class="input-group">
-              <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="form-control t-end"
-                aria-label="Tamanho total">
-              <span class="input-group-text">m²</span>
-            </div>
-          </div>
-          <div class="col-4">
-            <label for="frente">Frente</label>
-            <div class="input-group">
-              <input type="number" id="frente" class="form-control t-end" [(ngModel)]="formData.Dimensions.Front"
-                name="frente" />
-              <span class="input-group-text">m</span>
-            </div>
-          </div>
-          <div class="col-4">
-            <label for="fundo">Fundo</label>
-            <div class="input-group">
-              <input type="number" id="fundo" class="form-control t-end" [(ngModel)]="formData.Dimensions.Deep"
-                name="fundo" />
-              <span class="input-group-text">m</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Imagens (Multiple) -->
-      <div class="form-group">
-        <label>Imagens:</label>
-        <div *ngIf="formData.Images?.length" class="image-preview">
-          <div *ngFor="let image of formData.Images; let index = index" class="image-item">
-            <img [src]="image.URL" alt="Preview" />
-            <button type="button" (click)="removeImage(index)"><i class="fa-solid fa-trash remove-image"></i></button>
-          </div>
-        </div>
-        <div class="input-group custom-file-button">
-          <label class="btn btn-secondary" for="inputGroupFile"><i class="fa-solid fa-file-import"></i> Imagens</label>
-          <input type="file" id="inputGroupFile" multiple (change)="handleImageUpload($event)" accept="image/*"
-            aria-describedby="inputGroupFile" aria-label="Upload" aria-placeholder="Upload de imagens" />
-        </div>
-      </div>
-
       <div class="row">
-        <div class="col align-self-end">
-          <a (click)="handleDelete()" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> Excluir</a>
-          <a (click)="close()" class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i> Cancelar</a>
-          <a (click)="handleSubmit()" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Salvar</a>
-        </div>
+        <div class="col-4"><a (click)="handleSubmit()" class="btn btn-sm btn-primary"><i class="fa-solid fa-floppy-disk"></i></a></div>
+        <div class="col-4"><a (click)="handleDelete()" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-trash"></i></a></div>
+        <div class="col-4"><a (click)="close()" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-xmark"></i></a></div>
       </div>
-    </form>
+    </div>
+    <div class="content">
+      <form (ngSubmit)="handleSubmit()">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="title" name="title" placeholder="Insira um titulo"
+            [(ngModel)]="formData.Title" required>
+          <label for="title">Titulo<span class="required">*</span></label>
+        </div>
+        <div class="form-floating mb-3">
+          <textarea id="descricao" [(ngModel)]="formData.Description" class="form-control" name="descricao"
+            style="height: 150px" placeholder="Deixe aqui uma descrição..." required></textarea>
+          <label for="descricao">Descrição<span class="required">*</span></label>
+        </div>
+        <div class="d-flex">
+          <div class="col-6 form-group">
+            <label>Tipo de imóvel<span class="required">*</span></label>
+            <div class="input-group">
+              <label class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Lote" />
+                Lote
+              </label>
+              <label class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Casa" />
+                Casa
+              </label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div>
+              <label for="preco">Preço</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="text" id="preco" [(ngModel)]="formatedPrice" name="preco" class="form-control"
+                  aria-label="Preço do imóvel">
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  
+        <app-address [endereco]="formData.Address"></app-address>
+  
+        <!-- Telefones (Multiple) -->
+        <div class="form-group">
+          <label>Telefones</label>
+          <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
+            <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
+          </div>
+          <button type="button" (click)="addPhone()" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+        </div>
+  
+        <!-- Link (Optional) -->
+        <div class="form-floating mb-3">
+          <input type="url" id="link" class="form-control" [(ngModel)]="formData.URL" name="link" />
+          <label for="link">Link:</label>
+        </div>
+  
+        <!-- Tamanho (Optional) -->
+        <div class="form-group">
+          <label for="tamanho">Dimensões:</label>
+          <div class="row input-group ">
+            <div class="col-4">
+              <label for="dimensoes">Total</label>
+              <div class="input-group">
+                <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="form-control t-end"
+                  aria-label="Tamanho total">
+                <span class="input-group-text">m²</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <label for="frente">Frente</label>
+              <div class="input-group">
+                <input type="number" id="frente" class="form-control t-end" [(ngModel)]="formData.Dimensions.Front"
+                  name="frente" />
+                <span class="input-group-text">m</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <label for="fundo">Fundo</label>
+              <div class="input-group">
+                <input type="number" id="fundo" class="form-control t-end" [(ngModel)]="formData.Dimensions.Deep"
+                  name="fundo" />
+                <span class="input-group-text">m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Imagens (Multiple) -->
+        <div class="form-group">
+          <label>Imagens:</label>
+          <div *ngIf="formData.Images?.length" class="image-preview">
+            <div *ngFor="let image of formData.Images; let index = index" class="image-item">
+              <img [src]="image.URL" alt="Preview" />
+              <button type="button" (click)="removeImage(index)"><i class="fa-solid fa-trash remove-image"></i></button>
+            </div>
+          </div>
+          <div class="input-group custom-file-button">
+            <label class="btn btn-secondary" for="inputGroupFile"><i class="fa-solid fa-file-import"></i> Imagens</label>
+            <input type="file" id="inputGroupFile" multiple (change)="handleImageUpload($event)" accept="image/*"
+              aria-describedby="inputGroupFile" aria-label="Upload" aria-placeholder="Upload de imagens" />
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
