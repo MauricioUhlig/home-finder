@@ -48,8 +48,14 @@
         </div>
 
       </div>
+      <div *ngIf="location.Images">
+        <hr>
+        <p>Galeria de imagens</p>
+        <app-image-slider [images]="location.Images"></app-image-slider>
+      </div>
       <hr>
     </div>
+
     <div class="map-box">
       <app-map *ngIf="location.Title" [focusPoint]="location.Address" [points]="[location]" [smallSize]="true"
         [mapId]="'map_'+location.ID"></app-map>

@@ -1,0 +1,23 @@
+<!-- Image Grid -->
+<div class="image-grid">
+    <div *ngFor="let image of images" class="image-item">
+      <img
+        [src]="image.URL"
+        (click)="openImage(image)"
+        class="img-thumbnail"
+        alt="Gallery Image"
+      />
+    </div>
+  </div>
+  
+  <!-- Zoomed Image Modal -->
+  <div
+    *ngIf="selectedImage"
+    class="modal-backdrop"
+    (click)="onBackdropClick($event)"
+  >
+    <div class="modal-content">
+      <img [src]="selectedImage?.URL" class="zoomed-image" alt="Zoomed Image" />
+      <button class="close-button" (click)="closeImage()">&times;</button>
+    </div>
+  </div>

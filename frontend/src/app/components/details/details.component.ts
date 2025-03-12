@@ -11,10 +11,11 @@ import { UtilService } from '../../services/util.service';
 import { SliderComponent } from '../slider/slider.component';
 import { createEmptyLocationMetrics, getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
 import { CommentListComponent } from '../comment-list/comment-list.component';
+import { ImageSliderComponent } from '../image-slider/image-slider.component';
 
 @Component({
   selector: 'app-details',
-  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent, CommentListComponent],
+  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent, CommentListComponent, ImageSliderComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
