@@ -20,6 +20,7 @@ func main() {
 	// database.Migrate()
 
 	r := gin.Default()
+	r.MaxMultipartMemory = 10 << 20 // 10 MB
 	
 	// go utils.CleanupOldFiles()
 
