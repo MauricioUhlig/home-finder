@@ -77,7 +77,6 @@ export class HomeMapComponent implements AfterViewInit {
     newPoint.Marker = this.map.addPointToMap(newPoint);
     newPoint.ID  = await this.dataService.add(newPoint);
     if(newPoint.ID){
-      this.points?.push(newPoint);
       return true
     }
     else 

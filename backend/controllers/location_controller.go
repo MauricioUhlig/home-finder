@@ -97,6 +97,12 @@ func (ctrl *locationController) GetByID(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch location"})
 		return
 	}
+	if location.Type == "Lote" {
+		location.Color = "blue"
+	} else {
+		location.Color = "green"
+	}
+
 	// // Fetch the location by ID
 	// if err := database.DB.Preload("Phones").Preload("Images").First(&location, id).Error; err != nil {
 	// 	c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
