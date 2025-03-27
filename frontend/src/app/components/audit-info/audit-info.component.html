@@ -1,0 +1,10 @@
+<div class="audit-info">
+    <div *ngIf="audit">
+      <p>
+        <strong>Criado:</strong> {{ formatDate(audit.CreatedAt)}} por {{ audit.CreatedBy }}
+      </p>
+      <p>
+        <strong>Ultima atualização:</strong> {{ formatDate(audit.UpdatedAt) }} por {{ audit.UpdatedBy }}
+      </p>
+    </div>
+  </div>

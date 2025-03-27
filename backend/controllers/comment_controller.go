@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/MauricioUhlig/home-finder/database"
+	"github.com/MauricioUhlig/home-finder/middleware"
 	"github.com/MauricioUhlig/home-finder/models"
 	"github.com/gin-gonic/gin"
 )
@@ -34,15 +35,9 @@ func (ctrl *commentController) Create(c *gin.Context) {
 		return
 	}
 
-	// Extract UserID from JWT claims
-	userID, exists := c.Get("userID")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
-		return
-	}
-
+	userID := middleware.GetUserID(c)
 	// Set the AuthorID from the JWT claims
-	comment.AuthorID = uint8(userID.(float64))
+	comment.AuthorID = userID
 
 	comment.Comment = payload.Comment
 	comment.Date = time.Now().UTC()

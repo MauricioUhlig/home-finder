@@ -1,0 +1,12 @@
+.audit-info {
+    font-size: 0.8rem; /* Small font size */
+    color: #666; /* Light gray text */
+    padding: 10px;
+    border-top: 1px solid #eee; /* Separator line */
+    background-color: #f9f9f9; /* Light background */
+    margin-top: 20px; /* Space from the content above */
+}
+
+.audit-info p {
+    margin: 0; /* Remove default paragraph margin */
+}

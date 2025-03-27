@@ -1,4 +1,5 @@
 import { getEmptyAddress } from "./address.mode"
+import { Audit } from "./audit.model"
 import { Dimensions, getEmptyDimensions } from "./dimensions.model"
 import { Image } from "./image.model"
 import { Location } from "./location.model"
@@ -12,6 +13,7 @@ export interface FullLocation extends Location {
     URL: URL | null,
     Type: string,
     Images: Image[] | null
+    Audit: Audit
 }
 
 export function getEmptyFullLocation(): FullLocation {
@@ -29,6 +31,13 @@ export function getEmptyFullLocation(): FullLocation {
         Color: null,
         Marker: null,
         Images: null,
+        Audit: {
+            CreatedAt: new Date(),
+            CreatedBy: "mauricio",
+            UpdatedAt: new Date(),
+            UpdatedBy: "mauricio",
+        },
+        Deleted: false
     }
 }
 
@@ -40,5 +49,11 @@ export function createFullLocation(location: Location): FullLocation {
         Size: 0,
         URL: null,
         Images: null,
+        Audit: {
+            CreatedAt: new Date(),
+            CreatedBy: "mauricio",
+            UpdatedAt: new Date(),
+            UpdatedBy: "mauricio",
+        }
     }
 }

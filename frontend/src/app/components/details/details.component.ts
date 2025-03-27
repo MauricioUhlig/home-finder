@@ -12,10 +12,11 @@ import { SliderComponent } from '../slider/slider.component';
 import { createEmptyLocationMetrics, getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
 import { CommentListComponent } from '../comment-list/comment-list.component';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
+import { AuditInfoComponent } from '../audit-info/audit-info.component';
 
 @Component({
   selector: 'app-details',
-  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent, CommentListComponent, ImageSliderComponent],
+  imports: [PhoneComponent, CommonModule, MapComponent, FormsModule, SliderComponent, CommentListComponent, ImageSliderComponent, AuditInfoComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
@@ -78,6 +79,8 @@ export class DetailsComponent implements OnInit {
       } catch (error) {
         this.metrics = createEmptyLocationMetrics(resp?.ID!)
       }
+
+      this.location.Audit = { CreatedAt: new Date(), CreatedBy: "Mauricio", UpdatedAt: new Date(), UpdatedBy: "Mauricio"}
     }
   }
 

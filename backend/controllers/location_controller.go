@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/MauricioUhlig/home-finder/database"
+	"github.com/MauricioUhlig/home-finder/middleware"
 	"github.com/MauricioUhlig/home-finder/models"
 	"github.com/MauricioUhlig/home-finder/utils"
 	"github.com/gin-gonic/gin"
@@ -36,6 +37,11 @@ func (ctrl *locationController) Create(c *gin.Context) {
 		return
 	}
 
+	userID := middleware.GetUserID(c)
+	// Set the AuthorID from the JWT claims
+	location.Audit.CreatedByUserID = userID
+	location.Audit.UpdatedByUserID = userID
+
 	// Create the location in the database
 	if err := database.DB.Create(&location).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create location"})
@@ -62,12 +68,40 @@ func (ctrl *locationController) GetAll(c *gin.Context) {
 func (ctrl *locationController) GetByID(c *gin.Context) {
 	var location models.Location
 	id := c.Param("id")
+	// Fetch location by ID
+	// if err := database.DB.Model(&models.Location{}).
+	// 	Select("locations.id, locations.created_at, locations.updated_at, locations.street, locations.house_number, locations.district, locations.city, locations.cep, locations.lat, locations.lng,"+
+	// 		"locations.title, locations.description, locations.color, locations.type, locations.price, "+
+	// 		"phones.id, phones.location_id, phones.name, phones.phone,"+
+	// 		"images.id, images.url, images.location_id, "+
+	// 		"locations.front, locations.deep, locations.back, locations.size, locations.url,"+
+	// 		"locations.created_by_user_id, user_create.username as created_by, locations.updated_by_user_ID, user_update.username as updated_by").
+	// 	Joins("LEFT JOIN users as user_create ON user_create.id = locations.created_by_user_id").
+	// 	Joins("LEFT JOIN users as user_update ON user_update.id = locations.updated_by_user_id").
+	// 	Joins("LEFT JOIN phones ON phones.location_id = locations.id and phones.deleted_at is null").
+	// 	Joins("LEFT JOIN images ON images.location_id = locations.id and images.deleted_at is null").
+	// 	Where("locations.id = ?", id).
+	// 	Scan(&location).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch location"})
+	// 	return
+	// }
 
-	// Fetch the location by ID
-	if err := database.DB.Preload("Phones").Preload("Images").First(&location, id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
+	if err := database.DB.
+		Preload("Phones").
+		Preload("Images").
+		Joins("LEFT JOIN users as user_create ON user_create.id = locations.created_by_user_id").
+		Joins("LEFT JOIN users as user_update ON user_update.id = locations.updated_by_user_id").
+		Select("locations.*, user_create.username as created_by, user_update.username as updated_by").
+		Where("locations.id = ?", id).
+		First(&location).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch location"})
 		return
 	}
+	// // Fetch the location by ID
+	// if err := database.DB.Preload("Phones").Preload("Images").First(&location, id).Error; err != nil {
+	// 	c.JSON(http.StatusNotFound, gin.H{"error": "Location not found"})
+	// 	return
+	// }
 
 	c.JSON(http.StatusOK, gin.H{"data": location})
 }
@@ -100,6 +134,7 @@ func (ctrl *locationController) Update(c *gin.Context) {
 	existingLocation.Size = inputLocation.Size
 	existingLocation.URL = inputLocation.URL
 	existingLocation.Address = inputLocation.Address
+	existingLocation.Audit.UpdatedByUserID = middleware.GetUserID(c)
 
 	// Handle Phones
 	if err := updatePhones(database.DB, &existingLocation, inputLocation.Phones); err != nil {
@@ -219,7 +254,6 @@ func updateImages(db *gorm.DB, location *models.Location, inputImages []models.I
 			location.Images = append(location.Images, inputImage)
 		}
 	}
-
 
 	return nil
 }

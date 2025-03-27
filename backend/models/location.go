@@ -17,4 +17,5 @@ type Location struct {
 	Dimensions  Dimensions      `gorm:"embedded" json:"Dimensions"`
 	Size        *uint16         `gorm:"null" json:"Size"`
 	URL         string          `gorm:"type:varchar(255);null" json:"URL"`
+	Audit       Audit           `gorm:"embedded" json:"Audit"`
 }
