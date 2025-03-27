@@ -22,7 +22,8 @@ export class AddModalComponent implements OnChanges {
     Address: getEmptyAddress(),
     Color: 'blue',
     Marker: null,
-    Type: ''
+    Type: '',
+    Deleted: null
   };
 
   ngOnChanges(changes: SimpleChanges) {

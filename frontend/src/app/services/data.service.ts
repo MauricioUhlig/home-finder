@@ -14,13 +14,15 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
+  private locations! : FullLocation[];
   // Get all locations
   async getAllLocations(): Promise<FullLocation[]> {
     try {
       const response = await firstValueFrom(
         this.http.get<{ data: FullLocation[] }>(`${this.apiUrl}/locations/`)
       );
-      return response.data;
+      this.locations = response.data;
+      return this.locations;
     } catch (error) {
       console.error('Error fetching locations:', error);
       throw error;
@@ -120,9 +122,9 @@ export class DataService {
   }
 
   // Add a new location
-  async add(location: Location): Promise<number> {
+  async add(location: FullLocation): Promise<number> {
     try {
-        const payload: Location = 
+        const payload: FullLocation = 
         {
             ...location, 
             Marker: null,
@@ -134,6 +136,8 @@ export class DataService {
       );
 
       if (response.data.ID) {
+        location.ID = response.data.ID;
+        this.locations.push(location)
         return response.data.ID; // Success
       } else {
         throw new Error('Invalid response from server');
@@ -158,6 +162,7 @@ export class DataService {
       );
 
       if (response.data.ID) {
+        this.upsertLocalLocation(location)
         return response.data.ID; // Success
       } else {
         throw new Error('Invalid response from server');
@@ -171,6 +176,7 @@ export class DataService {
   async delete(id: number): Promise<boolean> {
     try {
       await firstValueFrom(this.http.delete(`${this.apiUrl}/locations/${id}`));
+      this.removeLocalLocation(id)
       return true;
     } catch (error) {
       console.error(`Error deleting location with ID ${id}:`, error);
@@ -206,4 +212,22 @@ export class DataService {
       return response.uri
     return ''
   }
+
+  upsertLocalLocation(newLocation: FullLocation): void {
+    const index = this.locations.findIndex(loc => loc.ID === newLocation.ID);
+
+    if (index !== -1) {
+      // Update existing location
+      this.locations[index] = { ...this.locations[index], ...newLocation };
+    } else {
+      // Insert new location
+      this.locations.push(newLocation);
+    }
+  }
+
+  removeLocalLocation(id: number): void {
+    this.locations = this.locations.filter(loc => loc.ID !== id);
+  }
+
+
 }

@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AddModalComponent } from '../add-modal/add-modal.component';
 import { LocationListComponent } from '../location-list/location-list.component';
 import { MapComponent } from '../map/map.component';
 import { Location } from '../../models/location.model';
@@ -11,13 +10,15 @@ import { UtilService } from '../../services/util.service';
 import { LocationDetailsService } from '../../services/location-details.service';
 import { Address, getEmptyAddress } from '../../models/address.mode';
 import { FullFormComponent } from '../full-form/full-form.component';
+import { LocationFormDialogComponent } from '../location-form-dialog/location-form-dialog.component';
+import { FullLocation } from '../../models/full-location.model';
 
 
 @Component({
   selector: 'app-home-map',
   templateUrl: './home-map.component.html',
   styleUrls: ['./home-map.component.css'],
-  imports: [CommonModule, AddModalComponent, LocationListComponent, MapComponent, DetailsComponent, FullFormComponent],
+  imports: [CommonModule, LocationListComponent, MapComponent, DetailsComponent, FullFormComponent, LocationFormDialogComponent],
 })
 export class HomeMapComponent implements AfterViewInit {
   @ViewChild(MapComponent) map!: MapComponent;
@@ -51,6 +52,7 @@ export class HomeMapComponent implements AfterViewInit {
   points: Location[] | null = null;
   isSmallScreen: boolean = true;
   resize$: any;
+  isAddModalOpen: boolean = false;
   isAddButtonDisabled = true;
 
   centerMap(point: Location) {
@@ -59,24 +61,40 @@ export class HomeMapComponent implements AfterViewInit {
 
   handleAddPoint(address: Address) {
     this.address = address;
-    this.isAddButtonDisabled = false;
+    this.openModal()
   }
 
-  async save(newPoint: Location) {
-    await this.addLocation(newPoint);
-    this.clear();
+  async save(newPoint: FullLocation) {
+    if(await this.addLocation(newPoint))
+      this.clear();
+    else 
+      alert("Erro ao salvar!")
   }
 
-  async addLocation(newPoint: Location) {
+  async addLocation(newPoint: FullLocation): Promise<boolean> {
     
     newPoint.Color = 'blue'
     newPoint.Marker = this.map.addPointToMap(newPoint);
     newPoint.ID  = await this.dataService.add(newPoint);
-    this.points?.push(newPoint);
+    if(newPoint.ID){
+      this.points?.push(newPoint);
+      return true
+    }
+    else 
+     return false
   }
 
   clear() {
     this.address = getEmptyAddress();
+    this.closeModal();
     this.isAddButtonDisabled = true;
+  }
+
+  openModal(){
+    this.isAddModalOpen = true;
+  }
+
+  closeModal(){
+    this.isAddModalOpen = false;
   }
 }

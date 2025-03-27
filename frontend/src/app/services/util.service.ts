@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import * as L from 'leaflet'
 import { Address, getEmptyAddress } from '../models/address.mode';
 
 @Injectable({
@@ -7,6 +8,8 @@ import { Address, getEmptyAddress } from '../models/address.mode';
 })
 export class UtilService {
     private screenWidth$ = new BehaviorSubject<boolean>(window.innerWidth < 880);
+
+    public initialLatLng = new L.LatLng(-20.345, -40.377);
 
     constructor() {
         window.addEventListener('resize', () => {

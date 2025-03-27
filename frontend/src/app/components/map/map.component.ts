@@ -21,13 +21,14 @@ export class MapComponent implements AfterViewInit {
 
   private maxZoom: number = 17;
   private initialZoom: number = 15;
-  private initialLatLng = new L.LatLng(-20.345, -40.377);
+  private initialLatLng! : L.LatLng;
 
   map!: L.Map;
   currentMarker: L.Marker | null = null;
   selectedMarker: { marker: L.Marker; previousZoom: number; previousLatLng: L.LatLng } | null = null;
 
   ngAfterViewInit() {
+    this.initialLatLng = this.util.initialLatLng;
     this.initMap();
     this.addMarkers();
     this.addListeners();
@@ -94,15 +95,16 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setInitialMapView() {
-    if (this.focusPoint) {
+    if (this.focusPoint?.Lat && this.focusPoint?.Lng) {
       this.focusOnPoint(this.focusPoint);
     } else {
       this.map.setView(this.initialLatLng, this.initialZoom);
     }
   }
 
-  private focusOnPoint(point: { Lat: number; Lng: number }) {
-    this.map.setView([point.Lat, point.Lng], this.maxZoom);
+  private focusOnPoint(point: Address) {
+    if(point.Lat && point.Lng)
+      this.map.setView([point.Lat, point.Lng], this.maxZoom);
   }
 
   private async handleRightClick(e: L.LeafletMouseEvent) {
@@ -125,8 +127,15 @@ export class MapComponent implements AfterViewInit {
       const addressHTML = this.getAddressHtml(address);
       this.currentMarker.setPopupContent(addressHTML + this.getAddButton()).openPopup();
 
+      const addButton = document.getElementById('popup-add-button');
+
+      addButton!.addEventListener('click', () => {
+        this.addPoint.emit(address);
+        this.currentMarker!.closePopup();
+      });
+
       // Emit event with the new coordinates
-      this.addPoint.emit(address);
+      
     } catch (error) {
       console.error('Error fetching address:', error);
       this.currentMarker.setPopupContent(`<strong>Error</strong><br>Could not fetch address.`).openPopup();
@@ -150,7 +159,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   addPointToMap(point: Location): L.Marker {
-    const marker = L.marker([point.Address.Lat, point.Address.Lng], {
+    const marker = L.marker([point.Address.Lat!, point.Address.Lng!], {
       icon: this.createCustomMarker(point.Color),
     });
 
@@ -182,10 +191,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   getAddButton(): string {
-    return `<br><button class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`;
+    return `<br><button id="popup-add-button" class="btn btn-success location-plus" style="display:flex" data-bs-toggle="modal" data-bs-target="#novo-local-modal"></button>`;
   }
   getExpandButton(): string {
-    return `<br><button class="btn btn-outline-primary" id="popup-button"> <i class="fas fa-expand"></i></button>`;
+    return `<br><button class="btn btn-outline-primary" id="popup-expand-button"> <i class="fas fa-expand"></i></button>`;
   }
 
   flyTo(latlng: L.LatLngExpression, zoom: number | null = null) {
@@ -225,14 +234,14 @@ export class MapComponent implements AfterViewInit {
       previousZoom: this.getZoom(),
       previousLatLng: this.getCenter(),
     };
-    const button = document.getElementById('popup-button');
+    const expandButton = document.getElementById('popup-expand-button');
 
-    button!.addEventListener('click', () => {
+    expandButton!.addEventListener('click', () => {
       this.expand(point.ID ?? 0);
       marker.closePopup();
     });
 
-    this.flyTo([point.Address.Lat, point.Address.Lng]);
+    this.flyTo([point.Address.Lat!, point.Address.Lng!]);
   }
 
   private expand(id: number) {

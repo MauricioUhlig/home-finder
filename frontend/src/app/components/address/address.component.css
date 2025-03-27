@@ -6,3 +6,7 @@
   /* Space between elements */
   padding-right: 16px;
 }
+
+label {
+  font-weight: normal;
+}

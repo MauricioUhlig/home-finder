@@ -9,7 +9,8 @@ export interface Location {
     Color: string | null,
     Marker: Marker | null,
     Type: string,
-    Price: number
+    Price: number,
+    Deleted: boolean | null
 }
 
 export function getEmptyLocation(): Location {
@@ -22,5 +23,6 @@ export function getEmptyLocation(): Location {
         Color: null,
         Marker: null,
         Price: 0,
+        Deleted: false
     }
 }

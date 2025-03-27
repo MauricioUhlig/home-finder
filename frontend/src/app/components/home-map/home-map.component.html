@@ -3,12 +3,20 @@
 
 <app-map *ngIf="showContent" [points]="points" (addPoint)="handleAddPoint($event)" style="z-index: 1;"></app-map>
 <div class="d-flex">
-    <app-location-list *ngIf="showContent" [points]="points" (centerMap)="centerMap($event)"></app-location-list>
+    <app-location-list *ngIf="showContent" [points]="points" (centerMap)="centerMap($event)" (createNewPoint)="openModal()"></app-location-list>
     <app-details *ngIf="isDetailsOpen" class="z"></app-details>
     <app-full-form *ngIf="isEditOpen" class="z"></app-full-form>
 </div>
 
-<app-add-modal *ngIf="!isAddButtonDisabled" [address]="address!"
-    (saveEvent)="save($event)"></app-add-modal>
+<!-- <app-add-modal *ngIf="!isAddButtonDisabled" [address]="address!"
+    (saveEvent)="save($event)"></app-add-modal> -->
 
+      <!-- Add/Edit Location Dialog -->
+<app-location-form-dialog
+  [open]="isAddModalOpen"
+  [initialData]="null"
+  (close)="closeModal()"
+  (save)="save($event)"
+  [address]="address"
+></app-location-form-dialog>
 <!-- <app-full-form (submitEvent)="handleFormSubmit($event)"></app-full-form> -->

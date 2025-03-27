@@ -1,0 +1,256 @@
+<div *ngIf="open" class="modal-backdrop fade show"></div>
+
+<div *ngIf="open" class="modal d-block" tabindex="-1" role="dialog" aria-labelledby="locationFormDialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="locationFormDialog">
+          {{ initialData ? "Editar Local" : "Adicionar Novo Local" }}
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onClose()"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form #locationForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" name="name"[(ngModel)]="formData.Title" requiredplaceholder="">
+              </div>
+              
+              <div class="mb-3">
+                <label for="description" class="form-label">Descrição</label>
+                <textarea 
+                class="form-control" 
+                id="description" 
+                name="description"
+                rows="3" 
+                [(ngModel)]="formData.Description"
+                placeholder="Local bem localizado, perto de tudo ..."
+                ></textarea>
+              </div>
+              
+              <!-- <div class="mb-3">
+                <label for="address" class="form-label">Endereço</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="address" 
+                  name="address"
+                  [(ngModel)]="formData.Address.Street" 
+                  placeholder="Rua Juriti, São Geraldo, Cariacica"
+                >
+              </div> -->
+              
+              
+              <!-- <div class="mb-3">
+                <label for="price" class="form-label">Valor (R$)</label>
+                <input 
+                type="number" 
+                class="form-control" 
+                id="price" 
+                name="price"
+                [(ngModel)]="formData.Price" 
+                placeholder="000000"
+                >
+              </div> -->
+              <div class="d-flex">
+                <div class="col-6 form-group">
+                  <label>Tipo de imóvel<span class="required">*</span></label>
+                  <div class="input-group">
+                    <label class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Lote" />
+                      Lote
+                    </label>
+                    <label class="form-check form-check-inline">
+                      <input type="radio" class="form-check-input" [(ngModel)]="formData.Type" name="tipo" value="Casa" />
+                      Casa
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div>
+                    <label for="preco">Preço</label>
+                    <div class="input-group">
+                      <span class="input-group-text">R$</span>
+                      <input type="text" id="preco" [(ngModel)]="formatedPrice" name="preco" class="form-control"
+                        aria-label="Preço do imóvel">
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              
+              <!-- <div class="row mb-3">
+                <div class="col-4">
+                  <input 
+                  type="number" 
+                  class="form-control" 
+                  id="area" 
+                  name="area"
+                  [(ngModel)]="formData.Size" 
+                  placeholder="100"
+                  >
+                  <label for="area" class="form-label" style="margin-left: 11px;">Área (m²)</label>
+                </div>
+                <div class="col-4">
+                  <input 
+                  type="number" 
+                  class="form-control" 
+                  id="front" 
+                  name="front"
+                  [(ngModel)]="formData.Dimensions.Front" 
+                  placeholder="10"
+                  >
+                  <label for="front" class="form-label" style="margin-left: 11px;">Frente (m)</label>
+                </div>
+                <div class="col-4">
+                  <input 
+                  type="number" 
+                  class="form-control" 
+                  id="depth" 
+                  name="depth"
+                  [(ngModel)]="formData.Dimensions.Deep" 
+                  placeholder="12"
+                  >
+                  <label for="depth" class="form-label" style="margin-left: 11px;">Fundo (m)</label>
+                </div>
+              </div> -->
+                  <!-- Tamanho (Optional) -->
+              <div class="form-group">
+                <label for="tamanho">Dimensões:</label>
+                <div class="row input-group ">
+                  <div class="col-4">
+                    <label for="dimensoes">Total</label>
+                    <div class="input-group">
+                      <input type="number" id="tamanho" [(ngModel)]="formData.Size" name="tamanho" class="form-control t-end"
+                        aria-label="Tamanho total">
+                      <span class="input-group-text">m²</span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <label for="frente">Frente</label>
+                    <div class="input-group">
+                      <input type="number" id="frente" class="form-control t-end" [(ngModel)]="formData.Dimensions.Front"
+                        name="frente" />
+                      <span class="input-group-text">m</span>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <label for="fundo">Fundo</label>
+                    <div class="input-group">
+                      <input type="number" id="fundo" class="form-control t-end" [(ngModel)]="formData.Dimensions.Deep"
+                        name="fundo" />
+                      <span class="input-group-text">m</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="website" class="form-label">Website</label>
+                <input 
+                type="url" 
+                class="form-control" 
+                id="website" 
+                name="website"
+                [(ngModel)]="formData.URL" 
+                placeholder="http://olx.com.br/"
+                >
+              </div>
+
+              <div class="form-group">
+                <label>Telefones</label>
+                <div *ngFor="let phone of formData.Phones; let index = index" class="phone-input">
+                  <app-phone-form [phone]="phone" [index]="index" (removeEvent)="removePhone(index)"></app-phone-form>
+                </div>
+                <button type="button" (click)="addPhone()" class="btn btn-success"><i class="fa-solid fa-plus"></i></button>
+              </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <div class="map-container border rounded" style="height: 300px; position: relative;">
+                  <app-location-picker 
+                  [initialPosition]="addressLatLng"
+                  (locationPick)="onLocationPick($event)"
+                  ></app-location-picker>
+                </div>
+                <small class="text-muted">Clique no mapa para definir a localização</small>
+              </div>
+              <app-address [endereco]="formData.Address"></app-address>
+              
+              <!-- <div class="mb-3">
+                <label class="form-label">Avaliações (0-10)</label>
+                <div class="row">
+                  <div class="col-6 mb-2">
+                    <label for="security" class="form-label small">Segurança</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="security" 
+                      name="security"
+                      
+                      min="0" 
+                      max="10"
+                      placeholder="2"
+                    >
+                  </div>
+                  <div class="col-6 mb-2">
+                    <label for="accessibility" class="form-label small">Acessibilidade</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="accessibility" 
+                      name="accessibility"
+                      
+                      min="0" 
+                      max="10"
+                      placeholder="7"
+                    >
+                  </div>
+                  <div class="col-6 mb-2">
+                    <label for="convenience" class="form-label small">Conveniência</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="convenience" 
+                      name="convenience"
+                      
+                      min="0" 
+                      max="10"
+                      placeholder="4"
+                    >
+                  </div>
+                  <div class="col-6 mb-2">
+                    <label for="quality" class="form-label small">Qualidade</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="quality" 
+                      name="quality"
+                      
+                      min="0" 
+                      max="10"
+                      placeholder="5"
+                    >
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">
+          {{ initialData ? "Salvar Alterações" : "Adicionar Local" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

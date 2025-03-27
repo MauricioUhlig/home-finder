@@ -14,6 +14,7 @@ export class LocationListComponent implements OnInit, OnDestroy {
   @Input() points: Location[] | null = null; // Input for points array
   @Input() loading: boolean = false;
   @Output() centerMap = new EventEmitter<Location>(); // Output to center the map on a point
+  @Output() createNewPoint = new EventEmitter<boolean>();
 
   constructor(private util: UtilService) { }
 
@@ -42,5 +43,9 @@ export class LocationListComponent implements OnInit, OnDestroy {
 
   onCenterMap(point: Location) {
     this.centerMap.emit(point);
+  }
+
+  openNewLocationModal(){
+    this.createNewPoint.emit(true)
   }
 }

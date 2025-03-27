@@ -4,13 +4,19 @@
         <div id="list-container" class="bg-light padding">
             <div class="bg-light">
                 <div class="accordion-header">
-                    <button type="button" class="w-100 button-expand bg-light" (click)="toggleOverlay()">
-                        <div class="itens">
+                    <div class="list-header">
+                        <div class="d-flex" style="gap: 16px;">
                             <h5 class="modal-title start-0" id="novo-local-label">Lista de Locais</h5>
+                            <button class="btn btn-dark" (click)="openNewLocationModal()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                                Novo
+                            </button>
+                        </div>
+                        <button type="button" class="button-expand bg-light" (click)="toggleOverlay()">
                             <i class="fa-solid"
                                 [ngClass]="{ 'fa-chevron-up': !isExpanded, 'fa-chevron-down': isExpanded }"></i>
+                            </button>
                         </div>
-                    </button>
                 </div>
             </div>
             <ul id="dynamic-list" class="list-group">
@@ -26,7 +32,12 @@
 
     <!-- Lateral bar for larger screens -->
     <div *ngIf="!isSmallScreen" class="lateral-bar padding bg-light z">
-        <h5 class="modal-title">Lista de Locais</h5>
+        <div class="list-header">
+            <h5 class="modal-title">Lista de Locais</h5>
+            <button class="btn btn-dark" (click)="openNewLocationModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                Novo
+            </button>
+        </div>
         <ul id="dynamic-list" class="list-group">
             <div *ngIf="!points" class="loading-spinner">
                 <div class="spinner"></div>
