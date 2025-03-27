@@ -79,8 +79,6 @@ export class DetailsComponent implements OnInit {
       } catch (error) {
         this.metrics = createEmptyLocationMetrics(resp?.ID!)
       }
-
-      this.location.Audit = { CreatedAt: new Date(), CreatedBy: "Mauricio", UpdatedAt: new Date(), UpdatedBy: "Mauricio"}
     }
   }
 

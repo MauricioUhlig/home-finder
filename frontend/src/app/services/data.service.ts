@@ -5,6 +5,7 @@ import { LocationMetrics } from '../models/location-metrics.model';
 import { Comment } from '../models/comment.model';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { mapAudit } from '../models/audit.model';
 @Injectable({
   providedIn: 'root', // Provided in the root injector (singleton)
 })
@@ -33,9 +34,10 @@ export class DataService {
   async getById(id: number): Promise<FullLocation | undefined> {
     try {
       const response = await firstValueFrom(
-        this.http.get<{ data: FullLocation }>(`${this.apiUrl}/locations/${id}`)
+        this.http.get<any>(`${this.apiUrl}/locations/${id}`)
       );
-      return response.data;
+      const result = {...response.data, Audit: mapAudit(response.data.Audit)};
+      return result;
     } catch (error) {
       console.error(`Error fetching location with ID ${id}:`, error);
       throw error;
