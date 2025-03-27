@@ -56,7 +56,7 @@ func (ctrl *locationController) GetAll(c *gin.Context) {
 	var locations []locationCompact
 
 	// Fetch all locations from the database
-	if err := database.DB.Model(&models.Location{}).Select("ID, Lat, Lng, Title, Description,Type, case when Type == 'Lote' then 'blue' else 'green' end as Color, Price").Scan(&locations).Error; err != nil {
+	if err := database.DB.Model(&models.Location{}).Select("ID, Lat, Lng, Title, Description,Type, case when Type = 'Lote' then 'blue' else 'green' end as Color, Price").Scan(&locations).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch locations"})
 		return
 	}
