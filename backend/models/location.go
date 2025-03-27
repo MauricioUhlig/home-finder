@@ -3,7 +3,8 @@ package models
 import "gorm.io/gorm"
 
 type Location struct {
-	gorm.Model
+	ID          uint            `gorm:"primarykey"`
+	DeletedAt   gorm.DeletedAt  `gorm:"index"`
 	Address     Address         `gorm:"embedded" json:"Address"`
 	Title       string          `gorm:"type:varchar(255);not null" json:"Title"`
 	Description string          `gorm:"type:text;not null" json:"Description"`
