@@ -26,7 +26,7 @@ export class LocationFormDialogComponent implements OnInit, OnChanges {
 
   constructor(private util: UtilService) { }
 
-  formData: FullLocation = { ...getEmptyFullLocation(), Address: this.address ?? getEmptyAddress()}
+  formData: FullLocation = this.resetForm()
 
   get addressLatLng(): L.LatLng | null {
     if (this.formData.Address.Lat)
@@ -46,21 +46,17 @@ export class LocationFormDialogComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.resetForm()
+    this.formData = this.resetForm()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["initialData"] || changes["open"]) {
-      this.resetForm()
+      this.formData = this.resetForm()
     }
   }
 
-  resetForm(): void {
-    if (this.initialData) {
-      this.formData = { ...this.initialData }
-    } else {
-      this.formData = getEmptyFullLocation();
-    }
+  resetForm(): FullLocation {
+    return { ...(this.initialData??getEmptyFullLocation()), Address: this.address ?? getEmptyAddress()}
   }
 
   async onLocationPick(coordinates: { lat: number; lng: number }) {
@@ -88,6 +84,8 @@ export class LocationFormDialogComponent implements OnInit, OnChanges {
   removePhone(index: number) {
     this.formData.Phones!.splice(index, 1);
   }
+
+
 
 }
 
