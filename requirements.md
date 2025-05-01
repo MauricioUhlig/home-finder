@@ -1,7 +1,7 @@
 ### Páginas 
-- Mapa com lista e opção de adicionar local - ok
-- busca de listagem com vários filtros
-- Detalhes de local - visualização de todas as informações e possibilidade de edição
+- [x] Mapa com lista e opção de adicionar local
+- [ ] busca de listagem com vários filtros
+- [x] Detalhes de local - visualização de todas as informações e possibilidade de ediçãom
 
 ### Dados de local
 - Endereço 
