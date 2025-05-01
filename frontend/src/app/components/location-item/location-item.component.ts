@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Location } from '../../models/location.model'
+import { formatedTitle, Location } from '../../models/location.model'
 import { LocationDetailsService } from '../../services/location-details.service';
 import { getEmptyLocationMetrics, LocationMetrics } from '../../models/location-metrics.model';
 import { DataService } from '../../services/data.service';
@@ -22,6 +22,10 @@ export class LocationItemComponent {
 
   openDetails() {
     this.locationDetailsService.openDetailsMenu(this.location.ID ?? 0);
+  }
+
+  get formatedTitle() : string {
+    return formatedTitle(this.location);
   }
 
   get formatedPrice(): string {

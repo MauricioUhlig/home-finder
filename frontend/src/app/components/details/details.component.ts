@@ -13,6 +13,7 @@ import { createEmptyLocationMetrics, getEmptyLocationMetrics, LocationMetrics } 
 import { CommentListComponent } from '../comment-list/comment-list.component';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { AuditInfoComponent } from '../audit-info/audit-info.component';
+import { formatedTitle } from '../../models/location.model';
 
 @Component({
   selector: 'app-details',
@@ -94,6 +95,10 @@ export class DetailsComponent implements OnInit {
     return values.filter(value => value).join(', ');
   }
 
+  get formatedTitle() : string {
+    return formatedTitle(this.location);
+  }
+    
   get formatedPrice(): string {
     if (this.location.Price > 1000)
       return (this.location.Price / 1000) + 'K'

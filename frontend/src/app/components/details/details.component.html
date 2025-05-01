@@ -2,7 +2,7 @@
   <div class="location-details-menu">
     <div class="header">
       <div class="w-100">
-        <h1>{{ location.Title }}</h1>
+        <h1>{{ formatedTitle }}</h1>
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <div class="d-flex ">
@@ -33,7 +33,7 @@
             Fundo: {{location.Dimensions.Deep ?? '-'}}m
           </p>
         </div>
-        <div *ngIf="location.Phones">
+        <div *ngIf="location.Phones && location.Phones.length > 0">
           <hr>
           <p>Telefones</p>
           <div *ngFor="let phone of location.Phones">
@@ -48,7 +48,7 @@
         </div>
 
       </div>
-      <div *ngIf="location.Images">
+      <div *ngIf="location.Images && location.Images.length > 0">
         <hr>
         <p>Galeria de imagens</p>
         <app-image-slider [images]="location.Images"></app-image-slider>

@@ -26,3 +26,7 @@ export function getEmptyLocation(): Location {
         Deleted: false
     }
 }
+
+export function formatedTitle(location: Location) : string {
+    return `${location.ID} - ${location.Title}`
+  }
