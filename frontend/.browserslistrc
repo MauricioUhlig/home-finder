@@ -15,5 +15,5 @@ last 2 Safari major versions
 last 2 iOS major versions
 last 2 Android major versions
 Firefox ESR
-iOS >= 14
-Safari >= 14
+iOS >= 12 # Covers iPhone 7, which can go up to iOS 15
+Safari >= 12
